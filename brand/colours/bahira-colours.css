@@ -1,0 +1,9 @@
+:root {
+  /* Bahira colour palette. Blue comes from the logo; the others are built from it. */
+  --bahira-blue: #084F97;      /* logo, headings, buttons, links */
+  --bahira-deep-blue: #00316B; /* hover / pressed states, dark sections */
+  --bahira-ink: #132030;        /* body text */
+  --bahira-sky: #E8F1FC;        /* light tinted backgrounds, cards */
+  --bahira-paper: #F6F5F3;    /* warm off-white page background (from the original logo artwork) */
+  --bahira-white: #FFFFFF;
+}
