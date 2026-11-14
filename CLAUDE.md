@@ -9,8 +9,10 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
   - partners.
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
-- **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
+- **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
 - **Status:** planning is done and there is no website code yet. Phase 1 starts only when Bilal says go.
+- **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
+- **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
 ## Non-negotiables
 
@@ -25,7 +27,10 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 - **Never invent facts.**
   - Never invent numbers, people, partners, quotes or testimonials, and never claim registration, Zakat eligibility or tax status that isn't confirmed.
   - Write `[[TODO: …]]` instead. The production build fails while any remain.
-- **Donations stay closed** (`donations.open: false` in `data/org.yaml`) until Bilal confirms registration with the Punjab Charity Commission. Since May 2026 the Commission bans collecting donations before registration.
+- **Bilal controls the donations switch.**
+  - `donations.open` in `data/org.yaml` stays `false` until Bilal says to open it. It is not tied to registration.
+  - Bahira is not registered yet, so never write or imply that it is.
+- **No phone number on the site** until the foundation has its own SIM. People write through the forms and Bilal calls back.
 - **The wallet is personal.** The JazzCash/Easypaisa account is in Bilal's name, so show it with the holder's name and role until a foundation account exists.
 - **Things Bilal dislikes:**
   - blue + gold/yellow (it reads as the Sabroso chicken brand);
@@ -50,7 +55,7 @@ Commands: `pnpm dev` · `build` · `preview` · `lint` · `check` · `sync:brand
 - **Server Components by default.** `'use client'` only for the menu, the copy button and the form enhancement.
 - **Static export limits:**
   - no proxy/middleware;
-  - no headers, redirects or rewrites in next.config (host headers live in `public/_headers`);
+  - no headers, redirects or rewrites in next.config (host headers live in `vercel.json`; the host is Vercel's free plan);
   - no built-in image optimiser.
 - **Dynamic routes:** every one has `generateStaticParams` and `dynamicParams = false`. `trailingSlash` is `true`.
 - **Images:** only through `<Photo>`, using the versions `scripts/build-images.mjs` generates. Originals are never served.
@@ -71,6 +76,7 @@ _photos/inbox/          git-ignored originals from Bilal (may contain GPS data)
 
 ## Languages
 
+- **Side by side:** English, Urdu and Saraiki are equal. Build every page, preview and template in all three at the same time, never English first.
 - **URLs:** English at `/…`, Urdu at `/ur/…`, Saraiki at `/skr/…` (ISO 639-3 `skr`). Slugs are English in every language.
 - **`hreflang`:** en, ur and `x-default` (pointing to en). Never `skr`, because Google accepts only two-letter codes.
 - **Where text lives:**
@@ -136,18 +142,20 @@ _photos/inbox/          git-ignored originals from Bilal (may contain GPS data)
 
 - **Source:** only real Bahira photos.
 - **Processing:**
-  - Selected crops (3:2, 4:5, 1:1) go in `content/photos/<topic>/`.
-  - The build strips metadata, and `check-site` scans `out/` for any GPS data left behind.
-- **Consent:**
-  - Show identifiable women, children, intersex people and aid recipients only with their consent; otherwise use backs, hands or wide shots.
+  - Selected crops (3:2, 4:5, 1:1) go in `content/photos/<topic>/`, with GPS and other metadata removed at the crop, because that folder goes to GitHub.
+  - The build strips metadata again. `check-content` scans `content/photos/` and `check-site` scans `out/` for any GPS data left behind.
+  - Each update also gets a 1200×630 JPEG share image, made by the build.
+- **Which photos:**
+  - Bilal shares only photos that are fine to publish, so there is no consent tracking.
   - Dignity first, never pity.
 - **Captions and alt text:** captions give the place and month. Alt text is written in all three languages.
 
 ## Forms
 
-- They post to Web3Forms, with the key kept in `data/org.yaml`.
-- **Fields:** name, phone or email, city, interests, message. Never ask for a CNIC number or gender.
+- There are three: volunteer, contact and help. They post to Web3Forms, with the key kept in `data/org.yaml`.
+- **Fields:** name, phone or email, city, interests, message. The help form asks for a phone number so Bilal can call back. Never ask for a CNIC number or gender.
 - A honeypot field blocks spam, and the form works without JavaScript.
+- After sending, the visitor lands on `/thanks/` in their own language.
 
 ## Voice
 
@@ -156,9 +164,9 @@ Plain, warm and specific, in short sentences and in Bilal's voice. Use numbers o
 ## Done means
 
 - `pnpm build` (including `check-content` and `check-site`) and `pnpm lint` pass.
-- `pnpm shots` screenshots of the changed pages, in en and ur at 360 and 1280px, have been looked at before reporting.
+- `pnpm shots` screenshots of the changed pages, in en, ur and skr at 360 and 1280px, have been looked at before reporting.
 - axe reports no serious or critical issues.
-- Budgets are met (Lighthouse mobile, slow 4G):
+- Budgets are met (`check-site` fails the build on the data, code and image budgets; Lighthouse mobile on slow 4G measures speed):
   - **Data:** first view ≤ 300 KB in English and ≤ 550 KB in Urdu or Saraiki; repeat visit ≤ 60 KB.
   - **Code and images:** our own browser JavaScript ≤ 10 KB; hero image ≤ 70 KB AVIF.
   - **Speed:** LCP < 2.5s, CLS ≤ 0.05, no third-party requests.

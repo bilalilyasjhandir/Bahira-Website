@@ -1,18 +1,18 @@
 # Content checklist
 
-This is what the website needs from you. Fill in the blanks here, or just send me the answers, and tick items off as they're done. Nothing goes on the website until you've seen and approved it.
+This is what the website needs from you: photos, and the facts only you know. I write the text of the site myself and show it to you for approval. If I need anything else, I'll ask when it comes up. There are no deadlines; fill this in at your own pace.
 
 ## 1. Needed first, for the design preview
 
-- [ ] **About 15 of your best photos.**
-  - **Where:** put them in the `_photos/inbox/` folder. That folder is never uploaded to GitHub, because phone photos can carry the GPS location where they were taken.
+- [x] **About 15 of your best photos.** Done on 14 Nov 2026: 20 photos from three events (section 4). More are welcome later, especially landscape shots and other causes (animals, trees, youth).
+  - **Where:** put them in the `_photos/inbox/` folder. That folder is never uploaded to GitHub, because phone photos can carry the GPS location where they were taken. I remove that location data before any photo is used.
   - **Which:** a mix helps: drives, animals, planting, youth events, people at work. Both landscape and portrait shots are useful.
-  - **A short note** for each photo or folder: what it shows, where, when (the month is enough), and whether the people in it agreed to be on the website.
+  - **A short note** for each photo or folder: what it shows, where, and when (the month is enough).
 
 ## 2. Contacts
 
-- **Foundation email** (form messages arrive here, and it's shown on the site): ______
-- **Phone / WhatsApp number to publish:** ______ (an organisation number is safer than a personal one)
+- **Foundation email** (form messages arrive here, and it's shown on the site): bahirafoundationbwp@gmail.com
+- **WhatsApp:** none for now.
 - **Area or address to show** (a full address, or just "Bahawalpur"): ______
 - **Social media links:**
   - Facebook: ______
@@ -22,15 +22,13 @@ This is what the website needs from you. Fill in the blanks here, or just send m
   - X: ______
   - LinkedIn: ______
 
-## 3. Registration and donations
+No phone number goes on the site for now. People write through the forms and you call them back. Tell me when the foundation has its own SIM and I'll add the number.
 
-- **Punjab Charity Commission:**
-  - application date: ______
-  - current status: ______
+## 3. Donations
 
-  The Donate page stays closed until registration comes through, then one switch opens it.
-- **Any other registration** (Societies Act, trust deed, etc.): ______
-- **JazzCash / Easypaisa** (shown only once donations open):
+The Donate page stays closed until you tell me to open it. When you do, I need:
+
+- **JazzCash / Easypaisa:**
   - which one(s): ______
   - account title: ______
   - number: ______
@@ -38,6 +36,8 @@ This is what the website needs from you. Fill in the blanks here, or just send m
 - **Zakat:**
   - does Bahira accept it? ______
   - if yes, what is it used for, and how is it kept separate from other money? ______
+
+**Registration:** the site will say honestly that Bahira is not registered yet. Tell me when that changes.
 
 ## 4. The story so far
 
@@ -47,7 +47,18 @@ For each activity since 10 December 2025:
 - real counts, if you have them (e.g. "120 saplings planted");
 - the photo folder.
 
-______
+Your notes, kept as you wrote them (I'll write the website text from these):
+
+1. **APS remembrance with orphan children: 16 December 2025.** Photos: `_photos/inbox/orphanage 161225/` (5).
+   > To honor the memory of the children lost in the APS attack on December 16, 2014, the Bahira Foundation team chose to spend the day with local orphan kids. We shared a meal of burgers and snacks, but more importantly, we shared smiles and hope. We believe the best way to remember those we lost is to take care of those who are still with us. By looking after these bright young souls, we hope to turn a day of sadness into a day of kindness.
+2. **Iftar on the 21st of Ramzan, Bahawalpur Railway Station: 11 March 2026.** Photos: `_photos/inbox/ramzan 110326/` (11).
+   > We served people with a warm iftar of rice, dates, and drinks at the Bahawalpur Railway Station. It was a simple effort to share the blessings of this month with travelers and people working at the station. Seeing all of them sit together to share a meal was the best part of the day.
+
+   Volunteers: Faiz, Daud, Dawood, Ahmad, Yasir, Abdul Rahim.
+3. **Sabeel on 9th–10th Muharram, Mohalla Nawaban: 25–26 June 2026.** Photos: `_photos/inbox/muharram 250626/` (4).
+   > In the summer heat, we were able to serve around 30 liters of cold, sweet drinks to hundreds of passing travelers and locals. It was a humble effort to honor the spirit of this sacred time by spreading kindness and relief to those around us.
+
+   Volunteers: Faiz, Dawood, Ahmad, Abdullah, Hassan.
 
 ## 5. Coming up
 
@@ -57,8 +68,8 @@ ______
 
 ## 6. People
 
-- **Your short bio** (3–5 lines) and a photo: ______
-- **Team members, trustees or volunteers to show:** name, role, photo, and their OK to appear: ______
+- **A photo of you** for the About page. I'll write your introduction and show it to you.
+- **Team members, trustees or volunteers to show:** name, role and photo: ______
 
 ## 7. Words to settle (during the translation review)
 
@@ -70,4 +81,5 @@ ______
 ## 8. Later (before the forms and the launch)
 
 - [ ] **Web3Forms access key:** sign up at web3forms.com with the foundation email; I'll show you where it goes.
-- [ ] **Domain name you'd like**, e.g. a .org or a .org.pk: ______
+- [ ] **Vercel account** for the free hosting, with two-step login turned on.
+- [ ] **Optional: a domain name**, e.g. a .com or a .org (about $10–15 a year). Without one, the site lives at a free `…vercel.app` address. We decide this once the website is finalised: ______
