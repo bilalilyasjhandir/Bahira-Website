@@ -2,7 +2,6 @@ import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { localePath } from "@/i18n/paths";
 import { pagePath, type PageKey } from "@/lib/pages";
-import { showUpdatesInMenu } from "@/lib/updates";
 import styles from "./Header.module.css";
 import { MenuDisclosure } from "./MenuDisclosure";
 
@@ -11,10 +10,8 @@ type NavKey = "about" | "work" | "getInvolved" | "contact" | "help";
 /** Logo, main menu and the Donate button, as in the brand guidelines' "In use" slide. */
 export function Header({ locale, current }: { locale: Locale; current: PageKey }) {
   const t = getDictionary(locale);
-  // "Updates" joins the menu in Phase 3, once there are at least three posts.
-  const updates = showUpdatesInMenu();
-  if (updates) throw new Error("Updates are listed but the Updates page is not built yet.");
-
+  // "Updates" joins this menu with the Updates page in Phase 3 (see showUpdatesInMenu in
+  // src/lib/updates.ts).
   const main: NavKey[] = ["about", "work", "getInvolved"];
   const link = (key: NavKey | "donate") => localePath(locale, pagePath(key));
   const currentIf = (key: PageKey) => (key === current ? ("page" as const) : undefined);

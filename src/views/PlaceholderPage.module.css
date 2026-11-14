@@ -1,7 +1,7 @@
 .page {
   display: grid;
   gap: var(--space-3);
-  padding-block-start: var(--space-8);
+  padding-block: var(--space-8) var(--space-section);
 }
 
 .page > * {
@@ -10,12 +10,5 @@
 
 .note {
   font-size: var(--text-h2);
-  line-height: var(--leading-h2);
-}
-
-.tagline {
-  color: var(--color-primary);
-  font-size: var(--text-h2);
-  font-weight: 600;
   line-height: var(--leading-h2);
 }

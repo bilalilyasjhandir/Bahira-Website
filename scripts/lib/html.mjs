@@ -54,6 +54,12 @@ export function visibleText(html) {
   );
 }
 
+/** The HTML without the elements marked as being in `lang` (e.g. an Arabic word). */
+export function withoutLanguage(html, lang) {
+  const re = new RegExp(`<(\\w+)\\b[^>]*\\slang="${lang}"[^>]*>[\\s\\S]*?</\\1>`, "g");
+  return html.replace(re, " ");
+}
+
 /** The URLs in a srcset attribute. */
 export function srcsetUrls(srcset) {
   return srcset

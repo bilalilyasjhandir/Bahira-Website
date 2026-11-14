@@ -25,6 +25,8 @@ const copies = [
   ["logo/svg/bahira-horizontal-blue.svg", "brand/logo/bahira-horizontal-blue.svg"],
   ["logo/svg/bahira-primary-white.svg", "brand/logo/bahira-primary-white.svg"],
   ["logo/svg/bahira-urdu-english-white.svg", "brand/logo/bahira-urdu-english-white.svg"],
+  // The symbol alone, white, beside the story of the name on the home page.
+  ["logo/svg/bahira-symbol-white.svg", "brand/logo/bahira-symbol-white.svg"],
   // The logo search engines show (structured data on the home page).
   ["logo/png/bahira-primary-blue-600.png", "brand/logo/bahira-primary-blue-600.png"],
   // The picture shown when a page is shared on WhatsApp or Facebook.

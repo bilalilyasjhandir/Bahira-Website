@@ -1,0 +1,75 @@
+.band {
+  padding-block: var(--space-section);
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.band :focus-visible {
+  outline-color: var(--color-focus-on-dark);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* The symbol keeps its own clear space: at least a fifth of its height on every side. */
+.symbol {
+  inline-size: 5rem;
+}
+
+.text {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-inline-size: 38em;
+}
+
+.title {
+  color: var(--color-on-dark);
+}
+
+/* A little larger than the text around it, so the Naskh letters look the same size. Line
+   height 1 stops the larger word from pushing its line further from the others. */
+.arabic {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+.link {
+  color: var(--color-on-dark);
+}
+
+.link:hover {
+  color: var(--color-on-dark);
+}
+
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-3);
+    align-items: start;
+  }
+
+  .symbol {
+    grid-column: 1 / span 2;
+    inline-size: 100%;
+    max-inline-size: 6rem;
+  }
+
+  .text {
+    grid-column: 4 / span 9;
+  }
+}
+
+@media (min-width: 64em) {
+  .symbol {
+    grid-column: 2 / span 2;
+    justify-self: center;
+    max-inline-size: 8rem;
+  }
+
+  .text {
+    grid-column: 5 / span 7;
+  }
+}

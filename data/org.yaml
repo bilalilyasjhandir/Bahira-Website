@@ -10,6 +10,9 @@ site:
 organisation:
   founded: "2025-12-10" # Human Rights Day
   city: Bahawalpur
+  # The Arabic word the name comes from (Bilal's introduction): it means luminous. The site
+  # shows it marked as Arabic, in the reader's own Arabic font, never in Nastaliq.
+  nameArabic: باهرة
   registration:
     # Bahira is not registered yet, so the site never says or implies that it is.
     # When it is registered, set this to true and add the authority, number and date.

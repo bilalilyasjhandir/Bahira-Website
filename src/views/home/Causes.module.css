@@ -1,0 +1,61 @@
+.section {
+  padding-block: var(--space-section);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.head {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-2);
+}
+
+.intro {
+  max-inline-size: 30em;
+  font-size: var(--text-lead);
+}
+
+/* An index, not a row of cards: names and one line each, between hairlines. */
+.list {
+  display: grid;
+  column-gap: var(--space-5);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.item {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+/* Blue stays for the section heading and the links; the six names are in Ink. */
+.title {
+  color: var(--color-text);
+}
+
+@media (min-width: 48em) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-3);
+  }
+
+  .head {
+    grid-column: 1 / span 4;
+  }
+
+  .list {
+    grid-column: 6 / span 7;
+  }
+}

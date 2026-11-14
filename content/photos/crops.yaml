@@ -1,0 +1,37 @@
+# Where each photo in content/photos/ comes from, and how it is cropped.
+# The originals stay in _photos/inbox/ on Bilal's laptop and are never committed.
+# After adding or changing an entry, run: pnpm photos
+#
+#   photo:  the file made in content/photos/
+#   from:   the original in _photos/inbox/
+#   ratio:  the shape: 4:5 (portrait), 1:1 (square) or 3:2 (landscape)
+#   focus:  the point to keep at the centre, as fractions across and down (0 to 1)
+#   zoom:   1 is the largest crop the photo allows; 1.25 comes a quarter closer
+
+# Iftar at Bahawalpur Railway Station, 21st of Ramzan (11 March 2026)
+- photo: 2026-03-iftar/serving.jpg
+  from: ramzan 110326/VideoCapture_20260312-102849.jpg
+  ratio: "4:5"
+  focus: [0.5, 0.55]
+  zoom: 1
+
+- photo: 2026-03-iftar/together.jpg
+  from: ramzan 110326/VideoCapture_20260312-103015.jpg
+  ratio: "1:1"
+  focus: [0.5, 0.5]
+  zoom: 1
+
+# Sabeel in Mohalla Nawaban, 9th and 10th of Muharram (25 and 26 June 2026)
+- photo: 2026-06-sabeel/bowls.jpg
+  from: muharram 250626/VideoCapture_20260630-204309.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.57]
+  zoom: 1
+
+# APS remembrance with children at an orphanage (16 December 2025). The other photos from
+# this day show another organisation's banner with its account numbers; this one does not.
+- photo: 2025-12-aps-remembrance/meal.jpg
+  from: orphanage 161225/IMG-20251216-WA0040.jpeg
+  ratio: "1:1"
+  focus: [0.5, 0.33]
+  zoom: 1

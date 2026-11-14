@@ -4,13 +4,21 @@
   gap: var(--space-1);
 }
 
+/* Block-level flex boxes, so the bar's height never depends on the page's font. */
 .languages a,
 .current {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   min-block-size: var(--tap);
   padding-inline: var(--space-1);
   color: var(--color-text);
+  font-family: var(--font-ui);
+  line-height: var(--leading-ui);
+}
+
+/* On English pages, اردو and سرائیکی use the small label font (src/styles/labels-font.css). */
+.languages .nastaliqLabel {
+  font-family: "Bahira Nastaliq Labels", sans-serif;
 }
 
 .languages a {

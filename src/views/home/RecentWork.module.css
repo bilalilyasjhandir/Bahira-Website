@@ -1,0 +1,120 @@
+.section {
+  padding-block: var(--space-section);
+}
+
+.heading {
+  margin-block-end: var(--space-5);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* The newest update: a large photo, then its date, title and summary. */
+.lead {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.lead .summary {
+  max-inline-size: 34em;
+}
+
+.more {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+}
+
+/* The earlier updates: a small square photo beside the date and title. On phones the
+   summary runs the full width underneath, so its lines are not squeezed beside the photo. */
+.item {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  grid-template-areas:
+    "photo head"
+    "summary summary";
+  align-items: start;
+  gap: var(--space-2);
+}
+
+.item .photo {
+  grid-area: photo;
+}
+
+.item .head {
+  grid-area: head;
+}
+
+.item .summary {
+  grid-area: summary;
+}
+
+.photo {
+  display: block;
+}
+
+.photo img {
+  inline-size: 100%;
+}
+
+.head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.meta {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* The date, a venue, a city: each stays whole, so the line breaks between them and never
+   inside a name ("Mohalla / Nawaban"). One that is wider than the column still wraps. */
+.unit {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+.title {
+  color: var(--color-text);
+}
+
+.lead .title {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+}
+
+/* From tablet width the newest update and the earlier ones stand side by side. */
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-3);
+  }
+
+  .lead {
+    grid-column: 1 / span 6;
+  }
+
+  .more {
+    grid-column: 7 / span 6;
+    padding-block-start: var(--space-1);
+  }
+}
+
+@media (min-width: 64em) {
+  .lead {
+    grid-column: 1 / span 5;
+  }
+
+  /* On wide screens the summary sits beside the photo, under the title. */
+  .item {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    grid-template-areas:
+      "photo head"
+      "photo summary";
+    column-gap: var(--space-3);
+    row-gap: var(--space-1);
+  }
+}

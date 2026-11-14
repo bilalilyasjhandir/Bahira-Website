@@ -32,13 +32,17 @@
   gap: var(--space-4);
 }
 
+/* Links are block-level flex boxes, so their height never depends on the page's font (see
+   the phone menu below). */
 .nav a,
 .panel a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   min-block-size: var(--tap);
   color: var(--color-text);
+  font-family: var(--font-ui);
   font-weight: 500;
+  line-height: var(--leading-ui);
   text-decoration: none;
 }
 
@@ -56,15 +60,19 @@
   padding-inline: var(--space-2);
 }
 
-/* Phone menu */
+/* Phone menu. The summary is a block-level flex box, not an inline one: inline, it would sit
+   on a line of the page's font, and when Nastaliq arrives that line grows and the whole
+   page below the header moves down 7 px (a layout shift). */
 .menu summary {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: var(--space-1);
   min-block-size: var(--tap);
   padding-inline: var(--space-1);
   border-radius: var(--radius);
+  font-family: var(--font-ui);
   font-weight: 600;
+  line-height: var(--leading-ui);
   cursor: pointer;
   list-style: none;
 }

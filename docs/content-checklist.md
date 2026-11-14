@@ -2,6 +2,16 @@
 
 This is what the website needs from you: photos, and the facts only you know. I write the text of the site myself and show it to you for approval. If I need anything else, I'll ask when it comes up. There are no deadlines; fill this in at your own pace.
 
+## Home page preview: answered on 14 Nov 2026
+
+- [x] **The Home design:** approved.
+- [x] **Nastaliq size:** 118%.
+- [x] **Daud and Dawood** are two people, so "Six volunteers made it happen" is right.
+- [x] **Places:** every event so far was in Bahawalpur. The APS remembrance was at Daykh Bhaal Shelter Home (in Urdu and Saraiki: دیکھ بھال شیلٹر ہوم). Mohalla Nawaban is in Bahawalpur, and محلہ نواباں is spelled right.
+- [x] **Why Human Rights Day:** the page's reason is right. Almost everything Bahira does is for people; the stray animals are the one cause that is not.
+- [x] **The work so far:** three events, all help for people in need. The other causes come once there is a team and money for them.
+- [ ] **Urdu and Saraiki text on the Home page:** drafts until you approve them, in the review rounds of Phase 4. The words still to settle are in section 7.
+
 ## 1. Needed first, for the design preview
 
 - [x] **About 15 of your best photos.** Done on 14 Nov 2026: 20 photos from three events (section 4). More are welcome later, especially landscape shots and other causes (animals, trees, youth).
@@ -49,20 +59,27 @@ For each activity since 10 December 2025:
 
 Your notes, kept as you wrote them (I'll write the website text from these):
 
-1. **APS remembrance with orphan children: 16 December 2025.** Photos: `_photos/inbox/orphanage 161225/` (5).
+1. **APS remembrance with orphan children: 16 December 2025, Daykh Bhaal Shelter Home, Bahawalpur.** Photos: `_photos/inbox/orphanage 161225/` (5).
    > To honor the memory of the children lost in the APS attack on December 16, 2014, the Bahira Foundation team chose to spend the day with local orphan kids. We shared a meal of burgers and snacks, but more importantly, we shared smiles and hope. We believe the best way to remember those we lost is to take care of those who are still with us. By looking after these bright young souls, we hope to turn a day of sadness into a day of kindness.
 2. **Iftar on the 21st of Ramzan, Bahawalpur Railway Station: 11 March 2026.** Photos: `_photos/inbox/ramzan 110326/` (11).
    > We served people with a warm iftar of rice, dates, and drinks at the Bahawalpur Railway Station. It was a simple effort to share the blessings of this month with travelers and people working at the station. Seeing all of them sit together to share a meal was the best part of the day.
 
    Volunteers: Faiz, Daud, Dawood, Ahmad, Yasir, Abdul Rahim.
-3. **Sabeel on 9th–10th Muharram, Mohalla Nawaban: 25–26 June 2026.** Photos: `_photos/inbox/muharram 250626/` (4).
+3. **Sabeel on 9th–10th Muharram, Mohalla Nawaban, Bahawalpur: 25–26 June 2026.** Photos: `_photos/inbox/muharram 250626/` (4).
    > In the summer heat, we were able to serve around 30 liters of cold, sweet drinks to hundreds of passing travelers and locals. It was a humble effort to honor the spirit of this sacred time by spreading kindness and relief to those around us.
 
    Volunteers: Faiz, Dawood, Ahmad, Abdullah, Hassan.
 
+**How the work is done so far** (your answer of 14 Nov 2026, for the About, Get involved and Accountability pages; I'll show you the wording before anything about money goes on the site):
+- There is no permanent team yet. You have paid for every event yourself, which is why there have been three so far.
+- The volunteers are people who came to help through social media, family and friends.
+- The plan: a proper volunteer team, and at least one event a month once donations come in.
+
 ## 5. Coming up
 
 Upcoming events or drives: date, place, what it is, how to join.
+
+Nothing is planned yet. The aim is at least one event a month once donations come in.
 
 ______
 
@@ -74,7 +91,7 @@ ______
 ## 7. Words to settle (during the translation review)
 
 - The Urdu and Saraiki word for "intersex": ______
-- Saraiki spellings (e.g. ݙ or ڋ, ݨ or ڻ): ______
+- Saraiki spellings (e.g. ݙ or ڋ, ݨ or ڻ; the drafts use ݙ and ݨ): ______
 - "Just doing the human thing." in Urdu: ______ and in Saraiki: ______
 - Digits on Urdu and Saraiki pages: Western 0–9 (planned), or Urdu ۰–۹? ______
 

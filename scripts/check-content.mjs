@@ -319,47 +319,47 @@ const normaliseRange = (range) =>
     )
     .join(",");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
-const tsSetting = (source, prop) =>
-  new RegExp(`prop:\\s*"${prop}",\\s*value:\\s*"([^"]+)"`).exec(source)?.[1];
-const cssSetting = (source, prop) => new RegExp(`${prop}:\\s*([^;]+);`).exec(source)?.[1];
+/** Every value of a font setting in a file: a next/font declaration or a CSS descriptor. */
+const settings = (file, prop) => {
+  const source = read(file);
+  const re = file.endsWith(".ts")
+    ? new RegExp(`prop:\\s*"${prop}",\\s*value:\\s*"([^"]+)"`, "g")
+    : new RegExp(`${prop}:\\s*([^;]+);`, "g");
+  return [...source.matchAll(re)].map((m) => m[1]);
+};
 mark = errors.length;
 const fontChecks = [
-  [
-    "src/fonts/onest.ts",
-    tsSetting(read("src/fonts/onest.ts"), "unicode-range"),
-    "onest-latin.woff2",
-  ],
-  [
-    "src/fonts/nastaliq.ts",
-    tsSetting(read("src/fonts/nastaliq.ts"), "unicode-range"),
-    "nastaliq.woff2",
-  ],
-  [
-    "src/styles/nastaliq-404.css",
-    cssSetting(read("src/styles/nastaliq-404.css"), "unicode-range"),
-    "nastaliq.woff2",
-  ],
-  [
-    "src/styles/labels-font.css",
-    cssSetting(read("src/styles/labels-font.css"), "unicode-range"),
-    "nastaliq-labels.woff2",
-  ],
+  ["src/fonts/onest.ts", "onest-latin.woff2", 1],
+  ["src/fonts/nastaliq.ts", "nastaliq.woff2", 2], // the text face and the one-line-label face
+  ["src/styles/nastaliq-404.css", "nastaliq.woff2", 1],
+  ["src/styles/labels-font.css", "nastaliq-labels.woff2", 1],
 ];
-for (const [file, range, font] of fontChecks) {
-  if (!range) error(`${file}: no unicode-range found`);
-  else if (normaliseRange(range) !== normaliseRange(coverage.files[font].unicodeRange)) {
-    error(
-      `${file}: unicode-range differs from src/fonts/coverage.json (${font}); copy it from there`,
-    );
+for (const [file, font, faces] of fontChecks) {
+  const ranges = settings(file, "unicode-range");
+  if (ranges.length !== faces)
+    error(`${file}: expected ${faces} unicode-range, found ${ranges.length}`);
+  for (const range of ranges) {
+    if (normaliseRange(range) !== normaliseRange(coverage.files[font].unicodeRange)) {
+      error(
+        `${file}: unicode-range differs from src/fonts/coverage.json (${font}); copy it from there`,
+      );
+    }
   }
 }
 const sizes = [
-  ["src/fonts/nastaliq.ts", tsSetting(read("src/fonts/nastaliq.ts"), "size-adjust")],
-  ["src/styles/nastaliq-404.css", cssSetting(read("src/styles/nastaliq-404.css"), "size-adjust")],
-  ["src/styles/labels-font.css", cssSetting(read("src/styles/labels-font.css"), "size-adjust")],
-];
-if (new Set(sizes.map(([, s]) => s)).size !== 1) {
-  error(`Nastaliq size-adjust differs: ${sizes.map(([f, s]) => `${f} ${s}`).join(", ")}`);
+  "src/fonts/nastaliq.ts",
+  "src/styles/nastaliq-404.css",
+  "src/styles/labels-font.css",
+].flatMap((file) => settings(file, "size-adjust").map((size) => `${file} ${size}`));
+if (new Set(sizes.map((s) => s.split(" ")[1])).size !== 1) {
+  error(`Nastaliq size-adjust differs: ${sizes.join(", ")}`);
+}
+// One-line Nastaliq labels are centred by the same ascent and descent everywhere.
+const metrics = ["src/fonts/nastaliq.ts", "src/styles/labels-font.css"].map((file) =>
+  ["ascent-override", "descent-override"].map((prop) => settings(file, prop).join()).join("/"),
+);
+if (metrics[0] !== metrics[1]) {
+  error(`Nastaliq label metrics differ: nastaliq.ts ${metrics[0]}, labels-font.css ${metrics[1]}`);
 }
 pass(mark, "Fonts: settings match the font files");
 

@@ -1,0 +1,19 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-block-size: var(--tap);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+}
+
+/* The arrow comes from Onest on every page; on right-to-left pages it is turned round. */
+.arrow {
+  display: inline-block;
+  font-family: var(--font-onest), sans-serif;
+}
+
+.arrow:dir(rtl) {
+  transform: scaleX(-1);
+}

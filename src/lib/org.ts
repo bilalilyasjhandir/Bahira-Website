@@ -22,6 +22,7 @@ const orgSchema = z.strictObject({
   organisation: z.strictObject({
     founded: z.iso.date(),
     city: z.string().min(1),
+    nameArabic: z.string().regex(/^[ء-ي]+$/, "Arabic letters only"),
     registration: z.strictObject({
       registered: z.boolean(),
       authority: z.string().min(1).optional(),

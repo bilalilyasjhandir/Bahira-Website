@@ -10,12 +10,13 @@
 // The site:     sitemap.xml lists every page once with the right alternates; robots.txt
 //               points to it; no image anywhere carries a location (GPS).
 
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import zlib from "node:zlib";
 import { locationProblem } from "./lib/gps.mjs";
-import { markupOnly, srcsetUrls, startTags, visibleText } from "./lib/html.mjs";
+import { markupOnly, srcsetUrls, startTags, visibleText, withoutLanguage } from "./lib/html.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "out");
@@ -91,6 +92,45 @@ function scriptsOf(html) {
     if ((l.rel === "preload" && l.as === "script") || l.rel === "modulepreload") found.add(l.href);
   }
   return [...found];
+}
+
+/** Lighthouse's mobile test phone: 412 CSS pixels wide, 1.75 screen pixels per CSS pixel. */
+const PHONE = { width: 412, dpr: 1.75 };
+
+/** How wide an image is drawn on the test phone, read from its `sizes` attribute. */
+function sizesWidth(sizes) {
+  const px = (value) => {
+    const m = /^([\d.]+)(px|rem|em|vw)$/.exec(value.trim());
+    if (!m) throw new Error(`check-site cannot read the size "${value}" in sizes="${sizes}"`);
+    const n = Number(m[1]);
+    return m[2] === "vw" ? (n * PHONE.width) / 100 : m[2] === "px" ? n : n * 16;
+  };
+  for (const entry of sizes.split(",")) {
+    const m = /^\s*(?:\((min|max)-width:\s*([\d.]+)(px|em|rem)\)\s+)?(.+?)\s*$/.exec(entry);
+    if (!m) continue;
+    if (m[1]) {
+      const limit = Number(m[2]) * (m[3] === "px" ? 1 : 16);
+      if (m[1] === "min" ? PHONE.width < limit : PHONE.width > limit) continue;
+    }
+    const calc = /^calc\((.+)\)$/.exec(m[4]);
+    if (!calc) return px(m[4]);
+    const [a, op, b] = calc[1].split(/\s+([+-])\s+/);
+    return op === "-" ? px(a) - px(b) : px(a) + px(b);
+  }
+  return PHONE.width;
+}
+
+/** The file from a <source> the test phone would download: the smallest that is sharp enough. */
+function phoneChoice(source) {
+  const needed = sizesWidth(source.sizes ?? "100vw") * PHONE.dpr;
+  const candidates = source.srcset
+    .split(",")
+    .map((c) => {
+      const [url, w] = c.trim().split(/\s+/);
+      return { url, width: parseInt(w, 10) };
+    })
+    .sort((a, b) => a.width - b.width);
+  return (candidates.find((c) => c.width >= needed) ?? candidates.at(-1)).url;
 }
 
 // --- The pages ---------------------------------------------------------------------------
@@ -243,10 +283,11 @@ for (const page of [...expected, notFoundPage]) {
   if ((page.locale === "ur" || page.locale === "skr") && !preloadsNastaliq)
     error(`${where}: Urdu/Saraiki page does not preload Nastaliq`);
 
-  // Characters the fonts cannot show
+  // Characters the fonts cannot show. Arabic words (lang="ar") are left out: they are set
+  // in the reader's own Arabic font on purpose (base.css).
   const chars = fontsFor[page.locale];
   const missing = new Set();
-  for (const ch of visibleText(raw)) {
+  for (const ch of visibleText(withoutLanguage(raw, "ar"))) {
     const cp = ch.codePointAt(0);
     if (cp > 0x20 && cp !== 0xa0 && !chars.has(cp))
       missing.add(`${ch} U+${cp.toString(16).toUpperCase().padStart(4, "0")}`);
@@ -275,8 +316,16 @@ for (const page of [...expected, notFoundPage]) {
   const ownJsBytes = scripts
     .filter(([s]) => !frameworkJs.has(s))
     .reduce((n, [, f]) => n + sentSize(f), 0);
+  // Images loaded with the page: a photo in a <picture> counts as the AVIF version Lighthouse's
+  // test phone would choose; other images (the logo) and image preloads count as they are.
+  const pictures = raw.match(/<picture\b[\s\S]*?<\/picture>/g) ?? [];
   const eagerImages = new Set([
-    ...startTags(html, "img")
+    ...pictures.flatMap((p) => {
+      const img = startTags(p, "img")[0];
+      const avif = startTags(p, "source").find((s) => s.type === "image/avif");
+      return img && img.loading !== "lazy" ? [avif ? phoneChoice(avif) : img.src] : [];
+    }),
+    ...startTags(markupOnly(html.replace(/<picture\b[\s\S]*?<\/picture>/g, "")), "img")
       .filter((i) => i.loading !== "lazy" && i.src)
       .map((i) => i.src),
     ...links.filter((l) => l.rel === "preload" && l.as === "image").map((l) => l.href),
@@ -285,6 +334,18 @@ for (const page of [...expected, notFoundPage]) {
     .map((h) => fileFor(h, page.path))
     .filter((f) => f && fs.existsSync(f));
   const fontBytes = [...fonts].reduce((n, f) => n + sentSize(f), 0);
+  // The same font under two names would be downloaded twice (it happened once: Next.js
+  // names preloaded and other font files differently).
+  const byContent = new Map();
+  for (const font of fonts) {
+    const hash = createHash("sha256").update(fs.readFileSync(font)).digest("hex");
+    if (byContent.has(hash)) {
+      error(
+        `${where}: the same font is loaded twice: ${path.basename(byContent.get(hash))} and ${path.basename(font)}`,
+      );
+    }
+    byContent.set(hash, font);
+  }
   const imageBytes = imageFiles.reduce((n, f) => n + sentSize(f), 0);
   const htmlBytes = sentSize(file);
   const total = htmlBytes + cssBytes + jsBytes + fontBytes + imageBytes;

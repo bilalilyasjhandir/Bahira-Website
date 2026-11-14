@@ -1,7 +1,9 @@
 /* The language names اردو and سرائیکی in the chooser on English pages.
    Phones that have Noto Nastaliq Urdu built in use their own copy, so they download
    nothing. Other devices download a 21 KB file holding only these letters
-   (scripts/subset-fonts.py). Its unicode-range is checked against src/fonts/coverage.json. */
+   (scripts/subset-fonts.py). Its unicode-range is checked against src/fonts/coverage.json.
+   The ascent and descent settings centre the letters in the bar, as for the one-line labels
+   on Urdu pages (nastaliqUi in src/fonts/nastaliq.ts). */
 @font-face {
   font-family: "Bahira Nastaliq Labels";
   src:
@@ -13,5 +15,8 @@
   font-style: normal;
   font-display: swap;
   size-adjust: 118%;
+  ascent-override: 115%;
+  descent-override: 65%;
+  line-gap-override: 0%;
   unicode-range: U+0626-0627, U+062F, U+0631, U+0633, U+0648, U+06A9, U+06CC;
 }

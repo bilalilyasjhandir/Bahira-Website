@@ -1,24 +1,33 @@
 import { Shell } from "@/components/Shell";
 import type { Locale } from "@/i18n/config";
 import { en } from "@/i18n/en";
-import { formatDate } from "@/i18n/format";
-import { fill, getDictionary } from "@/i18n/get-dictionary";
+import { getDictionary } from "@/i18n/get-dictionary";
 import { localePath } from "@/i18n/paths";
 import { ur } from "@/i18n/ur";
+import { getUpdates } from "@/lib/content";
 import { org } from "@/lib/org";
-import styles from "./PlaceholderPage.module.css";
+import { Causes } from "./home/Causes";
+import { Facts } from "./home/Facts";
+import { Hero } from "./home/Hero";
+import { RecentWork } from "./home/RecentWork";
+import { Story } from "./home/Story";
+import { Support } from "./home/Support";
 
-/** The home page. Phase 2 designs it; for now it says who Bahira is. */
+/**
+ * The home page: who Bahira is and the two ways to help (Hero), the facts at a glance,
+ * what Bahira works for, the story of the name, the work so far, and how to join in.
+ */
 export function HomePage({ locale }: { locale: Locale }) {
-  const t = getDictionary(locale);
+  const updates = getUpdates(locale);
   return (
     <Shell locale={locale} path="/" current="home">
       <OrganisationData locale={locale} />
-      <div className={`container ${styles.page}`}>
-        <h1>{t.site.name}</h1>
-        <p className={styles.tagline}>{t.site.tagline}</p>
-        <p>{fill(t.site.founded, { date: formatDate(org.organisation.founded, locale) })}</p>
-      </div>
+      <Hero locale={locale} updates={updates} />
+      <Facts locale={locale} />
+      <Causes locale={locale} />
+      <Story locale={locale} />
+      <RecentWork locale={locale} updates={updates} />
+      <Support locale={locale} />
     </Shell>
   );
 }

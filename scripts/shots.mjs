@@ -67,9 +67,13 @@ async function visit([label, urlPath, status, file], width) {
     problems.push(`console: ${m.text()}`);
   });
   page.on("pageerror", (e) => problems.push(`script error: ${e.message}`));
-  page.on("requestfailed", (r) =>
-    problems.push(`request failed: ${r.url()} (${r.failure()?.errorText})`),
-  );
+  page.on("requestfailed", (r) => {
+    // The browser sometimes cancels an image request itself (net::ERR_ABORTED) while the page
+    // is scrolled through and captured, and loads the image again. That is no error: whether
+    // every image really loaded is checked below.
+    if (r.resourceType() === "image" && r.failure()?.errorText === "net::ERR_ABORTED") return;
+    problems.push(`request failed: ${r.url()} (${r.failure()?.errorText})`);
+  });
   await page.addInitScript(() => {
     window.__blocked = [];
     document.addEventListener("securitypolicyviolation", (e) =>
@@ -81,6 +85,22 @@ async function visit([label, urlPath, status, file], width) {
   if (response?.status() !== status)
     problems.push(`status ${response?.status()}, expected ${status}`);
   await page.evaluate(() => document.fonts.ready);
+  // Photos below the fold load only when a reader scrolls near them, so scroll through the
+  // page like a reader would, then wait for every image before taking the screenshot.
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.documentElement.scrollHeight; y += window.innerHeight / 2) {
+      window.scrollTo(0, y);
+      await new Promise((done) => setTimeout(done, 60));
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForFunction(() => [...document.images].every((img) => img.complete), null, {
+    timeout: 15000,
+  });
+  for (const img of await page.$$eval("img", (imgs) =>
+    imgs.filter((i) => i.naturalWidth === 0).map((i) => i.currentSrc || i.src),
+  ))
+    problems.push(`image did not load: ${img}`);
   for (const blocked of await page.evaluate(() => window.__blocked))
     problems.push(`Content Security Policy: ${blocked}`);
 

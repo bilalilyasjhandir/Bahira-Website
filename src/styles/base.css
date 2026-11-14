@@ -41,15 +41,24 @@ main {
   line-height: var(--leading-body);
 }
 
+/* Urdu and Saraiki pages: the body waits, hidden, until Nastaliq has arrived (3 s at most),
+   so it never jumps when the font replaces the stand-in one. The class is set and cleared
+   by src/components/FontWait.tsx. */
+.font-wait main,
+.font-wait footer {
+  visibility: hidden;
+}
+
 /* English inside Urdu or Saraiki text (an email address, a name) is set in Onest. */
 :root:lang(ur) :lang(en),
 :root:lang(skr) :lang(en) {
   font-family: var(--font-onest), system-ui, sans-serif;
 }
 
-/* The language names اردو and سرائیکی on English pages (src/styles/labels-font.css). */
-.nastaliq-label {
-  font-family: "Bahira Nastaliq Labels", sans-serif;
+/* An Arabic word (such as باهرة, where the name comes from) is Arabic, not Urdu: it is set
+   in the reader's own Arabic (Naskh) font, never in Nastaliq. */
+:lang(ar) {
+  font-family: system-ui, sans-serif;
 }
 
 h1,
@@ -71,8 +80,34 @@ h2 {
   line-height: var(--leading-h2);
 }
 
+h3 {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+}
+
 p {
   margin: 0;
+}
+
+/* Running text never ends on one short word alone on its last line. Urdu and Saraiki
+   sentences end in short words (ہے۔ ہیں۔), so it matters most there. Browsers that do not
+   support it simply ignore it. */
+p,
+li,
+dd,
+figcaption {
+  text-wrap: pretty;
+}
+
+/* A small label above a heading or a value: capitals with open spacing in English. Urdu and
+   Saraiki have no capitals and are never letter-spaced (the token is 0 there). */
+.label {
+  font-family: var(--font-ui);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: var(--leading-ui);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 
 a {
@@ -159,7 +194,9 @@ main:focus {
   border-radius: var(--radius);
   background: var(--color-primary);
   color: var(--color-on-primary);
+  font-family: var(--font-ui);
   font-weight: 600;
+  line-height: var(--leading-ui);
   text-decoration: none;
   white-space: nowrap;
 }

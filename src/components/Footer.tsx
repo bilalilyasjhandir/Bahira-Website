@@ -4,6 +4,7 @@ import { fill, getDictionary } from "@/i18n/get-dictionary";
 import { localePath } from "@/i18n/paths";
 import { org } from "@/lib/org";
 import { pagePath } from "@/lib/pages";
+import { Email } from "./Email";
 import styles from "./Footer.module.css";
 
 const footerLinks = [
@@ -57,12 +58,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <div className={styles.meta}>
           <p>
-            {t.footer.email}:{" "}
-            <a href={`mailto:${org.contact.email}`}>
-              <bdi dir="ltr" lang="en">
-                {org.contact.email}
-              </bdi>
-            </a>
+            {t.footer.email}: <Email />
           </p>
           <p>{fill(t.site.copyright, { year })}</p>
         </div>

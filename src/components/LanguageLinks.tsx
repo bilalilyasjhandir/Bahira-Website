@@ -16,7 +16,7 @@ export function LanguageLinks({ locale, path }: { locale: Locale; path: string }
         {locales.map((code) => {
           // On English pages, the Urdu-script names use the small label font.
           const label =
-            direction[code] === "rtl" && direction[locale] === "ltr" ? "nastaliq-label" : "";
+            direction[code] === "rtl" && direction[locale] === "ltr" ? styles.nastaliqLabel : "";
           return (
             <li key={code}>
               {code === locale ? (

@@ -8,6 +8,7 @@
   --color-surface: var(--bahira-white);
   --color-tint: var(--bahira-sky);
   --color-text: var(--bahira-ink);
+  --color-text-muted: #404b57; /* Ink at 80% on Paper, for dates and captions: 8.2:1 */
   --color-primary: var(--bahira-blue); /* headings, links, primary buttons: 7.5:1 on Paper */
   --color-primary-strong: var(--bahira-deep-blue); /* hover and pressed */
   --color-on-primary: var(--bahira-white); /* 8.2:1 on Bahira Blue */
@@ -23,15 +24,20 @@
   --text-display: clamp(2.5rem, 1.8571rem + 2.8571vw, 4rem); /* 40 → 64 px, the hero only */
   --text-h1: clamp(2rem, 1.5714rem + 1.9048vw, 3rem); /* 32 → 48 px */
   --text-h2: clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem); /* 24 → 32 px */
+  --text-h3: 1.25rem; /* 20 px: the titles of items in a list */
+  --text-lead: clamp(1.125rem, 1.0714rem + 0.2381vw, 1.25rem); /* 18 → 20 px: opening paragraphs */
   --text-body: clamp(1.0625rem, 1.0357rem + 0.119vw, 1.125rem); /* 17 → 18 px */
   --text-small: 0.9375rem; /* 15 px */
   --text-label: 0.875rem; /* 14 px */
   --leading-display: 1.0625;
   --leading-h1: 1.1667; /* 56 / 48 */
   --leading-h2: 1.25; /* 40 / 32 */
+  --leading-h3: 1.4;
   --leading-body: 1.5556; /* 28 / 18 */
   --tracking-label: 0.14em;
   --weight-heading: 700; /* Onest Bold, as in the brand deck */
+  --font-ui: var(--font-onest), system-ui, sans-serif; /* one-line labels; see below for Urdu */
+  --leading-ui: 1.5;
   --measure: 66ch; /* 60–72 characters per line */
 
   /* Space, in steps of 8 px */
@@ -44,6 +50,9 @@
   --space-8: 4rem;
   --space-10: 5rem;
   --space-12: 6rem;
+
+  /* The space between the sections of a page: 64 px on phones, 96 px at 1200 px wide. */
+  --space-section: clamp(4rem, 3.1429rem + 3.8095vw, 6rem);
 
   /* Layout */
   --page-max: 75rem; /* 1200 px */
@@ -76,7 +85,17 @@
   --leading-display: 1.9;
   --leading-h1: 2;
   --leading-h2: 2;
+  --leading-h3: 2.1;
   --leading-body: 2.35;
   --tracking-label: 0;
   --weight-heading: 400;
+}
+
+/* One-line labels (buttons, menus, the language bar, small labels) use the Nastaliq face
+   whose metrics centre the letters (nastaliqUi in src/fonts/nastaliq.ts), with a line
+   height that keeps Urdu buttons as tall as English ones. */
+:root:lang(ur),
+:root:lang(skr) {
+  --font-ui: var(--font-nastaliq-ui), var(--font-onest), sans-serif;
+  --leading-ui: 1.6;
 }

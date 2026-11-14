@@ -1,10 +1,11 @@
 // Updates are the dated posts about Bahira's work (content/updates/<language>/<slug>.md).
-// They arrive in Phase 3. Until there are at least three, the menu leaves "Updates" out,
-// so nobody lands on a nearly empty page.
+// "Updates" joins the menu once there are at least three, so nobody lands on a nearly
+// empty page, and once the Updates page itself exists (Phase 3).
 
 import fs from "node:fs";
 import path from "node:path";
 import { locales } from "@/i18n/config";
+import { pages } from "./pages";
 
 export const UPDATES_IN_MENU_FROM = 3;
 
@@ -22,5 +23,5 @@ export function updateCount(): number {
 }
 
 export function showUpdatesInMenu(): boolean {
-  return updateCount() >= UPDATES_IN_MENU_FROM;
+  return "updates" in pages && updateCount() >= UPDATES_IN_MENU_FROM;
 }

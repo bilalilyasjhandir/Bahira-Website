@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { nastaliq } from "@/fonts/nastaliq";
+import { FontWait } from "@/components/FontWait";
+import { nastaliq, nastaliqUi } from "@/fonts/nastaliq";
 import { onest } from "@/fonts/onest";
 import { rtlLocale, rtlStaticParams, type RtlParams } from "@/i18n/route";
 import { layoutMetadata, siteViewport } from "@/lib/metadata";
@@ -30,8 +31,23 @@ export default async function RtlLayout({
 }) {
   const locale = await rtlLocale(params);
   return (
-    <html lang={locale} dir="rtl" className={`${onest.variable} ${nastaliq.variable}`}>
-      <body>{children}</body>
+    // FontWait adds a class to <html> before React starts, so React must not object to it.
+    <html
+      lang={locale}
+      dir="rtl"
+      className={`${onest.variable} ${nastaliq.variable} ${nastaliqUi.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        <FontWait
+          families={[
+            nastaliq.style.fontFamily,
+            nastaliqUi.style.fontFamily,
+            onest.style.fontFamily,
+          ]}
+        />
+        {children}
+      </body>
     </html>
   );
 }

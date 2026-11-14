@@ -1,6 +1,6 @@
 # Plan: Bahira Foundation website
 
-**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. **Phase 1 is done** (14 November 2026; results in sections 4, 5 and 6). Phase 2 starts when Bilal says go.
+**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. **Phase 1 is done** (14 November 2026; results in sections 4, 5 and 6). **Phase 2 is done** (14 November 2026): Bilal approved the Home page in English, Urdu and Saraiki, and Nastaliq at 118%. Phase 3 starts when Bilal says go.
 
 **No dates.** Bilal sets the pace. The phases follow in order and each waits for its gate, but none is tied to a calendar date.
 
@@ -44,7 +44,7 @@ Which pages it has, and what goes on them, is left to me. **This step is the pla
 - **No server, no database:** hosting is free and there is nothing to hack or patch on a server. Visitors' details never sit in an online database; forms go straight to email. The site also previews on the laptop.
 - **Room to grow without a rewrite:** if Bahira later needs logins, a staff admin screen, card donations or event sign-ups, the same codebase can switch to server hosting and add API routes, authentication and Supabase.
 - **The honest trade-off:** every page loads React's runtime (about 100 KB of JavaScript, cached after the first visit). To keep pages fast on mobile data:
-  - Server Components are the default, and only three tiny pieces run in the browser (menu, copy button, form);
+  - Server Components are the default, and only three tiny pieces run in the browser (menu, copy button, form). Phase 2 added a few lines on Urdu and Saraiki pages that hold the page body back until its font has arrived (section 4);
   - the budgets in section 5 are set accordingly.
 - **Styling:** plain CSS (global design tokens + CSS Modules, both built into Next.js), not Tailwind/shadcn. Those defaults are the look most "vibe-coded" sites share, and the RTL and Nastaliq rules stay clearer in plain CSS.
 - **Built in phases:** there is an approval gate after a single design preview, following the "preview before package" rule.
@@ -55,7 +55,7 @@ Which pages it has, and what goes on them, is left to me. **This step is the pla
 
 | Page | URL | Purpose and main sections |
 |---|---|---|
-| Home | `/` | **First screen:** a real photo saying who Bahira is, what it does and where, with two actions: Volunteer, and Donate (or "Donations opening soon").<br>**Below:**<ul><li>the six causes, each with a real example and photo</li><li>"Founded on Human Rights Day, 10 Dec 2025" and what باہِرہ means</li><li>the 3 latest dated updates</li><li>a trust strip: founded date, Bahawalpur, registration status, contact</li></ul> |
+| Home | `/` | **First screen:** a real photo saying who Bahira is, what it does and where, with two actions: Volunteer, and Donate (or "Donations open soon").<br>**Below** (as built in Phase 2):<ul><li>"Bahira at a glance": founded date, Bahawalpur, registration status, email</li><li>the six causes as a short list. A cause gets a real example and photo here once it has real work to show; so far only the first has</li><li>"Founded on Human Rights Day, 10 Dec 2025", what باہِرہ means, and the sign</li><li>the 3 latest dated updates, one photo each</li><li>volunteer, and the closed donations block</li></ul> |
 | About | `/about/` | <ul><li>Bilal's introduction, which I draft in Bilal's voice and Bilal approves</li><li>the name ("luminous") and the symbol (B, flame, diya)</li><li>why Human Rights Day</li><li>mission, vision, values</li><li>Bahawalpur → South Punjab</li><li>founder and team, with photos</li></ul> |
 | Our work | `/work/` + `/work/<cause>/` ×6 | **Overview plus one template for every cause:** why it matters here, what we do, what we've done (dated, with photos and related updates), how to help.<br>**Provisional slugs:** `people-in-need`, `womens-rights`, `stray-animals`, `trees`, `intersex-rights`, `youth`.<br>A cause without enough real content stays a section on `/work/` until it has some. |
 | Updates | `/updates/`, `/updates/<slug>/` | The proof of work: what, where, when and photos. Upcoming events are pinned. |
@@ -95,7 +95,12 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - a 12-column grid, 1200 px wide at most, with a 16 px mobile margin;
   - spacing in steps of 8 px;
   - asymmetric layouts, separated by hairlines and tints instead of shadows.
-- **Icons** appear only if they earn their place: one custom set of six cause icons, shown in the preview first. No emoji.
+- **Icons** appear only if they earn their place. **Phase 2: none.** The causes read clearly as a list of words in all three languages, and six icons in a row is one of the template looks we avoid. A custom set can still be drawn later if Bilal wants one, previewed first. No emoji.
+- **Built in Phase 2 (the Home page):**
+  - The hero puts the text first on phones, with the photo below it. From tablet width the text and photo sit side by side. The caption names the event and the month.
+  - Each section has its own surface: hairlines for the facts and causes, the one Deep Blue band for the founding story, and a Sky panel for volunteering and donations.
+  - New tokens: muted text `#404B57` (8.2:1 on Paper), H3 20 px, a lead size of 18–20 px, and section spacing of 64–96 px.
+  - Four photos in all, one per event plus the hero, because every photo costs prepaid data. The other photos go on each event's own page (Phase 3).
 - **Motion:** hover and focus states only; `prefers-reduced-motion` is respected.
 - **Banned "AI tells":**
   - visual: gradients, gradient text, glassmorphism, blurred blobs, sparkles;
@@ -115,7 +120,7 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - No flags, no automatic redirect, no cookies.
 - **Where text lives:**
   - **UI strings:** the "dictionaries" pattern from the official Next.js i18n guide, `src/i18n/{en,ur,skr}.ts`. The Urdu and Saraiki files are typed against the English keys, so a missing string fails the build.
-  - **Long text:** Markdown, `content/{pages,causes,updates}/{en,ur,skr}/<slug>.md`, read at build time (gray-matter + zod + remark).
+  - **Long text:** Markdown, `content/{pages,causes,updates}/{en,ur,skr}/<slug>.md`, read at build time: front matter with `yaml` and `zod` (Phase 2), the text itself with remark (Phase 3).
   - **Facts** (contacts, wallets, socials, registration, donations switch): written once in `data/org.yaml`.
 - **Keeping translations in step:**
   - English entries carry a `revision` number. Translations carry `sourceRevision` and `status: draft | reviewed`.
@@ -128,16 +133,23 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - stray English sentences;
   - any `[[TODO]]` left.
 - **Nastaliq typesetting** (values measured on the font file), through `next/font/local` `declarations`:
-  - **Size:** `size-adjust` 118% for now. The final value (110, 118 or 126%) is chosen on Bilal's phone in Phase 2.
+  - **Size:** `size-adjust` 118%. Phase 2 compared the Urdu Home page on a phone at 110, 118 and 126% (`shots/phase-2/nastaliq-sizes-110-118-126.png`). At 126% the opening text runs a line longer and the button drops below its note; 110% looks small beside English. **118%, approved by Bilal** on 14 November 2026.
   - **Line height:** 2.35 for body text and 2 for headings (unitless multiples of the font size).
   - **`unicode-range`:** only the characters Urdu and Saraiki use, plus space, NBSP, ZWNJ, ZWJ, LRM and RLM. English inside Urdu then falls back to Onest, and word spaces come from Nastaliq (its space is half as wide as Onest's).
-  - **Labels:** ascent/descent overrides so short labels sit centred in buttons (Phase 2, with the real buttons).
+  - **Labels (done in Phase 2):** buttons, menus and labels use a second face of the same Nastaliq file, with ascent 115%, descent 65% and no line gap, at line height 1.6 (`--font-ui`). Urdu buttons are 50 px tall (English 48) with the label centred. Both faces point to one file, so phones download it once; `check-site` fails if a font is ever downloaded twice.
+  - **Line breaks (Phase 2):**
+    - Running text never ends on one word alone (`text-wrap: pretty`). This matters most in Urdu and Saraiki, whose sentences end in short words like ہے۔ On the Home page it cleared every one from the paragraphs, in all three languages and at all four widths.
+    - A date never splits across lines: its parts are joined by no-break spaces.
+    - A word in another font or a larger size, like the Arabic باهرة, takes line height 1, so its line keeps the same spacing as the rest.
   - **Links:** `text-underline-offset` of 0.3 em, so the underline clears the dots below letters.
   - **While the font downloads (Phase-1 spike, measured):** the test used a 390 px phone, slow 4G and a 4× slower CPU, median of three runs, in Urdu and Saraiki.
     - With the first 195 KB file, Nastaliq arrived after about 3.5 s. "swap" and "fallback" made the page jump (CLS 0.22–0.24). "block" was still too late (LCP 4 s). "optional" never showed Nastaliq on a first visit.
     - So the file was cut to what Urdu and Saraiki use and to the Regular weight alone: **107 KB**, arriving after about 2.2 s. With **`font-display: block`** the page no longer jumps (CLS 0.00 Urdu, 0.05 Saraiki) and the text shows by about 2.4 s.
     - Chosen: the 107 KB file with "block". The cost is no bold Nastaliq; Urdu and Saraiki headings stand out by size and colour.
     - The local test server cannot put the font ahead of the JavaScript; Vercel can, so the live site should do better than this.
+    - **Phase 2, on the designed Home page:** with "block" the text is invisible while the font downloads, but it is still laid out in a narrower stand-in font. When Nastaliq arrived, lines rewrapped and the page jumped (CLS 0.093 in Urdu). Two fixes brought every page to **CLS 0.000**:
+      - nothing in the header takes its height from the font;
+      - on Urdu and Saraiki pages the body (not the header) stays hidden until the fonts have arrived, 3 s at most, then appears in its final layout. Its text would be invisible until then anyway. Without JavaScript the page loads as before.
   - **Never:** letter-spacing, capitals, italics (`font-synthesis: none`) or justified text. Urdu and Saraiki labels use colour or size instead of tracked capitals or bold.
 - **Mixed-direction text:** phone numbers, emails and URLs go in `<bdi dir="ltr">`. Digits are Western 0–9 (Bilal confirms in review). Saraiki dates use Urdu month names, because Node's `Intl` has no Saraiki data and silently falls back to US English.
 - **RTL:** CSS logical properties only (a check catches any left/right). `:dir(rtl)` flips arrows only; the logo and photos are never mirrored.
@@ -160,11 +172,13 @@ next.config.ts                output 'export', trailingSlash true, images.unopti
 package.json (exact versions) tsconfig.json (strict) eslint.config.mjs
 content/{pages,causes,updates}/{en,ur,skr}/*.md
 content/photos/<topic>/       selected, cropped masters (not served directly)
+content/photos/crops.yaml     which original each crop comes from, its shape and focus point
 data/org.yaml                 site address, contacts, wallets, socials, registration, donations.open
 public/                       favicons + site.webmanifest (from brand/icons), generated img/
 vercel.json                   host settings: headers (CSP, caching)
 scripts/
   sync-brand.mjs              copies logo SVGs, fonts and icons out of brand/ (never redrawn)
+  crop-photos.mjs             pnpm photos: makes the crops in crops.yaml from _photos/inbox/, with no metadata
   build-images.mjs            sharp: AVIF/WebP at several widths + size manifest; JPEG share images; strips GPS and other metadata
   subset-fonts.py             Onest Latin subset, Nastaliq subset with coverage check
   check-content.mjs           translations, review status, lints, [[TODO]], GPS left in content/photos
@@ -175,10 +189,12 @@ src/
   app/[lang]/layout.tsx       Urdu/Saraiki root layout (RTL, Nastaliq); generateStaticParams → ur, skr
   app/[lang]/…/page.tsx       /ur/…, /skr/…
   app/sitemap.ts  robots.ts
-  views/                      HomePage, AboutPage, CausePage … (shared by both layouts; page files are 3-line wrappers)
-  components/                 TopBar, LanguageLinks, Header, Footer, Button, CauseIndex, UpdateCard, Photo, WalletCard, Form…
-  i18n/en.ts ur.ts skr.ts get-dictionary.ts paths.ts
-  lib/content.ts              Markdown loader with zod schemas
+  views/                      HomePage + home/ (its sections), PlaceholderPage; AboutPage, CausePage … in Phase 3
+                              (shared by both layouts; page files are 3-line wrappers)
+  components/                 TopBar, LanguageLinks, Header, MenuDisclosure, Footer, Photo, ArrowLink, Email,
+                              Template; WalletCard, Form… in Phase 3
+  i18n/en.ts ur.ts skr.ts get-dictionary.ts paths.ts format.ts
+  lib/content.ts              Markdown loader with zod schemas; lib/photos.ts reads the image manifest
   styles/tokens.css fonts.css base.css (+ *.module.css next to components)
 ```
 
@@ -189,7 +205,7 @@ src/
   - Icons: `icons/*` and the `head-snippet.html` lines (through the Metadata API).
   - Share image: `social/link-preview-1200x630.png`.
 - **Dependencies (few, pinned exactly):**
-  - **runtime:** `next`, `react`, `react-dom`, `zod`, `yaml`. `remark`/`rehype` arrive when Markdown pages are rendered (Phase 2–3).
+  - **runtime:** `next`, `react`, `react-dom`, `zod`, `yaml`. `remark`/`rehype` arrive when Markdown text is rendered (Phase 3). Phase 2 added no dependency.
   - **dev:** TypeScript, ESLint (`eslint-config-next`), Prettier, `sharp`, Playwright, `@axe-core/playwright`. The Lighthouse CLI is added for the quality pass (Phase 5).
   - **Changed in Phase 1:**
     - `gray-matter` was dropped: it has not been updated since 2021, and `yaml` reads front matter just as well.
@@ -207,11 +223,13 @@ src/
     - The trilingual 404 is `src/app/global-not-found.tsx`, behind the documented experimental flag for apps with several root layouts.
   - **Font loading (done):** see section 4. Two Next.js traps were found and fixed; `check-site` now guards both.
     - The 404 page is bundled with every route, so it must not use `next/font`.
-    - The default CSS merging carried the Nastaliq preload onto English pages; `experimental.cssChunking` set to `graph` with `requestCost: 0` keeps each page to its own CSS.
+    - The default CSS merging carried the Nastaliq preload onto English pages; `experimental.cssChunking` set to `graph` keeps each page to its own CSS. Phase 2 raised `requestCost` from 0 to 1: stylesheets that always load together now merge (the Home page loads 4 instead of 13), and still no page gets CSS it doesn't use.
   - **Forms (moved to the start of Phase 3):** it needs the Web3Forms access key. A test submission without JavaScript should return to our own `/thanks/` page on Web3Forms' free plan. If the free plan doesn't allow that, the form's script shows the thank-you message and only visitors without JavaScript see Web3Forms' own page.
 - **Photos:**
   - **Intake:** Bilal drops originals into `_photos/inbox/<activity>/` with a short note (what, where, when). I select and crop them to 3:2, 4:5 or 1:1 into `content/photos/`. GPS and other metadata are removed at that step, because this folder goes to GitHub.
-  - **Output:** `build-images.mjs` writes the web versions; only those are served.
+  - **Crops (Phase 2):** each crop is one entry in `content/photos/crops.yaml` (the original, the shape, the point to keep in the centre), and `pnpm photos` makes them. So any crop can be remade or adjusted later.
+  - **Never published:** another organisation's banner or account numbers. Several orphanage photos show one, so only a photo without it is used.
+  - **Output:** `build-images.mjs` writes the web versions; only those are served. AVIF at quality 42 (no visible difference from 50 at full size) and WebP at 72, from 360 to 1920 px wide, so each phone loads the smallest that fits its screen.
   - **Share images:** for each update the build also makes a 1200×630 JPEG of the cover photo, because JPEG is the safe format for WhatsApp and Facebook link previews. This is automatic; Bilal only shares photos as usual.
   - **Location data:** stripped twice, at the crop and at the build. `check-content` scans `content/photos/` and `check-site` scans `out/` for any left.
   - **Which photos:** Bilal chooses what to share, and shares only photos that are fine to publish. Dignity first, no pity framing.
@@ -242,6 +260,17 @@ src/
     - **English pages:** about 226 KB of 300. The framework's JavaScript is about 159 KB of that, more than the 100 KB first estimated.
     - **Urdu and Saraiki pages:** about 312 KB of 550.
     - **Our own JavaScript** (the phone menu): under 1 KB. It is measured as what a page loads beyond the 404 page, which loads only the framework.
+  - **Measured after Phase 2** (the designed Home page):
+    - **Images are counted as a phone loads them:** `check-site` models the phone in Lighthouse's mobile test (412 px wide, 1.75 pixel density), which picks the 800 px hero.
+    - **English Home:** 268 KB of 300. The hero photo is 36 KB of that; the photos further down load only when a reader scrolls to them.
+    - **Urdu and Saraiki Home:** 355 KB of 550.
+    - **Hero:** the largest version is 59 KB AVIF, within the 70 KB limit.
+    - **Speed, measured on the laptop:**
+      - The test used a 412 px phone, slow 4G (Lighthouse's settings), a 4× slower CPU, compressed files and the host's cache headers. Each figure is the median of three cold loads.
+      - **CLS:** 0.000 in all three languages.
+      - **LCP:** English 2.6 s (the hero photo); Urdu and Saraiki 3.0–3.3 s across runs (the opening paragraph, which waits for Nastaliq).
+      - This local server can't use HTTP/2 or send the font ahead of the 159 KB of framework JavaScript, so these LCP figures are pessimistic. The real figure is measured on Vercel in Phase 5.
+      - If Urdu is still over 2.5 s there, the levers are: font before JavaScript on the host, and a lighter hero on Urdu and Saraiki phones.
 
 ## 6. Build phases
 
@@ -250,7 +279,7 @@ src/
 | # | Phase | Output | Gate |
 |---|---|---|---|
 | 1 | **Setup and guardrails** (done 14 Nov 2026) | <ul><li>Next.js scaffold (TypeScript, App Router, static export); routing spike</li><li>tokens; font subsets</li><li>both root layouts with top bar, header and footer</li><li>`org.yaml`; all scripts; README</li></ul> | **Passed:** clean build; 30 placeholder pages and the 404 in en / ur / skr with the right `lang` and `dir`; no outside requests; axe clean on all 124 screenshots |
-| 2 | **Design preview** | <ul><li>The **Home page fully designed** with about 15 real photos, in English, Urdu and Saraiki, with the closed Donate block</li><li>Screenshots at 360 / 390 / 768 / 1280 px, with a short written rationale</li><li>Nastaliq size chosen on Bilal's phone</li></ul> | **Bilal approves before anything else is built** |
+| 2 | **Design preview** (done 14 Nov 2026) | <ul><li>The **Home page fully designed** with real photos from Bilal's 20, in English, Urdu and Saraiki, with the closed Donate block</li><li>Screenshots at 360 / 390 / 768 / 1280 px, with a short written rationale</li><li>Nastaliq size chosen on Bilal's phone</li></ul> | **Passed:** approved by Bilal on 14 Nov 2026. Build, lint, axe on all 124 screenshots and the page-weight budgets pass; no layout shift (CLS 0.000) |
 | 3 | **Templates** | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | Review together |
 | 4 | **Content** | <ul><li>Final text in all three languages, written by me</li><li>Bilal's review rounds for Urdu and Saraiki on the review page</li><li>Photos placed, with alt text in all three languages</li><li>Launch posts, e.g. "Our first year"</li></ul> | All core pages `reviewed` |
 | 5 | **Quality pass** | <ul><li>axe, keyboard, NVDA / TalkBack, 200% zoom</li><li>Lighthouse on every page</li><li>RTL and Nastaliq on real phones</li><li>GPS scan; links and hreflang; CSP; share previews</li></ul> | All green |
@@ -263,9 +292,9 @@ src/
 
 I write the copy myself (section "Decided with Bilal"). This list is only the photos and the facts I can't know; anything else I need, I ask as it comes up.
 
-1. **For the preview:** about 15 strong photos. Then the rest, by activity, with what, where and when.
+1. **For the preview:** about 15 strong photos (received: 20 from three events). Then the rest, by activity, with what, where and when.
 2. **Contacts:**
-   - the foundation email (for forms and to show on the site);
+   - the foundation email, for forms and to show on the site (received);
    - the area or address to show;
    - social media links;
    - no phone number for now (added once the foundation has its own SIM).

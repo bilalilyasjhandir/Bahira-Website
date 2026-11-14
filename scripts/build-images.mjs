@@ -26,9 +26,11 @@ const WIDTHS = [360, 480, 640, 800, 1080, 1280, 1600, 1920];
 const SHARE = { width: 1200, height: 630 };
 // The file-name hash includes these settings, so changing any of them makes every image
 // again. Raise `version` to force that for any other reason.
+// AVIF quality 42 with 4:2:0 colour looked the same as quality 50 at full size on these
+// photos (many are frames from phone videos) and is about 35% smaller (Phase 2).
 const SETTINGS = {
   version: 1,
-  avif: { quality: 50, effort: 4 },
+  avif: { quality: 42, effort: 6, chromaSubsampling: "4:2:0" },
   webp: { quality: 72 },
   jpeg: { quality: 80, mozjpeg: true },
 };

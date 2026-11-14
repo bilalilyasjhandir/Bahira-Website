@@ -1,5 +1,6 @@
+/* Pages end with their own space (or, like the home page, with a band of colour), so the
+   footer adds none above itself. */
 .footer {
-  margin-block-start: var(--space-12);
   padding-block: var(--space-8) var(--space-4);
   background: var(--color-dark);
   color: var(--color-on-dark);
@@ -55,6 +56,8 @@
   display: inline-flex;
   align-items: center;
   min-block-size: var(--tap);
+  font-family: var(--font-ui);
+  line-height: var(--leading-ui);
   text-decoration: none;
 }
 

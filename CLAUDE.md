@@ -10,7 +10,7 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
 - **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
-- **Status:** Phase 1 (setup and guardrails) is done (14 Nov 2026): every page exists in all three languages as a placeholder, and all checks pass. Phase 2, the design preview of the Home page, starts only when Bilal says go.
+- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Every other page is still a placeholder. Phase 3 (the other pages, the forms, the cause template) starts when Bilal says go.
 - **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
 - **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
@@ -55,12 +55,13 @@ Commands (keep this list in step with package.json):
 - `pnpm build:release`: the same for the live site; unfinished work stops it.
 - `pnpm preview`: serves `out/` with the headers in `vercel.json`, at http://127.0.0.1:4000.
 - `pnpm shots`: screenshots of every page in every language in `shots/`, plus axe, console errors and CSP. It uses the installed Edge. Options: `--pages=home,about` (page names from `src/lib/pages.ts`), `--locales=en,ur`, `--widths=360,1280`, `--no-axe`.
+- `pnpm photos`: makes the crops listed in `content/photos/crops.yaml` from the originals in `_photos/inbox/`, without metadata.
 - `pnpm lint` · `pnpm format` (Prettier) · `pnpm check` (both checks on the last build) · `pnpm sync:brand` · `pnpm images`.
 - Fonts, only when a brand font changes: `.venv/Scripts/python scripts/subset-fonts.py` (set up with `scripts/requirements.txt`). The output in `src/fonts/` is committed, so the build never needs Python.
 
 ## Next.js rules
 
-- **Server Components by default.** `'use client'` only for the menu, the copy button and the form enhancement.
+- **Server Components by default.** `'use client'` only for the menu, the copy button and the form enhancement. The only other script of ours is FontWait's inline script on Urdu and Saraiki pages.
 - **Static export limits:**
   - no proxy/middleware;
   - no headers, redirects or rewrites in next.config (host headers live in `vercel.json`; the host is Vercel's free plan);
@@ -76,13 +77,33 @@ Lessons from the Phase-1 spike (don't undo these):
 - **Font preloading leaks easily.** Next.js preloads every font whose rules sit in a page's CSS, and every `next/font` font that a route's modules import.
   - One font per file in `src/fonts/`. Only `src/app/[lang]/layout.tsx` imports `@/fonts/nastaliq`.
   - `src/app/global-not-found.tsx` is bundled with every route, so it must never use `next/font`. It loads Nastaliq through `src/styles/nastaliq-404.css` instead.
-  - `experimental.cssChunking: { type: "graph", requestCost: 0 }` must stay. The default merging put the Nastaliq rules into CSS that English pages load. `check-site` fails if an English page ever preloads Nastaliq again.
+  - `experimental.cssChunking: { type: "graph", requestCost: 1 }` must stay. The default merging put the Nastaliq rules into CSS that English pages load. `check-site` fails if an English page ever preloads Nastaliq again.
+  - Phase 2 changed `requestCost` from 0 to 1. At 0 nothing merged, and the Home page loaded 13 tiny render-blocking stylesheets. At 1, stylesheets that always load together merge (4 files), but no page gets CSS it doesn't import. All 124 screenshots were pixel-identical after the change.
 - **The Node scripts import some TypeScript files directly** (Node strips the types): `src/i18n/config.ts`, `en.ts`, `ur.ts`, `skr.ts`, `src/lib/pages.ts`, `src/lib/org.ts`.
   - Keep them free of `@/` imports and of value imports from other `src/` files. Type-only imports are fine.
 - **Windows:**
   - Never leave a shell inside `out/` during a build; the build cannot replace it (EBUSY).
   - Git Bash rewrites arguments that start with `/`, so `pnpm shots` takes page names.
 - **Our own JavaScript is measured as what a page loads beyond the 404 page**, which has no client components and so loads only the framework (about 159 KB compressed). Keep the 404 page free of client components.
+
+Lessons from Phase 2 (don't undo these):
+
+- **Buttons, menus and labels use `--font-ui` and `--leading-ui`.**
+  - On Urdu and Saraiki pages `--font-ui` is `nastaliqUi`: the same Nastaliq file with ascent 115%, descent 65% and no line gap, at line height 1.6, so short labels sit centred.
+  - `nastaliqUi` must keep `preload: true`. With `false`, next/font gives the file a different name, and phones download Nastaliq twice. `check-site` fails if any page loads the same font twice.
+  - `check-content` keeps these metrics equal to those in `labels-font.css`.
+- **Budgets count images as a phone loads them.** `check-site` models Lighthouse's test phone (412 px wide, 1.75 pixel density): an eager photo counts as the AVIF that phone picks, and lazy photos do not count. AVIF is quality 42 with 4:2:0 colour, which looks the same as 50 and keeps the English Home under 300 KB.
+- **Line breaks:**
+  - Dates join their parts with no-break spaces (`src/i18n/format.ts`), so "10 December 2025" never splits.
+  - `p, li, dd, figcaption` use `text-wrap: pretty`, so Urdu sentences don't end with ہے۔ alone on a line.
+  - A word set in another font or at a larger size inside a sentence (the Arabic باهرة) needs `line-height: 1`; otherwise its line spreads 4–8 px wider than the others.
+  - In a date-and-place line, the date, the venue and the city each stay whole (`.unit` in `RecentWork.module.css`: an inline-block no wider than its line), so a name never breaks in the middle. Reuse it for the updates list in Phase 3.
+- **Full-page screenshots** scroll through the page first, because lazy photos load only near the screen.
+  - The browser sometimes cancels an image request itself during that scroll (`net::ERR_ABORTED`) and loads the image again. `shots` ignores that one case, because it checks separately that every image loaded. Any other failed request still fails the run.
+- **No layout shift while Nastaliq downloads.** The stand-in font is narrower, so text rewraps when Nastaliq arrives, and the Urdu Home measured CLS 0.093 against a 0.05 budget. Two fixes, both needed:
+  - Nothing in the header or top bar may take its height from the font. Links and the menu summary are `display: flex`, never `inline-flex`: an inline box sits on a line of the page font, and Nastaliq's taller line made the menu button 7 px taller.
+  - `src/components/FontWait.tsx`, first in `<body>` of the `[lang]` layout, sets `font-wait` on `<html>`, which hides `main` and `footer` until the fonts load (3 s at most). Hence `suppressHydrationWarning` on that `<html>`. It is our only inline script. Without JavaScript the page shows as usual.
+  - Result: CLS 0.000 in every language. Measure it with a throttled phone (slow 4G, CPU 4× slower), compressed responses and the host's cache headers. The preview server sends neither, so a run without them can hide or invent problems.
 
 ## Structure
 
@@ -92,16 +113,23 @@ src/app/[lang]/…          Urdu /ur/… and Saraiki /skr/… (root layout: <htm
 src/app/global-not-found.tsx   the one 404 page, in all three languages
 src/app/sitemap.ts  robots.ts
 src/views/                page bodies; page files are three-line wrappers
-src/components/           Shell, TopBar, LanguageLinks, Header, MenuDisclosure (client), Footer
+src/views/home/           the Home sections: Hero, Facts, Causes, Story, RecentWork, Support
+src/components/           Shell, TopBar, LanguageLinks, Header, MenuDisclosure (client), Footer,
+                          Photo, ArrowLink, Email (<bdi> + a break before @), Template (text with elements),
+                          FontWait (Urdu/Saraiki: the body waits for the fonts)
 src/i18n/                 config.ts, en.ts ur.ts skr.ts, get-dictionary.ts, paths.ts, format.ts, route.ts
-src/lib/                  org.ts (reads data/org.yaml), pages.ts (every page), metadata.ts, updates.ts
+src/lib/                  org.ts (reads data/org.yaml), pages.ts (every page), metadata.ts, updates.ts,
+                          content.ts (Markdown front matter), photos.ts (reads the image manifest)
+src/generated/photos.json the image manifest, written by build-images (not committed)
 src/fonts/                onest.ts, nastaliq.ts, the subset .woff2 files, coverage.json, licences
 src/styles/               tokens.css, base.css, labels-font.css, nastaliq-404.css
-content/{pages,causes,updates}/{en,ur,skr}/*.md    content/photos/<topic>/   (from Phase 2)
+content/updates/{en,ur,skr}/*.md   facts and English text in en/, translations in ur/ and skr/
+content/{pages,causes}/…  long text, from Phase 3
+content/photos/<topic>/   the crops; crops.yaml says which original and how each is cut
 data/org.yaml             site address, contacts, wallets, socials, registration, donations switch
 public/                   copies from brand/ and generated images (not committed)
-scripts/                  sync-brand, build-images, subset-fonts.py, check-content, check-site,
-                          shots, preview, lib/ (gps, html, static-server)
+scripts/                  sync-brand, crop-photos, build-images, subset-fonts.py, check-content,
+                          check-site, shots, preview, lib/ (gps, html, static-server)
 _photos/inbox/            git-ignored originals from Bilal (may contain GPS data)
 ```
 
@@ -136,9 +164,9 @@ _photos/inbox/            git-ignored originals from Bilal (may contain GPS data
   - **File:** 107 KB, Regular only, holding just the letters, marks, digits and punctuation Urdu and Saraiki use. The weight range would make it 170 KB, so there is no bold Nastaliq: Urdu and Saraiki headings stand out by size and colour (`--weight-heading: 400`).
   - **`font-display: block`:** on slow 4G, "swap" made pages jump (CLS 0.22). "block" kept them still (0.00–0.05) and showed the text by about 2.4 s.
   - **`unicode-range`:** exactly the subset's characters, from `src/fonts/coverage.json`; Latin letters and digits fall through to Onest. `check-content` compares the ranges in `nastaliq.ts`, `nastaliq-404.css` and `labels-font.css` with that file.
-  - **`size-adjust`:** 118% in all three places, kept equal by `check-content`. The final value is chosen on Bilal's phone.
+  - **`size-adjust`:** 118% in all three places, kept equal by `check-content`. Bilal approved 118% in Phase 2, after a comparison with 110 and 126%.
   - **Spacing and links:** line-height 2.35 for body text and 2 for headings (unitless, in `tokens.css`); `text-underline-offset` 0.3em.
-  - **To do in Phase 2:** ascent/descent overrides so short labels sit centred in buttons.
+  - **Labels and buttons:** `--font-ui` (see the Phase-2 lessons). Urdu buttons are 50 px tall, English 48.
 - **Never in Urdu or Saraiki:** letter-spacing, capitals, italics (`font-synthesis: none`) or justified text. Labels use weight or colour instead.
 - **Direction:**
   - Use CSS logical properties only, never left or right.
@@ -175,7 +203,8 @@ _photos/inbox/            git-ignored originals from Bilal (may contain GPS data
 
 - **Source:** only real Bahira photos.
 - **Processing:**
-  - Selected crops (3:2, 4:5, 1:1) go in `content/photos/<topic>/`, with GPS and other metadata removed at the crop, because that folder goes to GitHub.
+  - Selected crops (3:2, 4:5, 1:1) are listed in `content/photos/crops.yaml` and made by `pnpm photos` into `content/photos/<topic>/`. GPS and other metadata are removed at the crop, because that folder goes to GitHub.
+  - Never publish another organisation's banner or account numbers. Most of the orphanage photos (16 Dec 2025) show one, so crop it out or use a different photo.
   - The build strips metadata again. `check-content` scans `content/photos/` and `check-site` scans `out/` for any GPS data left behind.
   - Each update also gets a 1200×630 JPEG share image, made by the build.
 - **Which photos:**

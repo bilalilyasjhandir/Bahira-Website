@@ -18,10 +18,13 @@ const nextConfig: NextConfig = {
     globalNotFound: true,
     // Never put CSS a page does not import into that page's CSS. Next.js preloads every
     // font whose rules sit in a page's CSS, and the default merging moved the Nastaliq font
-    // rules into CSS that English pages load too, so they downloaded the 195 KB Nastaliq
-    // font for nothing. requestCost 0 keeps each page to its own CSS. check-site fails the
-    // build if an English page ever preloads Nastaliq again.
-    cssChunking: { type: "graph", requestCost: 0 },
+    // rules into CSS that English pages load too, so they downloaded the Nastaliq font for
+    // nothing. requestCost is what one more CSS file is worth, in bytes of CSS a page does
+    // not need. At 1, stylesheets that always load together are merged into one file, but
+    // no page ever gets CSS it does not import. (At 0 nothing merged, and the Home page
+    // loaded 13 small stylesheets before it could show anything.) check-site fails the build
+    // if an English page ever preloads Nastaliq again.
+    cssChunking: { type: "graph", requestCost: 1 },
   },
 };
 

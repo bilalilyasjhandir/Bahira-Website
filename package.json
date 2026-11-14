@@ -13,6 +13,7 @@
     "check": "node scripts/check-content.mjs && node scripts/check-site.mjs",
     "sync:brand": "node scripts/sync-brand.mjs",
     "images": "node scripts/build-images.mjs",
+    "photos": "node scripts/crop-photos.mjs",
     "shots": "node scripts/shots.mjs",
     "format": "prettier --write ."
   },
