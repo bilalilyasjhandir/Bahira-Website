@@ -1,3 +1,40 @@
 # Original photos from Bilal. They can contain GPS locations and identify people,
 # so they never go to GitHub. Only processed copies are used by the website.
 _photos/
+
+# Dependencies
+/node_modules
+
+# Next.js build output
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Vercel and environment files
+.vercel
+.env*
+
+# Python tools for scripts/subset-fonts.py
+/.venv/
+
+# Copied from brand/ by scripts/sync-brand.mjs (pnpm dev and pnpm build run it)
+/public/brand/
+/public/favicon.ico
+/public/favicon.svg
+/public/apple-touch-icon.png
+/public/icon-192.png
+/public/icon-512.png
+/public/icon-maskable-512.png
+/public/site.webmanifest
+
+# Made by scripts/build-images.mjs from content/photos/
+/public/img/
+/src/generated/
+
+# Screenshots from pnpm shots
+/shots/
+
+# Logs and system files
+*.log
+.DS_Store

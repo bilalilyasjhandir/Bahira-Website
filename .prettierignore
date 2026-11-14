@@ -1,0 +1,10 @@
+# Not ours to format: the brand kit, generated output and documents written by hand.
+brand/
+out/
+.next/
+public/
+shots/
+.venv/
+src/fonts/coverage.json
+pnpm-lock.yaml
+*.md

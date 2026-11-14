@@ -1,0 +1,123 @@
+.header {
+  position: relative; /* the phone menu opens below it */
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 4.5rem;
+  padding-block: var(--space-2);
+}
+
+/* The horizontal logo: at least 120 px wide on screen (brand guidelines). 42 px tall makes
+   it 122 px wide; 48 px makes it 139 px. */
+.logo {
+  flex: none;
+  margin-inline-end: auto;
+}
+
+.logo img {
+  block-size: 2.625rem;
+  inline-size: auto;
+}
+
+.nav {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.nav a,
+.panel a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap);
+  color: var(--color-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav a:hover,
+.nav a[aria-current="page"],
+.panel a:hover,
+.panel a[aria-current="page"] {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.donate {
+  flex: none;
+  padding-inline: var(--space-2);
+}
+
+/* Phone menu */
+.menu summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-block-size: var(--tap);
+  padding-inline: var(--space-1);
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.menu summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The three-line menu icon: one bar and two shadows above and below it. When the menu is
+   open, only the middle bar remains. */
+.menu summary [data-menu-icon] {
+  inline-size: 1.125rem;
+  block-size: 2px;
+  background: currentColor;
+  box-shadow:
+    0 -6px 0 currentColor,
+    0 6px 0 currentColor;
+}
+
+.menu[open] summary [data-menu-icon] {
+  box-shadow: none;
+}
+
+.panel {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  z-index: 5;
+  padding-block: var(--space-2) var(--space-3);
+  padding-inline: var(--gutter);
+  background: var(--color-page);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.panel ul {
+  display: grid;
+  gap: var(--space-1);
+}
+
+@media (min-width: 64em) {
+  .logo img {
+    block-size: 3rem;
+  }
+
+  .nav {
+    display: block;
+  }
+
+  .donate {
+    padding-inline: var(--space-3);
+  }
+
+  .menu {
+    display: none;
+  }
+}

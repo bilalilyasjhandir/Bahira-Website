@@ -1,0 +1,39 @@
+# Facts about Bahira Foundation, written once and used everywhere on the site.
+# Only facts go here. Text in English, Urdu and Saraiki lives in src/i18n/ and content/.
+# The build checks this file (src/lib/org.ts) and stops if something is missing or wrong.
+
+site:
+  # The website's public address. It starts as the free Vercel address and is changed
+  # here, and only here, if a domain is bought.
+  url: https://bahira-foundation.vercel.app # [[TODO: set the real address when the site is first deployed]]
+
+organisation:
+  founded: "2025-12-10" # Human Rights Day
+  city: Bahawalpur
+  registration:
+    # Bahira is not registered yet, so the site never says or implies that it is.
+    # When it is registered, set this to true and add the authority, number and date.
+    registered: false
+
+contact:
+  email: bahirafoundationbwp@gmail.com
+  # No phone or WhatsApp number until the foundation has its own SIM. People write
+  # through the forms, and Bilal calls back on the number they give.
+  phone: null
+
+# Social media accounts to link in the footer, e.g.
+#   - network: facebook
+#     url: https://www.facebook.com/...
+socials: []
+
+donations:
+  # Bilal decides when donations open. Until then the Donate page says that donations
+  # are opening soon, and no account details appear anywhere on the site.
+  open: false
+  # JazzCash / Easypaisa accounts, shown only when open is true.
+  wallets: []
+
+forms:
+  # The Web3Forms access key, made at web3forms.com with the foundation email.
+  # The forms are built in Phase 3.
+  web3formsKey: null

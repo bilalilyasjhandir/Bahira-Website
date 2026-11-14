@@ -1,0 +1,31 @@
+.languages ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.languages a,
+.current {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap);
+  padding-inline: var(--space-1);
+  color: var(--color-text);
+}
+
+.languages a {
+  text-decoration: none;
+}
+
+.languages a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* The language of the page being read. */
+.current {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}

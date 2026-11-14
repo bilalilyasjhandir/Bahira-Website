@@ -1,0 +1,91 @@
+.footer {
+  margin-block-start: var(--space-12);
+  padding-block: var(--space-8) var(--space-4);
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.footer a {
+  color: var(--color-on-dark);
+}
+
+.footer a:hover {
+  color: var(--color-on-dark);
+}
+
+.footer :focus-visible {
+  outline-color: var(--color-focus-on-dark);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.about {
+  display: grid;
+  gap: var(--space-2);
+  max-inline-size: 28rem;
+}
+
+/* The stacked logo: at least 80 px wide on screen (brand guidelines). */
+.logo {
+  justify-self: start;
+  margin-block-end: var(--space-2);
+}
+
+.logo img {
+  inline-size: 6rem;
+}
+
+.tagline {
+  font-weight: 600;
+}
+
+.nav ul {
+  columns: 2;
+  column-gap: var(--space-4);
+}
+
+.nav li {
+  break-inside: avoid;
+}
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-rule-on-dark);
+  font-size: var(--text-small);
+}
+
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .about {
+    grid-column: span 5;
+  }
+
+  .nav {
+    grid-column: 7 / span 6;
+  }
+
+  .meta {
+    grid-column: 1 / -1;
+  }
+}

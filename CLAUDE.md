@@ -10,7 +10,7 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
 - **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
-- **Status:** planning is done and there is no website code yet. Phase 1 starts only when Bilal says go.
+- **Status:** Phase 1 (setup and guardrails) is done (14 Nov 2026): every page exists in all three languages as a placeholder, and all checks pass. Phase 2, the design preview of the Home page, starts only when Bilal says go.
 - **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
 - **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
@@ -48,7 +48,15 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 - **Package manager:** pnpm.
 - **Styling:** plain CSS (design tokens plus CSS Modules). No Tailwind or shadcn.
 
-Commands: `pnpm dev` · `build` · `preview` · `lint` · `check` · `sync:brand` · `images` · `shots`. They are created in Phase 1; keep this list in step with package.json.
+Commands (keep this list in step with package.json):
+
+- `pnpm dev`: live preview while editing (copies the brand files and makes the images first).
+- `pnpm build`: sync-brand, build-images, check-content, `next build`, check-site. Unfinished work (drafts, `[[TODO]]`) only warns.
+- `pnpm build:release`: the same for the live site; unfinished work stops it.
+- `pnpm preview`: serves `out/` with the headers in `vercel.json`, at http://127.0.0.1:4000.
+- `pnpm shots`: screenshots of every page in every language in `shots/`, plus axe, console errors and CSP. It uses the installed Edge. Options: `--pages=home,about` (page names from `src/lib/pages.ts`), `--locales=en,ur`, `--widths=360,1280`, `--no-axe`.
+- `pnpm lint` · `pnpm format` (Prettier) · `pnpm check` (both checks on the last build) · `pnpm sync:brand` · `pnpm images`.
+- Fonts, only when a brand font changes: `.venv/Scripts/python scripts/subset-fonts.py` (set up with `scripts/requirements.txt`). The output in `src/fonts/` is committed, so the build never needs Python.
 
 ## Next.js rules
 
@@ -59,19 +67,42 @@ Commands: `pnpm dev` · `build` · `preview` · `lint` · `check` · `sync:brand
   - no built-in image optimiser.
 - **Dynamic routes:** every one has `generateStaticParams` and `dynamicParams = false`. `trailingSlash` is `true`.
 - **Images:** only through `<Photo>`, using the versions `scripts/build-images.mjs` generates. Originals are never served.
+- **Links between pages are plain `<a>`, not `next/link`:** every page is a normal page load, so phones never prefetch other pages on prepaid data.
 - **Linting:** ESLint runs directly; `next lint` no longer exists in Next 16.
+- **Read the version-matched docs** in `node_modules/next/dist/docs/` before using a Next.js API. Next 16.4 is newer than my training, and `next dev` would write an AGENTS.md saying so; `agentRules: false` turns that off in favour of this file.
 
-## Structure (planned)
+Lessons from the Phase-1 spike (don't undo these):
+
+- **Font preloading leaks easily.** Next.js preloads every font whose rules sit in a page's CSS, and every `next/font` font that a route's modules import.
+  - One font per file in `src/fonts/`. Only `src/app/[lang]/layout.tsx` imports `@/fonts/nastaliq`.
+  - `src/app/global-not-found.tsx` is bundled with every route, so it must never use `next/font`. It loads Nastaliq through `src/styles/nastaliq-404.css` instead.
+  - `experimental.cssChunking: { type: "graph", requestCost: 0 }` must stay. The default merging put the Nastaliq rules into CSS that English pages load. `check-site` fails if an English page ever preloads Nastaliq again.
+- **The Node scripts import some TypeScript files directly** (Node strips the types): `src/i18n/config.ts`, `en.ts`, `ur.ts`, `skr.ts`, `src/lib/pages.ts`, `src/lib/org.ts`.
+  - Keep them free of `@/` imports and of value imports from other `src/` files. Type-only imports are fine.
+- **Windows:**
+  - Never leave a shell inside `out/` during a build; the build cannot replace it (EBUSY).
+  - Git Bash rewrites arguments that start with `/`, so `pnpm shots` takes page names.
+- **Our own JavaScript is measured as what a page loads beyond the 404 page**, which has no client components and so loads only the framework (about 159 KB compressed). Keep the 404 page free of client components.
+
+## Structure
 
 ```
-src/app/(en)/…          English pages at /… (root layout: <html lang="en" dir="ltr">)
-src/app/[lang]/…        Urdu /ur/… and Saraiki /skr/… (root layout: <html lang dir="rtl">)
-src/views/              page bodies shared by both layouts; page files are thin wrappers
-src/components/  src/i18n/{en,ur,skr}.ts  src/lib/content.ts  src/styles/
-content/{pages,causes,updates}/{en,ur,skr}/*.md    content/photos/<topic>/
-data/org.yaml           contacts, wallets, socials, registration, donations switch
-scripts/                sync-brand, build-images, subset-fonts, check-content, check-site, shots
-_photos/inbox/          git-ignored originals from Bilal (may contain GPS data)
+src/app/(en)/…            English pages at /… (root layout: <html lang="en" dir="ltr">)
+src/app/[lang]/…          Urdu /ur/… and Saraiki /skr/… (root layout: <html lang dir="rtl">)
+src/app/global-not-found.tsx   the one 404 page, in all three languages
+src/app/sitemap.ts  robots.ts
+src/views/                page bodies; page files are three-line wrappers
+src/components/           Shell, TopBar, LanguageLinks, Header, MenuDisclosure (client), Footer
+src/i18n/                 config.ts, en.ts ur.ts skr.ts, get-dictionary.ts, paths.ts, format.ts, route.ts
+src/lib/                  org.ts (reads data/org.yaml), pages.ts (every page), metadata.ts, updates.ts
+src/fonts/                onest.ts, nastaliq.ts, the subset .woff2 files, coverage.json, licences
+src/styles/               tokens.css, base.css, labels-font.css, nastaliq-404.css
+content/{pages,causes,updates}/{en,ur,skr}/*.md    content/photos/<topic>/   (from Phase 2)
+data/org.yaml             site address, contacts, wallets, socials, registration, donations switch
+public/                   copies from brand/ and generated images (not committed)
+scripts/                  sync-brand, build-images, subset-fonts.py, check-content, check-site,
+                          shots, preview, lib/ (gps, html, static-server)
+_photos/inbox/            git-ignored originals from Bilal (may contain GPS data)
 ```
 
 ## Languages
@@ -98,14 +129,16 @@ _photos/inbox/          git-ignored originals from Bilal (may contain GPS data)
 ## Typography and RTL
 
 - **Fonts:**
-  - English is set in Onest.
+  - English is set in Onest: a 37 KB Latin subset, weights 100–900.
   - Urdu and Saraiki are set in Noto Nastaliq Urdu, loaded only on ur and skr pages, with Latin runs in Onest.
-- **Nastaliq `@font-face`:**
-  - `unicode-range`: the Arabic blocks plus U+0020, U+00A0, ZWNJ, ZWJ, LRM and RLM;
-  - `size-adjust` about 118% (the final value is chosen on Bilal's phone);
-  - line-height about 2.35 for body text and 1.7 for headings;
-  - ascent/descent overrides for buttons;
-  - `text-underline-offset` about 0.3em.
+  - On English pages, the chooser's اردو and سرائیکی use a 21 KB label font (`src/styles/labels-font.css`) or the phone's own Nastaliq.
+- **Nastaliq** (measured in the Phase-1 spike):
+  - **File:** 107 KB, Regular only, holding just the letters, marks, digits and punctuation Urdu and Saraiki use. The weight range would make it 170 KB, so there is no bold Nastaliq: Urdu and Saraiki headings stand out by size and colour (`--weight-heading: 400`).
+  - **`font-display: block`:** on slow 4G, "swap" made pages jump (CLS 0.22). "block" kept them still (0.00–0.05) and showed the text by about 2.4 s.
+  - **`unicode-range`:** exactly the subset's characters, from `src/fonts/coverage.json`; Latin letters and digits fall through to Onest. `check-content` compares the ranges in `nastaliq.ts`, `nastaliq-404.css` and `labels-font.css` with that file.
+  - **`size-adjust`:** 118% in all three places, kept equal by `check-content`. The final value is chosen on Bilal's phone.
+  - **Spacing and links:** line-height 2.35 for body text and 2 for headings (unitless, in `tokens.css`); `text-underline-offset` 0.3em.
+  - **To do in Phase 2:** ascent/descent overrides so short labels sit centred in buttons.
 - **Never in Urdu or Saraiki:** letter-spacing, capitals, italics (`font-synthesis: none`) or justified text. Labels use weight or colour instead.
 - **Direction:**
   - Use CSS logical properties only, never left or right.

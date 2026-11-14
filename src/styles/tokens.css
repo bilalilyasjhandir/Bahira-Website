@@ -1,0 +1,82 @@
+/* Design tokens: every colour, size and space on the site comes from here.
+   The colours are imported from the brand kit itself, so they are never retyped. */
+@import "../../brand/colours/bahira-colours.css";
+
+:root {
+  /* Colour roles */
+  --color-page: var(--bahira-paper);
+  --color-surface: var(--bahira-white);
+  --color-tint: var(--bahira-sky);
+  --color-text: var(--bahira-ink);
+  --color-primary: var(--bahira-blue); /* headings, links, primary buttons: 7.5:1 on Paper */
+  --color-primary-strong: var(--bahira-deep-blue); /* hover and pressed */
+  --color-on-primary: var(--bahira-white); /* 8.2:1 on Bahira Blue */
+  --color-dark: var(--bahira-deep-blue); /* the footer and one dark band per page */
+  --color-on-dark: var(--bahira-white);
+  --color-rule: rgb(19 32 48 / 0.16); /* hairlines: Ink at 16% */
+  --color-rule-on-dark: rgb(255 255 255 / 0.24);
+  --color-focus: var(--bahira-blue);
+  --color-focus-on-dark: var(--bahira-white);
+
+  /* Type: the brand deck's scale (slide 10). Each size shrinks smoothly from the desktop
+     value at 1200 px wide to the phone value at 360 px. */
+  --text-display: clamp(2.5rem, 1.8571rem + 2.8571vw, 4rem); /* 40 → 64 px, the hero only */
+  --text-h1: clamp(2rem, 1.5714rem + 1.9048vw, 3rem); /* 32 → 48 px */
+  --text-h2: clamp(1.5rem, 1.2857rem + 0.9524vw, 2rem); /* 24 → 32 px */
+  --text-body: clamp(1.0625rem, 1.0357rem + 0.119vw, 1.125rem); /* 17 → 18 px */
+  --text-small: 0.9375rem; /* 15 px */
+  --text-label: 0.875rem; /* 14 px */
+  --leading-display: 1.0625;
+  --leading-h1: 1.1667; /* 56 / 48 */
+  --leading-h2: 1.25; /* 40 / 32 */
+  --leading-body: 1.5556; /* 28 / 18 */
+  --tracking-label: 0.14em;
+  --weight-heading: 700; /* Onest Bold, as in the brand deck */
+  --measure: 66ch; /* 60–72 characters per line */
+
+  /* Space, in steps of 8 px */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-10: 5rem;
+  --space-12: 6rem;
+
+  /* Layout */
+  --page-max: 75rem; /* 1200 px */
+  --gutter: 1rem; /* 16 px on phones */
+  --radius: 0.25rem; /* corners stay crisp */
+  --tap: 2.75rem; /* 44 px: the smallest touch target */
+}
+
+@media (min-width: 48em) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 80em) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+/* Urdu and Saraiki pages, and Urdu or Saraiki sections inside an English page
+   (.script-nastaliq). Nastaliq hangs far above and below its baseline, so lines need more
+   room, and the script has no capitals and must never be letter-spaced. These are unitless
+   multiples of the font size; the glyphs themselves are drawn 18% larger (size-adjust in
+   src/fonts/nastaliq.ts). The site's Nastaliq is Regular only, so headings stand out by
+   size and colour. */
+:root:lang(ur),
+:root:lang(skr),
+.script-nastaliq {
+  --leading-display: 1.9;
+  --leading-h1: 2;
+  --leading-h2: 2;
+  --leading-body: 2.35;
+  --tracking-label: 0;
+  --weight-heading: 400;
+}

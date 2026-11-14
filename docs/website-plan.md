@@ -1,6 +1,6 @@
 # Plan: Bahira Foundation website
 
-**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. Phase 1 starts when Bilal says go.
+**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. **Phase 1 is done** (14 November 2026; results in sections 4, 5 and 6). Phase 2 starts when Bilal says go.
 
 **No dates.** Bilal sets the pace. The phases follow in order and each waits for its gate, but none is tied to a calendar date.
 
@@ -32,7 +32,7 @@ Which pages it has, and what goes on them, is left to me. **This step is the pla
 **Verified**
 - **Fonts:** Noto Nastaliq Urdu (in `brand/fonts`) has every Saraiki letter (ٻ ڄ ݙ ڳ ݨ, plus ڋ ڻ). HarfBuzz shapes them correctly in their initial, medial and final forms. Onest has no Arabic-script letters, so each script gets its own font.
 - **Brand deck:** the header mock-up (slide "In use") reads About · Our work · Get involved · **Donate**. The type scale (slide 10) is H1 Onest Bold 48/56, H2 32/40, body 18/28, labels 14 px capitals with 0.14 em spacing.
-- **Tools:** current versions are `next` 16.4.3 and `react` 19.3.1. Node 24, pnpm 10, Python 3.12 and git are installed, and a GitHub remote exists.
+- **Tools:** Phase 1 pinned `next` 16.4.6 and `react` 19.3.1, with TypeScript 5.9 and ESLint 9, the versions Next 16.4 is built and tested with. Node 24, pnpm 10, Python 3.12 and git are installed, and a GitHub remote exists.
 
 ---
 
@@ -127,21 +127,25 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - mixed Saraiki letter variants (ݙ/ڋ, ݨ/ڻ; we pick one of each together);
   - stray English sentences;
   - any `[[TODO]]` left.
-- **Nastaliq typesetting** (values measured on the font file), through `next/font/local` `declarations`, or hand-written `@font-face` if those can't express everything:
-  - **Size:** `size-adjust` around 118%. The final value (110, 118 or 126%) is chosen on Bilal's phone.
-  - **Line height:** about 2.35 for body text and 1.7 for headings.
-  - **`unicode-range`:** Arabic blocks plus space, NBSP, ZWNJ, ZWJ, LRM and RLM. English inside Urdu then falls back to Onest, and word spaces come from Nastaliq (its space is half as wide as Onest's).
-  - **Labels:** ascent/descent overrides so short labels sit centred in buttons.
-  - **Links:** `text-underline-offset` of about 0.3 em, so the underline clears the dots below letters.
-  - **While the font downloads** (Urdu and Saraiki alike): a fallback font wraps lines differently, so the page could jump when Nastaliq arrives. The Phase-1 spike picks the `font-display` setting and a size-matched fallback, then measures the jump (CLS) on slow 4G in both languages.
-  - **Never:** letter-spacing, capitals, italics (`font-synthesis: none`) or justified text. Urdu and Saraiki labels use weight or colour instead of tracked capitals.
+- **Nastaliq typesetting** (values measured on the font file), through `next/font/local` `declarations`:
+  - **Size:** `size-adjust` 118% for now. The final value (110, 118 or 126%) is chosen on Bilal's phone in Phase 2.
+  - **Line height:** 2.35 for body text and 2 for headings (unitless multiples of the font size).
+  - **`unicode-range`:** only the characters Urdu and Saraiki use, plus space, NBSP, ZWNJ, ZWJ, LRM and RLM. English inside Urdu then falls back to Onest, and word spaces come from Nastaliq (its space is half as wide as Onest's).
+  - **Labels:** ascent/descent overrides so short labels sit centred in buttons (Phase 2, with the real buttons).
+  - **Links:** `text-underline-offset` of 0.3 em, so the underline clears the dots below letters.
+  - **While the font downloads (Phase-1 spike, measured):** the test used a 390 px phone, slow 4G and a 4× slower CPU, median of three runs, in Urdu and Saraiki.
+    - With the first 195 KB file, Nastaliq arrived after about 3.5 s. "swap" and "fallback" made the page jump (CLS 0.22–0.24). "block" was still too late (LCP 4 s). "optional" never showed Nastaliq on a first visit.
+    - So the file was cut to what Urdu and Saraiki use and to the Regular weight alone: **107 KB**, arriving after about 2.2 s. With **`font-display: block`** the page no longer jumps (CLS 0.00 Urdu, 0.05 Saraiki) and the text shows by about 2.4 s.
+    - Chosen: the 107 KB file with "block". The cost is no bold Nastaliq; Urdu and Saraiki headings stand out by size and colour.
+    - The local test server cannot put the font ahead of the JavaScript; Vercel can, so the live site should do better than this.
+  - **Never:** letter-spacing, capitals, italics (`font-synthesis: none`) or justified text. Urdu and Saraiki labels use colour or size instead of tracked capitals or bold.
 - **Mixed-direction text:** phone numbers, emails and URLs go in `<bdi dir="ltr">`. Digits are Western 0–9 (Bilal confirms in review). Saraiki dates use Urdu month names, because Node's `Intl` has no Saraiki data and silently falls back to US English.
 - **RTL:** CSS logical properties only (a check catches any left/right). `:dir(rtl)` flips arrows only; the logo and photos are never mirrored.
-- **Fonts per language:**
-  - **Onest:** subset to Latin, 84 → 41 KB, on every page.
-  - **Nastaliq:** 261 KB, or a 212 KB subset that is checked against the built site. It is loaded and preloaded only by the `[lang]` layout.
-  - **Chooser labels on English pages:** اردو / سرائیکی use the phone's built-in Noto Nastaliq Urdu, with a tiny subset as fallback.
-  - Subsetting uses fontTools, a one-time `pip` download.
+- **Fonts per language (Phase 1, built):**
+  - **Onest:** subset to Latin, 84 → 37 KB, weights 100–900, on every page.
+  - **Nastaliq:** 107 KB, Regular only. It is loaded and preloaded only by the `[lang]` layout; `check-site` fails the build if an English page ever preloads it.
+  - **Chooser labels on English pages:** اردو / سرائیکی use the phone's built-in Noto Nastaliq Urdu, with a 21 KB file of just those letters as fallback.
+  - Subsetting uses fontTools (4.68.0, in a project `.venv`). The output is committed, so building the site never needs Python.
 
 ## 5. Technical architecture
 
@@ -185,8 +189,11 @@ src/
   - Icons: `icons/*` and the `head-snippet.html` lines (through the Metadata API).
   - Share image: `social/link-preview-1200x630.png`.
 - **Dependencies (few, pinned exactly):**
-  - runtime: `next`, `react`, `react-dom`, `gray-matter`, `zod`, `remark`/`rehype`, `yaml`;
-  - dev: TypeScript, ESLint (`eslint-config-next`), Prettier, `sharp`, Playwright, `@axe-core/playwright`, Lighthouse CLI, `serve` (local preview of `out/`).
+  - **runtime:** `next`, `react`, `react-dom`, `zod`, `yaml`. `remark`/`rehype` arrive when Markdown pages are rendered (Phase 2–3).
+  - **dev:** TypeScript, ESLint (`eslint-config-next`), Prettier, `sharp`, Playwright, `@axe-core/playwright`. The Lighthouse CLI is added for the quality pass (Phase 5).
+  - **Changed in Phase 1:**
+    - `gray-matter` was dropped: it has not been updated since 2021, and `yaml` reads front matter just as well.
+    - `serve` was dropped for a small server of our own (`scripts/lib/static-server.mjs`). It also sends the `vercel.json` headers, so the Content Security Policy is tested locally.
 - **Static-export rules (Next.js):**
   - **Not available:** proxy/middleware, server-side redirects and headers, and Next's built-in image optimiser.
   - **Instead:**
@@ -194,9 +201,14 @@ src/
     - images come from `build-images.mjs` through our `<Photo>` component (`<picture>`, dimensions set);
     - every dynamic route has `generateStaticParams` and `dynamicParams = false`.
 - **Phase-1 spike:** it proves the risky parts before anything is built on them.
-  - **Routing:** two root layouts, English at `/`, and `/ur/` + `/skr/` under `[lang]` all export correctly. `hreflang` metadata, trailing slashes, the trilingual 404 and the font descriptors also work.
-  - **Font loading:** the `font-display` setting and fallback for Urdu and Saraiki (section 4).
-  - **Forms:** a test submission without JavaScript returns to our own `/thanks/` page on Web3Forms' free plan. If the free plan doesn't allow that, the form's script shows the thank-you message and only visitors without JavaScript see Web3Forms' own page.
+  - **Routing (done, works):**
+    - Two root layouts put English at `/`, and `/ur/` and `/skr/` under `[lang]`. All 30 pages export as `…/index.html` with trailing slashes.
+    - Each page has the right `lang` and `dir`, and the right canonical and `hreflang` tags (none for Saraiki).
+    - The trilingual 404 is `src/app/global-not-found.tsx`, behind the documented experimental flag for apps with several root layouts.
+  - **Font loading (done):** see section 4. Two Next.js traps were found and fixed; `check-site` now guards both.
+    - The 404 page is bundled with every route, so it must not use `next/font`.
+    - The default CSS merging carried the Nastaliq preload onto English pages; `experimental.cssChunking` set to `graph` with `requestCost: 0` keeps each page to its own CSS.
+  - **Forms (moved to the start of Phase 3):** it needs the Web3Forms access key. A test submission without JavaScript should return to our own `/thanks/` page on Web3Forms' free plan. If the free plan doesn't allow that, the form's script shows the thank-you message and only visitors without JavaScript see Web3Forms' own page.
 - **Photos:**
   - **Intake:** Bilal drops originals into `_photos/inbox/<activity>/` with a short note (what, where, when). I select and crop them to 3:2, 4:5 or 1:1 into `content/photos/`. GPS and other metadata are removed at that step, because this folder goes to GitHub.
   - **Output:** `build-images.mjs` writes the web versions; only those are served.
@@ -226,6 +238,10 @@ src/
   - **Speed:** LCP < 2.5 s, CLS ≤ 0.05, zero third-party requests.
   - **Accessibility:** WCAG 2.2 AA.
   - **Enforcement:** `check-site` adds up what each page downloads (compressed) and fails the build when a data, code or image budget is broken. Lighthouse measures the speed figures.
+  - **Measured after Phase 1:**
+    - **English pages:** about 226 KB of 300. The framework's JavaScript is about 159 KB of that, more than the 100 KB first estimated.
+    - **Urdu and Saraiki pages:** about 312 KB of 550.
+    - **Our own JavaScript** (the phone menu): under 1 KB. It is measured as what a page loads beyond the 404 page, which loads only the framework.
 
 ## 6. Build phases
 
@@ -233,7 +249,7 @@ src/
 
 | # | Phase | Output | Gate |
 |---|---|---|---|
-| 1 | **Setup and guardrails** | <ul><li>Next.js scaffold (TypeScript, App Router, static export); routing spike</li><li>tokens; font subsets</li><li>both root layouts with top bar, header and footer</li><li>`org.yaml`; all scripts; README</li></ul> | Clean build; skeleton pages in en / ur / skr with the right `lang` and `dir`; no outside requests |
+| 1 | **Setup and guardrails** (done 14 Nov 2026) | <ul><li>Next.js scaffold (TypeScript, App Router, static export); routing spike</li><li>tokens; font subsets</li><li>both root layouts with top bar, header and footer</li><li>`org.yaml`; all scripts; README</li></ul> | **Passed:** clean build; 30 placeholder pages and the 404 in en / ur / skr with the right `lang` and `dir`; no outside requests; axe clean on all 124 screenshots |
 | 2 | **Design preview** | <ul><li>The **Home page fully designed** with about 15 real photos, in English, Urdu and Saraiki, with the closed Donate block</li><li>Screenshots at 360 / 390 / 768 / 1280 px, with a short written rationale</li><li>Nastaliq size chosen on Bilal's phone</li></ul> | **Bilal approves before anything else is built** |
 | 3 | **Templates** | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | Review together |
 | 4 | **Content** | <ul><li>Final text in all three languages, written by me</li><li>Bilal's review rounds for Urdu and Saraiki on the review page</li><li>Photos placed, with alt text in all three languages</li><li>Launch posts, e.g. "Our first year"</li></ul> | All core pages `reviewed` |

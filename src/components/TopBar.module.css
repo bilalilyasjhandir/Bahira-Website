@@ -1,0 +1,41 @@
+.bar {
+  border-block-end: 1px solid var(--color-rule);
+  font-size: var(--text-label);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.links {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.links a:hover,
+.links a[aria-current="page"] {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* On phones, Contact moves into the menu so the bar fits on one line. */
+.contact {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .contact {
+    display: block;
+  }
+}

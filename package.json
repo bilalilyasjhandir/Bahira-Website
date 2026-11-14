@@ -1,0 +1,42 @@
+{
+  "name": "bahira-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The website of Bahira Foundation, Bahawalpur: English, Urdu and Saraiki.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/sync-brand.mjs && node scripts/build-images.mjs && next dev",
+    "build": "node scripts/sync-brand.mjs && node scripts/build-images.mjs && node scripts/check-content.mjs && next build && node scripts/check-site.mjs",
+    "build:release": "node scripts/sync-brand.mjs && node scripts/build-images.mjs && node scripts/check-content.mjs --release && next build && node scripts/check-site.mjs",
+    "preview": "node scripts/preview.mjs",
+    "lint": "eslint",
+    "check": "node scripts/check-content.mjs && node scripts/check-site.mjs",
+    "sync:brand": "node scripts/sync-brand.mjs",
+    "images": "node scripts/build-images.mjs",
+    "shots": "node scripts/shots.mjs",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "yaml": "2.9.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.6",
+    "playwright": "1.65.1",
+    "prettier": "3.10.1",
+    "sharp": "0.35.5",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "pnpm@10.33.2"
+}

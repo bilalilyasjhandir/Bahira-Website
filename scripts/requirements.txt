@@ -1,0 +1,3 @@
+# Python tools for scripts/subset-fonts.py only. The website build itself needs no Python.
+fonttools==4.68.0
+brotli==1.2.1
