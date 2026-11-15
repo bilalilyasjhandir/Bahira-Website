@@ -8,11 +8,11 @@ import styles from "./TopBar.module.css";
 /** The slim bar above the header: Need help?, Contact, and the language chooser. */
 export function TopBar({
   locale,
-  path,
+  languagePaths,
   current,
 }: {
   locale: Locale;
-  path: string;
+  languagePaths: Record<Locale, string>;
   current: PageKey;
 }) {
   const t = getDictionary(locale);
@@ -37,7 +37,7 @@ export function TopBar({
             </a>
           </li>
         </ul>
-        <LanguageLinks locale={locale} path={path} />
+        <LanguageLinks locale={locale} paths={languagePaths} />
       </div>
     </div>
   );

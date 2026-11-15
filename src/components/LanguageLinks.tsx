@@ -1,14 +1,20 @@
 import { direction, localeNames, locales, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { localePath } from "@/i18n/paths";
 import styles from "./LanguageLinks.module.css";
 
 /**
  * English · اردو · سرائیکی. Each name is written in its own script, so a reader finds their
- * language without knowing the others. Each link goes to the same page in that language.
+ * language without knowing the others. Each link goes to the same page in that language, or,
+ * where the page has no translation, to its section (`paths`, made by Shell).
  * Plain links: no flags, no automatic redirect, no cookies.
  */
-export function LanguageLinks({ locale, path }: { locale: Locale; path: string }) {
+export function LanguageLinks({
+  locale,
+  paths,
+}: {
+  locale: Locale;
+  paths: Record<Locale, string>;
+}) {
   const t = getDictionary(locale);
   return (
     <nav aria-label={t.a11y.languageNav} className={styles.languages}>
@@ -30,7 +36,7 @@ export function LanguageLinks({ locale, path }: { locale: Locale; path: string }
                 </span>
               ) : (
                 <a
-                  href={localePath(code, path)}
+                  href={paths[code]}
                   lang={code}
                   hrefLang={code}
                   dir={direction[code]}

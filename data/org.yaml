@@ -10,9 +10,14 @@ site:
 organisation:
   founded: "2025-12-10" # Human Rights Day
   city: Bahawalpur
+  # The address Bilal gave for the site: Bahawalpur, Punjab, Pakistan - 63100.
+  postcode: "63100"
   # The Arabic word the name comes from (Bilal's introduction): it means luminous. The site
   # shows it marked as Arabic, in the reader's own Arabic font, never in Nastaliq.
   nameArabic: باهرة
+  founder:
+    name: Bilal Ilyas Jhandir
+    nameUrdu: بلال الیاس جھنڈیر # also on Saraiki pages
   registration:
     # Bahira is not registered yet, so the site never says or implies that it is.
     # When it is registered, set this to true and add the authority, number and date.
@@ -20,23 +25,66 @@ organisation:
 
 contact:
   email: bahirafoundationbwp@gmail.com
-  # No phone or WhatsApp number until the foundation has its own SIM. People write
-  # through the forms, and Bilal calls back on the number they give.
+  # No phone number until the foundation has its own SIM. People write through the forms,
+  # and Bilal first messages them on WhatsApp at the number they give, then calls if needed.
   phone: null
 
-# Social media accounts to link in the footer, e.g.
-#   - network: facebook
-#     url: https://www.facebook.com/...
-socials: []
+# Bahira's social media accounts, linked in the footer and on the Contact and Get involved
+# pages, in this order.
+socials:
+  - network: facebook
+    url: https://www.facebook.com/BahiraFoundation
+  - network: instagram
+    url: https://www.instagram.com/bahirafoundation/
+  - network: tiktok
+    url: https://www.tiktok.com/@bahirafoundation
+  - network: youtube
+    url: https://www.youtube.com/@BahiraFoundation
+  - network: linkedin
+    url: https://www.linkedin.com/company/bahirafoundation/ # confirmed by Bilal, 15 Nov 2026
 
 donations:
   # Bilal decides when donations open. Until then the Donate page says that donations
   # are opening soon, and no account details appear anywhere on the site.
   open: false
-  # JazzCash / Easypaisa accounts, shown only when open is true.
-  wallets: []
+  # Set to true when Bilal says the first donations have arrived. Until then some texts say
+  # that Bahira has taken no donations; once it is true, check-content lists them, and the
+  # live build stops until they are rewritten (CLAUDE.md, "When things change").
+  received: false
+  # Bahira accepts Zakat (Bilal, 15 November 2026). Donors say so when they give, so it is
+  # kept apart and spent only as Zakat may be spent. The donation form asks.
+  zakat: true
+  # Where donations go, shown only while open is true. The account is in Bilal's own name
+  # until Bahira has one, and the site says so next to it.
+  wallets:
+    - number: 0318-6377716
+      accountTitle: Bilal Ilyas Jhandir # exactly as the apps show it
+      apps: [JazzCash, Easypaisa, NayaPay, SadaPay] # the apps that can send to it
+      holder: founder # whose account it is: the founder, named above
 
 forms:
-  # The Web3Forms access key, made at web3forms.com with the foundation email.
-  # The forms are built in Phase 3.
-  web3formsKey: null
+  # The Web3Forms access key, made by Bilal at web3forms.com on 15 Nov 2026. Form messages go
+  # to the email of the account that made it. It is not a secret: it sits in every form's
+  # HTML, and it can only send messages to that one inbox.
+  web3formsKey: 649a76b4-334a-437d-97b7-6746db55477c
+
+# Official helplines on the Need help? page. Each number was checked on the government's own
+# website on the date given; check them again before launch, and once a year. Their names
+# and what each is for are in the dictionaries (helplines.<id>).
+helplines:
+  - id: rescue # Punjab Emergency Service: ambulance, fire and rescue
+    number: "1122"
+    checked: "2026-11-14"
+    source: https://www.rescue.gov.pk/
+  - id: police # Police emergency
+    number: "15"
+    checked: "2026-11-14"
+    source: https://pcsw.punjab.gov.pk/node/44
+  - id: women # Punjab Women Helpline, Punjab Commission on the Status of Women: 24 hours
+    number: "1043"
+    checked: "2026-11-14"
+    source: https://pcsw.punjab.gov.pk/node/61
+  - id: children # Child Protection and Welfare Bureau, Punjab
+    number: "1121"
+    checked: "2026-11-14"
+    source: https://pcsw.punjab.gov.pk/node/44

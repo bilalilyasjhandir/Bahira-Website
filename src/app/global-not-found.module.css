@@ -28,3 +28,10 @@
   font-size: var(--text-h2);
   line-height: var(--leading-h2);
 }
+
+/* The way home, and the way to help for someone who came looking for it. */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}

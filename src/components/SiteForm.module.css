@@ -1,0 +1,146 @@
+/* One column of fields, labels above their boxes: the easiest form to fill in on a phone. */
+.form {
+  display: grid;
+  gap: var(--space-3);
+  inline-size: 100%;
+  max-inline-size: 36rem;
+}
+
+.field,
+.group {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Phone and email: one question with two boxes. */
+.group[data-reach] {
+  gap: var(--space-2);
+}
+
+.group legend {
+  padding: 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.optional {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.error {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+/* Boxes: white on the page, with a border dark enough to see (8:1). One-line boxes use the
+   same font as buttons, so Urdu letters sit in the middle; the message box uses the text
+   font and spacing, as it holds several lines. */
+.input {
+  inline-size: 100%;
+  min-block-size: 3rem;
+  padding-block: var(--space-1);
+  padding-inline: 0.75rem;
+  border: 2px solid var(--color-text-muted);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: var(--leading-ui);
+}
+
+textarea.input {
+  min-block-size: 9rem;
+  font-family: inherit;
+  line-height: var(--leading-body);
+  resize: vertical;
+}
+
+.input:focus-visible {
+  border-color: var(--color-focus);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+/* The robot trap: never shown to people. */
+.trap {
+  display: none;
+}
+
+.choices {
+  display: grid;
+}
+
+/* Each choice is a row at least 44 px tall, so it is easy to tap. */
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap);
+  cursor: pointer;
+}
+
+.choice input {
+  flex: none;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+
+/* The list of problems at the top, after a send that needs fixing. */
+.summary {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 3px solid var(--color-error);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.summary[hidden] {
+  display: none;
+}
+
+.summaryTitle {
+  font-weight: 700;
+}
+
+.summary a {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.note {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.failed {
+  padding: var(--space-2) var(--space-3);
+  border-inline-start: 4px solid var(--color-error);
+  background: var(--color-surface);
+}
+
+.failed[hidden] {
+  display: none;
+}
+
+.send {
+  justify-self: start;
+  min-inline-size: 8rem;
+}

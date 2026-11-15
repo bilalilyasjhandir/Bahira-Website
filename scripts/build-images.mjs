@@ -26,11 +26,21 @@ const WIDTHS = [360, 480, 640, 800, 1080, 1280, 1600, 1920];
 const SHARE = { width: 1200, height: 630 };
 // The file-name hash includes these settings, so changing any of them makes every image
 // again. Raise `version` to force that for any other reason.
-// AVIF quality 42 with 4:2:0 colour looked the same as quality 50 at full size on these
-// photos (many are frames from phone videos) and is about 35% smaller (Phase 2).
+// AVIF quality 60 with 4:2:0 colour (Phase 3, when Bilal found the photos too soft). At 42,
+// the Phase 2 setting, faces looked waxy and hair, beards and cloth smeared; at 60 they look
+// natural. It costs about twice the bytes, so phones are given at most the 800 px version
+// (src/components/Photo.tsx), and the versions phones load keep the hero budget below.
 const SETTINGS = {
   version: 1,
-  avif: { quality: 42, effort: 6, chromaSubsampling: "4:2:0" },
+  avif: { quality: 60, effort: 6, chromaSubsampling: "4:2:0" },
+  // A photo at the top of a page loads first, so each AVIF version a phone can load (up to
+  // 800 px) must stay within the hero budget (70 KB; check-site checks it, and it keeps
+  // English pages under 300 KB). A busy photo can go over at quality 60; only those versions
+  // are then made at a lower quality, two steps at a time, until they fit. That costs little:
+  // busy detail hides compression, and the 800 px versions land between quality 48 and 60,
+  // where 42 to 50 is the step the eye sees. Any photo can become a hero (every cover is one
+  // on its update's page), so this applies to all of them.
+  heroBudget: { maxWidth: 800, maxBytes: 68 * 1024, minQuality: 40 },
   webp: { quality: 72 },
   jpeg: { quality: 80, mozjpeg: true },
 };
@@ -66,12 +76,36 @@ function listCovers() {
 }
 
 const produced = new Set();
+const lowered = [];
 
 async function write(pipeline, file) {
   produced.add(file);
   if (fs.existsSync(file)) return; // same hash, same settings: already made
   fs.mkdirSync(path.dirname(file), { recursive: true });
   await pipeline.toFile(file);
+}
+
+/** An AVIF version of a photo, kept within the hero budget (SETTINGS.heroBudget). */
+async function writeAvif(buffer, width, file) {
+  produced.add(file);
+  if (fs.existsSync(file)) return;
+  const { maxWidth, maxBytes, minQuality } = SETTINGS.heroBudget;
+  let quality = SETTINGS.avif.quality;
+  let data;
+  for (;;) {
+    data = await sharp(buffer)
+      .rotate()
+      .resize({ width })
+      .avif({ ...SETTINGS.avif, quality })
+      .toBuffer();
+    if (width > maxWidth || data.length <= maxBytes || quality <= minQuality) break;
+    quality -= 2;
+  }
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, data);
+  if (quality !== SETTINGS.avif.quality) {
+    lowered.push(`${toPosix(path.relative(outDir, file))} at quality ${quality}`);
+  }
 }
 
 const photos = listPhotos(photosDir);
@@ -103,7 +137,8 @@ for (const file of photos) {
   for (const w of widths) {
     for (const format of ["avif", "webp"]) {
       const out = path.join(outDir, `${base}-${hash}-${w}.${format}`);
-      await write(sharp(buffer).rotate().resize({ width: w })[format](SETTINGS[format]), out);
+      if (format === "avif") await writeAvif(buffer, w, out);
+      else await write(sharp(buffer).rotate().resize({ width: w }).webp(SETTINGS.webp), out);
       entry[format].push({ width: w, src: `/img/${toPosix(path.relative(outDir, out))}` });
     }
   }
@@ -155,3 +190,5 @@ console.log(
     : `build-images: ${photos.length} photos, ${produced.size} image files` +
         (removed ? `, ${removed} old files removed` : ""),
 );
+// Shown only when the files are made; later builds reuse them.
+for (const line of lowered) console.log(`  within the hero budget: ${line}`);

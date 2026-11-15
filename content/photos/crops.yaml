@@ -8,6 +8,14 @@
 #   focus:  the point to keep at the centre, as fractions across and down (0 to 1)
 #   zoom:   1 is the largest crop the photo allows; 1.25 comes a quarter closer
 
+# Bilal Ilyas Jhandir, the founder, for the About page: from just above his head to his
+# hands, with the people standing beside him left out of the frame.
+- photo: founder/bilal.jpg
+  from: founder/bilal.jpg
+  ratio: "4:5"
+  focus: [0.49, 0.6]
+  zoom: 1.45
+
 # Iftar at Bahawalpur Railway Station, 21st of Ramzan (11 March 2026)
 - photo: 2026-03-iftar/serving.jpg
   from: ramzan 110326/VideoCapture_20260312-102849.jpg
@@ -21,6 +29,34 @@
   focus: [0.5, 0.5]
   zoom: 1
 
+# Two volunteers mixing the red drink in large pots, before the iftar.
+- photo: 2026-03-iftar/preparing.jpg
+  from: ramzan 110326/VideoCapture_20260312-140028.jpg
+  ratio: "4:5"
+  focus: [0.5, 0.49]
+  zoom: 1
+
+# Hands stirring a pot of the drink, a bottle of syrup beside it.
+- photo: 2026-03-iftar/mixing.jpg
+  from: ramzan 110326/VideoCapture_20260312-103101.jpg
+  ratio: "1:1"
+  focus: [0.5, 0.6]
+  zoom: 1
+
+# A volunteer hands a few dates to an elderly man on the platform.
+- photo: 2026-03-iftar/dates.jpg
+  from: ramzan 110326/VideoCapture_20260312-102803.jpg
+  ratio: "4:5"
+  focus: [0.5, 0.52]
+  zoom: 1
+
+# A volunteer carries a plate of rice past men eating on the platform.
+- photo: 2026-03-iftar/plate.jpg
+  from: ramzan 110326/VideoCapture_20260312-102922.jpg
+  ratio: "4:5"
+  focus: [0.5, 0.5]
+  zoom: 1
+
 # Sabeel in Mohalla Nawaban, 9th and 10th of Muharram (25 and 26 June 2026)
 - photo: 2026-06-sabeel/bowls.jpg
   from: muharram 250626/VideoCapture_20260630-204309.jpeg
@@ -28,10 +64,46 @@
   focus: [0.5, 0.57]
   zoom: 1
 
-# APS remembrance with children at an orphanage (16 December 2025). The other photos from
-# this day show another organisation's banner with its account numbers; this one does not.
+# A ladle pours the red drink into a clay bowl.
+- photo: 2026-06-sabeel/pouring.jpg
+  from: muharram 250626/VideoCapture_20260630-204350.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.4]
+  zoom: 1
+
+# A boy carries a clay bowl across the street; a man behind him drinks from his.
+- photo: 2026-06-sabeel/street.jpg
+  from: muharram 250626/VideoCapture_20260630-204333.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.35]
+  zoom: 1
+
+# A boy drinks from a clay bowl, sitting beside a young man.
+- photo: 2026-06-sabeel/drinking.jpg
+  from: muharram 250626/VideoCapture_20260630-204530.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.5]
+  zoom: 1
+
+# APS remembrance with children at Daykh Bhaal Shelter Home (16 December 2025). Most photos
+# from this day show another organisation's banner with its account numbers. These three
+# do not: check any new crop from this folder for it.
 - photo: 2025-12-aps-remembrance/meal.jpg
   from: orphanage 161225/IMG-20251216-WA0040.jpeg
   ratio: "1:1"
   focus: [0.5, 0.33]
+  zoom: 1
+
+# Children eating in a row on the mats in the courtyard.
+- photo: 2025-12-aps-remembrance/row.jpg
+  from: orphanage 161225/IMG-20251216-WA0034.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.62]
+  zoom: 1
+
+# The courtyard, with children sitting in rows and a volunteer handing out food.
+- photo: 2025-12-aps-remembrance/courtyard.jpg
+  from: orphanage 161225/IMG-20251216-WA0044.jpeg
+  ratio: "4:5"
+  focus: [0.5, 0.6]
   zoom: 1

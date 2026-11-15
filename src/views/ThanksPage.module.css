@@ -1,0 +1,8 @@
+.page {
+  padding-block-end: var(--space-section);
+}
+
+.text {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-body);
+}

@@ -1,0 +1,6 @@
+/* The date, a venue, a city: each stays whole, so the line breaks between them and never
+   inside a name. One that is wider than the column still wraps. */
+.unit {
+  display: inline-block;
+  max-inline-size: 100%;
+}

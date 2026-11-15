@@ -1,0 +1,35 @@
+.section {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-4) var(--space-6);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.title {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1);
+}
+
+.photo {
+  display: block;
+}
+
+/* All the same shape (4:5, as most phone photos are), so the rows stay even. */
+.photo img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+}

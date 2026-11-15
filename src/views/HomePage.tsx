@@ -11,7 +11,7 @@ import { Facts } from "./home/Facts";
 import { Hero } from "./home/Hero";
 import { RecentWork } from "./home/RecentWork";
 import { Story } from "./home/Story";
-import { Support } from "./home/Support";
+import { Support } from "@/components/Support";
 
 /**
  * The home page: who Bahira is and the two ways to help (Hero), the facts at a glance,
@@ -48,10 +48,12 @@ function OrganisationData({ locale }: { locale: Locale }) {
     description: t.site.description,
     slogan: t.site.tagline,
     foundingDate: org.organisation.founded,
+    founder: { "@type": "Person", name: org.organisation.founder.name },
     address: {
       "@type": "PostalAddress",
       addressLocality: org.organisation.city,
       addressRegion: "Punjab",
+      postalCode: org.organisation.postcode,
       addressCountry: "PK",
     },
     email: org.contact.email,

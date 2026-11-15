@@ -18,6 +18,7 @@
   --color-rule-on-dark: rgb(255 255 255 / 0.24);
   --color-focus: var(--bahira-blue);
   --color-focus-on-dark: var(--bahira-white);
+  --color-error: #b3261e; /* form errors only: 6.0:1 on Paper, 6.5:1 on white */
 
   /* Type: the brand deck's scale (slide 10). Each size shrinks smoothly from the desktop
      value at 1200 px wide to the phone value at 360 px. */
@@ -96,6 +97,35 @@
    height that keeps Urdu buttons as tall as English ones. */
 :root:lang(ur),
 :root:lang(skr) {
+  --font-ui: var(--font-nastaliq-ui), var(--font-onest), sans-serif;
+  --leading-ui: 1.6;
+}
+
+/* English inside an Urdu or Saraiki page (an update not yet translated): English spacing,
+   weights and labels again. base.css gives it Onest and its line height. */
+:root:lang(ur) [lang="en"],
+:root:lang(skr) [lang="en"] {
+  --leading-display: 1.0625;
+  --leading-h1: 1.1667;
+  --leading-h2: 1.25;
+  --leading-h3: 1.4;
+  --leading-body: 1.5556;
+  --tracking-label: 0.14em;
+  --weight-heading: 700;
+  --font-ui: var(--font-onest), system-ui, sans-serif;
+  --leading-ui: 1.5;
+}
+
+/* …and the page's own language inside that English (its "In English" label). */
+:root:lang(ur) [lang="en"] :is([lang="ur"], [lang="skr"]),
+:root:lang(skr) [lang="en"] :is([lang="ur"], [lang="skr"]) {
+  --leading-display: 1.9;
+  --leading-h1: 2;
+  --leading-h2: 2;
+  --leading-h3: 2.1;
+  --leading-body: 2.35;
+  --tracking-label: 0;
+  --weight-heading: 400;
   --font-ui: var(--font-nastaliq-ui), var(--font-onest), sans-serif;
   --leading-ui: 1.6;
 }

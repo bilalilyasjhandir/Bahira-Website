@@ -1,11 +1,11 @@
 import { rtlLocale, type RtlPageProps } from "@/i18n/route";
 import { pageMetadata } from "@/lib/metadata";
-import { PlaceholderPage } from "@/views/PlaceholderPage";
+import { AccountabilityPage } from "@/views/AccountabilityPage";
 
 export async function generateMetadata({ params }: RtlPageProps) {
   return pageMetadata(await rtlLocale(params), "accountability");
 }
 
 export default async function Page({ params }: RtlPageProps) {
-  return <PlaceholderPage locale={await rtlLocale(params)} page="accountability" />;
+  return <AccountabilityPage locale={await rtlLocale(params)} />;
 }

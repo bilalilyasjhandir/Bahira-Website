@@ -1,0 +1,43 @@
+/* The founder's note reads like a letter: the opening-paragraph size, signed at the end. */
+.note {
+  font-size: var(--text-lead);
+}
+
+.signature {
+  margin-block-start: var(--space-3);
+  font-weight: 600;
+}
+
+/* Urdu and Saraiki have no bold: the signature stands out by colour instead. */
+.signature:lang(ur),
+.signature:lang(skr) {
+  color: var(--color-primary);
+}
+
+/* Bilal's photo, under the heading of his note (on phones, between the heading and the
+   note). Not wider than it needs to be, so phones load a small version. */
+.founder {
+  display: block;
+  inline-size: min(100%, 16rem);
+}
+
+.founder img {
+  inline-size: 100%;
+}
+
+@media (min-width: 64em) {
+  .founder {
+    inline-size: min(100%, 20rem);
+  }
+}
+
+/* The sign keeps its own clear space: at least a fifth of its height on every side. */
+.symbol {
+  inline-size: 5rem;
+}
+
+@media (min-width: 64em) {
+  .symbol {
+    inline-size: 7rem;
+  }
+}

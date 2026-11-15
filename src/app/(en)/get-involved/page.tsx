@@ -1,8 +1,8 @@
 import { pageMetadata } from "@/lib/metadata";
-import { PlaceholderPage } from "@/views/PlaceholderPage";
+import { GetInvolvedPage } from "@/views/GetInvolvedPage";
 
 export const metadata = pageMetadata("en", "getInvolved");
 
 export default function Page() {
-  return <PlaceholderPage locale="en" page="getInvolved" />;
+  return <GetInvolvedPage locale="en" />;
 }

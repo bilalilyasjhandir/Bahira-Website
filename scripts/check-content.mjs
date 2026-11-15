@@ -5,14 +5,19 @@
 //
 //  1. Interface text (src/i18n): Urdu and Saraiki have exactly the English texts and
 //     {placeholders}; their review status; whether they follow the current English.
-//  2. Long text (content/{pages,causes,updates}/{en,ur,skr}/*.md): front matter, and core
-//     pages present in all three languages.
+//  2. Long text (content/{pages,causes,updates}/{en,ur,skr}/*.md): front matter, the
+//     Markdown the site can show (src/lib/markdown.ts), the same "## Heading {#key}"
+//     sections as the English, core pages present in all three languages, and no
+//     translation of an update without its English file (which holds its facts).
 //  3. Urdu and Saraiki writing: Arabic letters typed in place of Urdu ones, mixed Saraiki
 //     spellings, English sentences left in, and characters the site's fonts cannot show.
 //  4. [[TODO]] markers left in src/, content/ or data/.
 //  5. CSS: logical properties only, never left or right.
 //  6. Fonts: the unicode-range and size-adjust settings match src/fonts/coverage.json.
 //  7. Photos in content/photos/: no location (GPS) data.
+//  8. Facts (data/org.yaml): the Web3Forms key the forms need to send; and texts marked
+//     `rewriteWhen` (true only until donations open, or until the first ones arrive) once
+//     donations.open or donations.received says that has happened.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -108,20 +113,60 @@ pass(mark, `Interface text: Urdu and Saraiki have all ${english.size} English te
 
 // --- 2. Long text ------------------------------------------------------------------------
 
+const { parseMarkdown } = await importTs("src/lib/markdown.ts");
+const { org } = await importTs("src/lib/org.ts");
 const CORE = ["pages", "causes"]; // must exist in every language; updates may not
+// Front-matter fields that hold words (linted below); the others hold facts.
+const WORDS = new Set(["title", "place", "summary", "coverAlt", "photoAlt", "alt"]);
+const SECTION_LINE = /^## (.+?) \{#([a-z0-9]+(?:-[a-z0-9]+)*)\}[^\S\n]*$/;
+
+/** The text a reader sees in a Markdown file, checked with the site's own reader. */
+function checkMarkdown(file, body, bodyLine, sectioned) {
+  const lines = body.replace(/\r\n?/g, "\n").split("\n");
+  const keys = [];
+  let start = 0;
+  const flush = (end) => {
+    try {
+      parseMarkdown(lines.slice(start, end).join("\n"), rel(file), bodyLine + start);
+    } catch (e) {
+      error(e.message);
+    }
+  };
+  lines.forEach((line, i) => {
+    if (!line.startsWith("## ")) return;
+    const section = SECTION_LINE.exec(line);
+    if (!sectioned) error(`${rel(file)}:${bodyLine + i}: an update has no sections; use ###`);
+    else if (!section) error(`${rel(file)}:${bodyLine + i}: write a section as ## Heading {#key}`);
+    else keys.push(section[2]);
+    flush(i);
+    start = i + 1;
+  });
+  flush(lines.length);
+  return keys;
+}
+
+/** Every string under the word fields of some front matter, at any depth. */
+function words(value, key = "") {
+  if (typeof value === "string") return WORDS.has(key) ? [value] : [];
+  if (Array.isArray(value)) return value.flatMap((v) => words(v, key));
+  if (value && typeof value === "object")
+    return Object.entries(value).flatMap(([k, v]) => words(v, k));
+  return [];
+}
+
 let contentFiles = 0;
 mark = errors.length;
 for (const collection of ["pages", "causes", "updates"]) {
-  /** Front matter of every file in this collection, by language and then by slug. */
+  /** Front matter and section keys of every file in this collection, by language and slug. */
   const frontMatter = Object.fromEntries(locales.map((locale) => [locale, new Map()]));
+  const sectionKeys = Object.fromEntries(locales.map((locale) => [locale, new Map()]));
   for (const locale of locales) {
     for (const file of walk(path.join(root, "content", collection, locale), (n) =>
       n.endsWith(".md"),
     )) {
       contentFiles += 1;
-      const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(
-        fs.readFileSync(file, "utf8"),
-      );
+      const source = fs.readFileSync(file, "utf8");
+      const match = /^---\r?\n([\s\S]*?)\r?\n---[^\S\r\n]*(?:\r?\n|$)([\s\S]*)$/.exec(source);
       if (!match) {
         error(`${rel(file)}: front matter (between --- lines) is missing`);
         continue;
@@ -133,7 +178,8 @@ for (const collection of ["pages", "causes", "updates"]) {
         error(`${rel(file)}: front matter is not valid YAML (${e.message.split("\n")[0]})`);
         continue;
       }
-      frontMatter[locale].set(path.basename(file, ".md"), data);
+      const slug = path.basename(file, ".md");
+      frontMatter[locale].set(slug, data);
       if (locale === "en") {
         if (!Number.isInteger(data.revision) || data.revision < 1)
           error(`${rel(file)}: needs revision: 1 (or higher)`);
@@ -145,9 +191,24 @@ for (const collection of ["pages", "causes", "updates"]) {
         if (!Number.isInteger(data.sourceRevision))
           error(`${rel(file)}: needs sourceRevision (the English revision it follows)`);
       }
+      // A text written for before donations opened, or before the first ones arrived.
+      for (const [when, happened] of [
+        ["donations-open", org.donations.open],
+        ["donations-received", org.donations.received],
+      ]) {
+        if (happened && data.rewriteWhen?.includes(when)) {
+          unfinished(
+            `${rel(file)}: written for before ${when.replace("-", " ")}; rewrite it (CLAUDE.md, "When things change"), then take "${when}" out of rewriteWhen`,
+          );
+        }
+      }
+      const bodyLine = source.slice(0, source.length - match[2].length).split("\n").length;
+      sectionKeys[locale].set(
+        slug,
+        checkMarkdown(file, match[2], bodyLine, collection !== "updates"),
+      );
       corpus[locale].push([rel(file), match[2]]);
-      for (const value of Object.values(data))
-        if (typeof value === "string") corpus[locale].push([rel(file), value]);
+      for (const text of words(data)) corpus[locale].push([rel(file), text]);
     }
   }
   for (const locale of locales.filter((l) => l !== "en")) {
@@ -155,8 +216,19 @@ for (const collection of ["pages", "causes", "updates"]) {
       const file = `content/${collection}/${locale}/${slug}.md`;
       const original = frontMatter.en.get(slug);
       if (!original) {
-        if (CORE.includes(collection)) error(`${file} has no English original`);
+        error(
+          collection === "updates"
+            ? `${file} has no English file: an update's facts (date, photos) are written there`
+            : `${file} has no English original`,
+        );
         continue;
+      }
+      const ownKeys = sectionKeys[locale].get(slug).join(", ");
+      const englishKeys = sectionKeys.en.get(slug).join(", ");
+      if (ownKeys !== englishKeys) {
+        error(
+          `${file}: its sections must be the English ones, in the same order: {#${englishKeys.split(", ").join("}, {#")}}`,
+        );
       }
       if (
         Number.isInteger(original.revision) &&
@@ -209,6 +281,7 @@ const withoutForeign = (text) =>
     .replace(/<bdi\b[^>]*>[\s\S]*?<\/bdi>/gi, " ")
     .replace(/https?:\/\/\S+|[\w.+-]+@[\w-]+\.[\w.]+/g, " ")
     .replace(/\]\([^)]*\)/g, "]")
+    .replace(/\{#[\w-]+\}/g, " ")
     .replace(/\{\w+\}/g, " ");
 
 mark = errors.length;
@@ -380,6 +453,11 @@ pass(
     ? `Photos: ${photos.length} in content/photos/, none with a location`
     : "Photos: none in content/photos/ yet",
 );
+
+// --- 8. Facts ----------------------------------------------------------------------------
+
+if (org.forms.web3formsKey) passed.push("Forms: the Web3Forms key is set");
+else unfinished("data/org.yaml: forms.web3formsKey is not set yet, so the forms cannot send");
 
 // --- Report ------------------------------------------------------------------------------
 

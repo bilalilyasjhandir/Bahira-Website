@@ -4,21 +4,38 @@ import { fill, getDictionary } from "@/i18n/get-dictionary";
 import { localePath } from "@/i18n/paths";
 import { org } from "@/lib/org";
 import { pagePath } from "@/lib/pages";
+import { showUpdatesInMenu } from "@/lib/updates";
 import { Email } from "./Email";
 import styles from "./Footer.module.css";
+import { Socials } from "./Socials";
 
-const footerLinks = [
-  "about",
-  "work",
-  "getInvolved",
-  "donate",
-  "help",
-  "contact",
-  "accountability",
-  "privacy",
-] as const;
+type FooterKey =
+  | "about"
+  | "work"
+  | "updates"
+  | "getInvolved"
+  | "donate"
+  | "help"
+  | "contact"
+  | "accountability"
+  | "privacy";
 
-/** Deep Blue footer: the logo, what Bahira is, every page, and how to write to us. */
+/** Every page, in the order of the menus. */
+function footerLinks(): FooterKey[] {
+  const links: FooterKey[] = ["about", "work", "updates", "getInvolved", "donate"];
+  return [
+    ...links.filter((key) => key !== "updates" || showUpdatesInMenu()),
+    "help",
+    "contact",
+    "accountability",
+    "privacy",
+  ];
+}
+
+/**
+ * Deep Blue footer: the logo, what Bahira is, its social media, every page, and how to write
+ * to us.
+ */
 export function Footer({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   // Urdu and Saraiki pages show the logo with the Urdu name under BAHIRA (brand kit).
@@ -44,11 +61,12 @@ export function Footer({ locale }: { locale: Locale }) {
           </a>
           <p className={styles.tagline}>{t.site.tagline}</p>
           <p>{fill(t.site.founded, { date: formatDate(org.organisation.founded, locale) })}</p>
+          <Socials locale={locale} />
         </div>
 
         <nav aria-label={t.a11y.footerNav} className={styles.nav}>
           <ul role="list">
-            {footerLinks.map((key) => (
+            {footerLinks().map((key) => (
               <li key={key}>
                 <a href={localePath(locale, pagePath(key))}>{t.nav[key]}</a>
               </li>

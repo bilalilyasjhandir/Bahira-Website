@@ -6,7 +6,7 @@
 // Saraiki translations that were made from an older revision and need another look.
 // This file has no imports, so the check scripts can read it directly.
 
-export const revision = 2;
+export const revision = 4;
 
 export const en = {
   site: {
@@ -23,6 +23,7 @@ export const en = {
     languageNav: "Language",
     footerNav: "All pages",
     menu: "Menu",
+    socialNav: "Bahira on social media",
   },
   nav: {
     home: "Home",
@@ -54,6 +55,10 @@ export const en = {
       description:
         "What Bahira does: help for people in need, women’s rights, stray animals, trees, intersex rights, and young people.",
     },
+    updates: {
+      title: "Updates",
+      description: "What Bahira has done so far, where and when, with photos from each day.",
+    },
     getInvolved: {
       title: "Get involved",
       description: "Volunteer with Bahira, partner with us, or help spread the word.",
@@ -64,7 +69,7 @@ export const en = {
     },
     help: {
       title: "Need help?",
-      description: "Tell us what you need, and we will call you back.",
+      description: "Tell us what you need, and we will contact you.",
     },
     accountability: {
       title: "Accountability",
@@ -82,9 +87,6 @@ export const en = {
       title: "Thank you",
       description: "Your message has reached Bahira Foundation.",
     },
-  },
-  placeholder: {
-    body: "This page is being written.",
   },
   notFound: {
     title: "Page not found",
@@ -155,6 +157,150 @@ export const en = {
     donateTitle: "Donations open soon",
     donateText:
       "Until then, the best way to help is to volunteer, or to share our work with the people you know.",
+  },
+  // Words used on several pages.
+  common: {
+    inEnglish: "In English",
+    allUpdates: "All updates",
+    moreUpdates: "More updates",
+    photos: "Photos from the day",
+    partOf: "Part of our work",
+  },
+  aboutPage: {
+    signature: "{name}, founder",
+    photoAlt: "{name}, Bahira’s founder, at an evening event.",
+  },
+  workPage: {
+    lead: "Our work has six parts. So far, everything we have done has been help for people in need. The other five are where we want to grow next.",
+    eventsSoFar: "What we have done so far",
+    more: "More about this work",
+    nextTitle: "What we want to start next",
+    nextText:
+      "We have not started these yet. If you can help us begin one, with your time, your skills or what you know, tell us.",
+    nextLink: "Get involved",
+  },
+  causePage: {
+    doneTitle: "What we have done",
+  },
+  updatesPage: {
+    lead: "What we have done so far, where and when, with photos from each day. The newest comes first.",
+  },
+  getInvolvedPage: {
+    photoAlt: "Two volunteers kneel by large pots, mixing a red drink for the iftar.",
+    formTitle: "Volunteer with us",
+    formText:
+      "Tell us a little about yourself, and we will get in touch to talk about what you would like to do.",
+  },
+  donatePage: {
+    walletsTitle: "Where to send a donation",
+    accountTitle: "Account title",
+    number: "Number",
+    apps: "Send it with",
+    or: "or",
+    holder: "Account holder",
+    holderNote:
+      "This account is in the name of {name}, {role}, until Bahira has an account of its own.",
+    roles: {
+      founder: "Bahira’s founder",
+    },
+    copy: "Copy the number",
+    copied: "Copied",
+  },
+  helpPage: {
+    emergencyTitle: "In an emergency, call now",
+    emergencyText:
+      "Bahira is a small group of volunteers. We cannot come quickly in an emergency, but these government helplines can.",
+    call: "Call",
+    formTitle: "Ask us for help",
+    formText:
+      "Tell us who you are, where you are and what you need. We will message you on WhatsApp at the number you give.",
+  },
+  // Official helplines on the Need help? page; the numbers are in data/org.yaml.
+  helplines: {
+    rescue: {
+      name: "Rescue 1122",
+      text: "Ambulance, fire and accidents.",
+    },
+    police: {
+      name: "Police",
+      text: "If you are in danger, or a crime is happening.",
+    },
+    women: {
+      name: "Women’s Helpline",
+      text: "Help and advice for women, day and night, from the Punjab Commission on the Status of Women. Women answer the calls.",
+    },
+    children: {
+      name: "Child Protection Bureau",
+      text: "If a child is in danger, or living alone on the street.",
+    },
+  },
+  contactPage: {
+    lead: "Write to us by email, or with the form on this page. We read every message.",
+    email: "Email",
+    where: "Where we are",
+    whereValue: "Bahawalpur, Punjab, Pakistan {postcode}",
+    phone: "Phone",
+    phoneValue:
+      "We do not have a phone number yet. Leave yours in the form, and we will message you on WhatsApp.",
+    social: "Social media",
+    formTitle: "Write to us",
+    helpText: "Do you need help, or know someone who does?",
+    helpLink: "Use the help form",
+  },
+  thanksPage: {
+    lead: "Thank you. Your message has reached us.",
+    text: "We read every message. If you gave a phone number, we will message you on WhatsApp. If you gave an email address, we will write to you.",
+    homeLink: "Back to the home page",
+    updatesLink: "See what we have done so far",
+  },
+  forms: {
+    optional: "optional",
+    name: "Your name",
+    phone: "Phone number (on WhatsApp)",
+    phoneHelpHint: "We will message you on WhatsApp first.",
+    email: "Email address",
+    reach: "How can we reach you?",
+    reachHint: "Give a phone number, an email address or both.",
+    city: "City, town or area",
+    interests: "What would you like to help with?",
+    interestsHint: "Choose as many as you like.",
+    message: "Your message",
+    messageVolunteer: "Anything else you would like to tell us",
+    messageVolunteerHint: "For example, your skills, or the days you are free.",
+    messageHelp: "What do you need?",
+    messageHelpHint:
+      "Tell us in your own words, in Urdu, Saraiki or English. If you would rather a woman contacted you, say so.",
+    nameDonationHint: "Leave it empty to give anonymously.",
+    amount: "Amount, in rupees",
+    app: "Which app did you send it to?",
+    tid: "Transaction ID (TID)",
+    tidHint: "It is in the message or receipt you got after sending.",
+    cause: "What should it be spent on?",
+    causeGeneral: "Where it is needed most",
+    zakat: "This is Zakat",
+    zakatHint: "We keep Zakat apart, and spend it only on what Zakat may be spent on.",
+    confirm: "Where should we confirm that it arrived?",
+    confirmHint: "Leave both empty if you do not need a reply.",
+    send: "Send",
+    sending: "Sending…",
+    errorTitle: "Please check the form",
+    errors: {
+      name: "Enter your name",
+      phone: "Enter your phone number",
+      phoneShort: "Enter a phone number with at least 10 digits",
+      email: "Enter an email address like name@example.com",
+      reach: "Give a phone number or an email address",
+      city: "Enter your city, town or area",
+      amount: "Enter the amount you sent, in rupees",
+      app: "Choose the app you sent it to",
+      tid: "Enter the transaction ID",
+      message: "Write your message",
+      need: "Tell us what you need",
+    },
+    failed: "Sorry, your message could not be sent. Please try again, or write to us at {email}.",
+    note: "We use what you send only to reply to you, and we never ask for your CNIC number. {privacy}",
+    noteLink: "How we look after it",
+    trap: "Leave this box empty",
   },
 };
 

@@ -1,8 +1,8 @@
 import { pageMetadata } from "@/lib/metadata";
-import { PlaceholderPage } from "@/views/PlaceholderPage";
+import { HelpPage } from "@/views/HelpPage";
 
 export const metadata = pageMetadata("en", "help");
 
 export default function Page() {
-  return <PlaceholderPage locale="en" page="help" />;
+  return <HelpPage locale="en" />;
 }

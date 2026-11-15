@@ -1,0 +1,54 @@
+.list {
+  display: grid;
+  inline-size: 100%;
+  border-block-start: 1px solid var(--color-rule);
+}
+
+/* What each line is for, and its number as a large button at the end of the row. */
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  padding-block: var(--space-3);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.text {
+  display: grid;
+  gap: 0.25rem;
+  max-inline-size: 30em;
+}
+
+.name {
+  font-weight: 700;
+}
+
+/* Urdu and Saraiki have no bold: the name stands out by colour instead. */
+.name:lang(ur),
+.name:lang(skr) {
+  color: var(--color-primary);
+}
+
+.number {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 5.5rem;
+  min-block-size: 3.5rem;
+  padding-inline: var(--space-2);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  font-family: var(--font-onest), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.number:hover {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}

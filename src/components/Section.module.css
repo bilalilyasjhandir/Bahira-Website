@@ -1,0 +1,92 @@
+/* Each block of an inner page owns the space below it. A plain section starts with a
+   hairline; a band of colour has room inside it instead. */
+.section {
+  padding-block-end: var(--space-6);
+}
+
+.plain .grid {
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+/* Right after a band of colour, a hairline would sit on its edge: room instead. */
+.tint + .plain,
+.dark + .plain {
+  padding-block-start: var(--space-6);
+}
+
+.tint + .plain .grid,
+.dark + .plain .grid {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+/* The last section of a page leaves more room before the footer. */
+.plain:last-child {
+  padding-block-end: var(--space-section);
+}
+
+.tint,
+.dark {
+  padding-block: var(--space-section);
+}
+
+.tint {
+  background: var(--color-tint);
+}
+
+.dark {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.dark h2,
+.dark h3,
+.dark a,
+.dark a:hover {
+  color: var(--color-on-dark);
+}
+
+.dark :focus-visible {
+  outline-color: var(--color-focus-on-dark);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.head {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-3);
+}
+
+.body {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.body > * {
+  max-inline-size: 100%;
+}
+
+/* Wide screens: the heading in the first four columns, the text from the sixth. */
+@media (min-width: 64em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-3);
+  }
+
+  .head {
+    grid-column: 1 / span 4;
+  }
+
+  .body {
+    grid-column: 6 / span 7;
+  }
+}

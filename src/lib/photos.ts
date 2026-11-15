@@ -38,3 +38,12 @@ export function getPhoto(name: string): PhotoVersions {
   }
   return photo;
 }
+
+/** The 1200×630 JPEG made from an update's cover photo, for WhatsApp and Facebook previews. */
+export function getShareImage(cover: string): { src: string; width: number; height: number } {
+  const image = manifest().share[cover];
+  if (!image) {
+    throw new Error(`No share image for "${cover}": is it the cover of an update?`);
+  }
+  return image;
+}

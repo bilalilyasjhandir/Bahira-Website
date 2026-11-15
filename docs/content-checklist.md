@@ -12,6 +12,21 @@ This is what the website needs from you: photos, and the facts only you know. I 
 - [x] **The work so far:** three events, all help for people in need. The other causes come once there is a team and money for them.
 - [ ] **Urdu and Saraiki text on the Home page:** drafts until you approve them, in the review rounds of Phase 4. The words still to settle are in section 7.
 
+## All pages (Phase 3): answered on 15 Nov 2026
+
+- [x] **The founder's note, the money wording and the promises** (child safety, a yearly report, complaints, privacy): approved as written.
+- [x] **Your name:** the site shows your full name, Bilal Ilyas Jhandir, signing your note on About and on Accountability. In Urdu and Saraiki: بلال الیاس جھنڈیر (spelling confirmed).
+- [x] **Your photo** on About: cropped from `_photos/inbox/founder/bilal.jpg` to a portrait from head to hands, leaving out the people beside you.
+- [x] **Contacting people:** you first message them on WhatsApp at the number they give, and call only if needed. The forms ask for a "phone number (on WhatsApp)". A woman from the team can contact women who ask for one; the help page says so.
+- [x] **Volunteers' names** on the update pages: fine. **Daud and Dawood** in Urdu: داؤد and داود, as written.
+- [x] **Zakat:** Bahira accepts it; donors say so when they give, so it is kept apart and spent only as Zakat may be spent.
+- [x] **Donation reports:** everyone who gives fills in a short form (amount, app, transaction ID, cause, Zakat, name or anonymous), so donations stay apart from your own money. A screenshot cannot be uploaded through the form: that is a paid Web3Forms feature. The transaction ID does the same job, since you can find each payment by it in your app's history, and donors may email a screenshot.
+- [x] **Remember to change the money wording** when donations open and when the first ones arrive: written into CLAUDE.md ("When things change"), and the build lists those texts once `data/org.yaml` says it has happened.
+- [x] **Social links:** all five are right, LinkedIn's company page included.
+- [x] **Photos looked soft:** fixed. Photos are now saved at a higher quality, and phones get a size made for their screens, so pages stay as light as before. Before and after: `shots/phase-3/photos-before-after.png`.
+- [ ] **Open donations?** Not now (your answer). The account is on the site, ready, but donations stay closed until you say "open donations".
+- [x] **Web3Forms access key:** received and connected; every form now sends with it (section 8).
+
 ## 1. Needed first, for the design preview
 
 - [x] **About 15 of your best photos.** Done on 14 Nov 2026: 20 photos from three events (section 4). More are welcome later, especially landscape shots and other causes (animals, trees, youth).
@@ -23,29 +38,23 @@ This is what the website needs from you: photos, and the facts only you know. I 
 
 - **Foundation email** (form messages arrive here, and it's shown on the site): bahirafoundationbwp@gmail.com
 - **WhatsApp:** none for now.
-- **Area or address to show** (a full address, or just "Bahawalpur"): ______
-- **Social media links:**
-  - Facebook: ______
-  - Instagram: ______
-  - TikTok: ______
-  - YouTube: ______
-  - X: ______
-  - LinkedIn: ______
+- **Address to show:** Bahawalpur, Punjab, Pakistan 63100.
+- **Social media** (all received on 15 Nov 2026):
+  - Facebook: https://www.facebook.com/BahiraFoundation
+  - Instagram: https://www.instagram.com/bahirafoundation/
+  - TikTok: https://www.tiktok.com/@bahirafoundation
+  - YouTube: https://www.youtube.com/@BahiraFoundation
+  - LinkedIn: https://www.linkedin.com/company/bahirafoundation/
+  - X: none
 
-No phone number goes on the site for now. People write through the forms and you call them back. Tell me when the foundation has its own SIM and I'll add the number.
+No phone number goes on the site for now. People write through the forms, and you message them on WhatsApp at the number they give. Tell me when the foundation has its own SIM and I'll add the number.
 
 ## 3. Donations
 
-The Donate page stays closed until you tell me to open it. When you do, I need:
+The Donate page stays closed until you tell me to open it. Received on 15 Nov 2026:
 
-- **JazzCash / Easypaisa:**
-  - which one(s): ______
-  - account title: ______
-  - number: ______
-  - holder's name and role, e.g. "Bilal, Founder": ______
-- **Zakat:**
-  - does Bahira accept it? ______
-  - if yes, what is it used for, and how is it kept separate from other money? ______
+- **Account:** 0318-6377716, account title Bilal Ilyas Jhandir, which takes money from JazzCash, Easypaisa, NayaPay and SadaPay. It is shown with your name and role ("Bahira's founder") until Bahira has an account of its own.
+- **Zakat:** accepted. Donors tick "This is Zakat" in the donation form, so it is kept apart and spent only as Zakat may be spent.
 
 **Registration:** the site will say honestly that Bahira is not registered yet. Tell me when that changes.
 
@@ -85,7 +94,7 @@ ______
 
 ## 6. People
 
-- **A photo of you** for the About page. I'll write your introduction and show it to you.
+- [x] **A photo of you** for the About page: received on 15 Nov 2026.
 - **Team members, trustees or volunteers to show:** name, role and photo: ______
 
 ## 7. Words to settle (during the translation review)
@@ -97,6 +106,9 @@ ______
 
 ## 8. Later (before the forms and the launch)
 
-- [ ] **Web3Forms access key:** sign up at web3forms.com with the foundation email; I'll show you where it goes.
+- [x] **Web3Forms access key:** received on 15 Nov 2026 and connected. How it was made, in case it is ever needed again:
+  1. Log in at web3forms.com with the foundation's Google account, bahirafoundationbwp@gmail.com. Messages go to the email you log in with, and the Privacy page says they arrive there.
+  2. On "Create Your Form": any form name (e.g. "Bahira website"). As the website URL, type `https://bahira-foundation.vercel.app`, the address the site will have, not localhost. It doesn't need to be live yet; on the free plan this field doesn't block anything, and you can change it later if we buy a domain.
+  3. Copy the form's access key, a long code like `1a2b3c4d-5e6f-…`, and send it to me. It goes in `data/org.yaml`. It is not a secret: it can only send messages to the foundation's own email.
 - [ ] **Vercel account** for the free hosting, with two-step login turned on.
 - [ ] **Optional: a domain name**, e.g. a .com or a .org (about $10–15 a year). Without one, the site lives at a free `…vercel.app` address. We decide this once the website is finalised: ______

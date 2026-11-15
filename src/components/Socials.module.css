@@ -1,0 +1,12 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-3);
+}
+
+/* Each link is at least 44 px tall, so it is easy to tap. */
+.link {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--tap);
+}

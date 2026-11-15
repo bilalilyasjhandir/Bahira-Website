@@ -2,11 +2,14 @@
 // Any problem stops the build.
 //
 // Every page:   the right lang and dir for its folder; a title and description; the right
-//               canonical address and hreflang alternates; noindex only where intended;
-//               every link and file it uses exists; nothing loads from another website;
-//               forms send only to Web3Forms; no phone links while there is no number;
+//               canonical address and hreflang alternates (only for the languages the page
+//               exists in); noindex only where intended; every link and file it uses
+//               exists; nothing loads from another website; phone links only for the
+//               official helplines (data/org.yaml) while Bahira has no number of its own;
 //               English pages never preload the Nastaliq font, Urdu and Saraiki pages do;
 //               every character can be shown by the site's fonts; the page-weight budgets.
+// Every form:   posts to Web3Forms with the access key, the spam trap and a return to our
+//               own thank-you page in the same language; never asks for a CNIC or gender.
 // The site:     sitemap.xml lists every page once with the right alternates; robots.txt
 //               points to it; no image anywhere carries a location (GPS).
 
@@ -29,11 +32,15 @@ if (!fs.existsSync(path.join(out, "index.html"))) {
 
 const { org } = await importTs("src/lib/org.ts");
 const { locales, direction } = await importTs("src/i18n/config.ts");
-const { pages } = await importTs("src/lib/pages.ts");
+const { allPages } = await importTs("src/lib/pages.ts");
 const coverage = JSON.parse(fs.readFileSync(path.join(root, "src/fonts/coverage.json"), "utf8"));
 const site = new URL(org.site.url);
 
-/** Page-weight budgets (KB, compressed as sent): see docs/website-plan.md, section 5. */
+/**
+ * Page-weight budgets (KB, compressed as sent): see docs/website-plan.md, section 5. The
+ * English first view is the page itself (about 230 KB: the framework, the font, styles and
+ * text) plus one hero photo of at most 70 KB as a phone loads it.
+ */
 const BUDGET = { en: 300, rtl: 550, repeat: 60, ownJs: 10, heroAvif: 70 };
 const WEB3FORMS = "https://api.web3forms.com/submit";
 
@@ -135,17 +142,27 @@ function phoneChoice(source) {
 
 // --- The pages ---------------------------------------------------------------------------
 
-const expected = [];
-for (const [key, info] of Object.entries(pages)) {
-  for (const locale of locales)
-    expected.push({
-      key,
-      locale,
-      path: localePath(locale, info.path),
-      noindex: Boolean(info.noindex),
-    });
-}
+/** Every page in every language it exists in (src/lib/pages.ts finds the content pages). */
+const expected = allPages(locales).flatMap((page) =>
+  page.locales.map((locale) => ({
+    key: page.name,
+    locale,
+    path: localePath(locale, page.path),
+    englishPath: page.path,
+    available: page.locales,
+    noindex: page.noindex,
+  })),
+);
 const notFoundPage = { key: "404", locale: "404", path: "/404.html", noindex: true };
+
+/** The only numbers a phone link may call: the helplines, and Bahira's own once it has one. */
+const digits = (n) => String(n).replace(/[^\d+]/g, "");
+const callable = new Set([
+  ...org.helplines.map((h) => digits(h.number)),
+  ...(org.contact.phone ? [digits(org.contact.phone)] : []),
+]);
+/** Fields a form must never have (CLAUDE.md, Forms). */
+const FORBIDDEN_FIELD = /cnic|nic\b|national.?id|identity|gender|\bsex\b/i;
 
 // Next.js also writes copies of the 404 page at these addresses; they are not our pages.
 const NEXT_EXTRAS = new Set(["404/index.html", "_not-found/index.html"]);
@@ -210,13 +227,15 @@ for (const page of [...expected, notFoundPage]) {
   if (page.key !== "404") {
     if (canonical !== pageUrl(page.path))
       error(`${where}: canonical is ${canonical}, expected ${pageUrl(page.path)}`);
-    const englishPath = pages[page.key].path;
+    const englishPath = page.englishPath;
     const wanted =
       page.locale === "skr"
         ? {}
         : {
             en: pageUrl(englishPath),
-            ur: pageUrl(localePath("ur", englishPath)),
+            ...(page.available.includes("ur")
+              ? { ur: pageUrl(localePath("ur", englishPath)) }
+              : {}),
             "x-default": pageUrl(englishPath),
           };
     if (JSON.stringify(alternates) !== JSON.stringify(wanted)) {
@@ -237,8 +256,10 @@ for (const page of [...expected, notFoundPage]) {
       if (href.length > 1 && !ids.has(href.slice(1)))
         error(`${where}: link to ${href}, but nothing has that id`);
     } else if (/^tel:/i.test(href)) {
-      if (!org.contact.phone)
-        error(`${where}: phone link ${href}, but there is no published number (data/org.yaml)`);
+      if (!callable.has(digits(href.slice(4))))
+        error(
+          `${where}: phone link ${href}: only the helplines in data/org.yaml (and Bahira's own number, once it has one) may be called`,
+        );
     } else if (!/^mailto:/i.test(href) && !isOutside(href, page.path)) {
       const target = fileFor(href, page.path);
       if (!target || !fs.existsSync(target)) error(`${where}: broken link to ${href}`);
@@ -267,10 +288,36 @@ for (const page of [...expected, notFoundPage]) {
     else if (!fs.existsSync(fileFor(href, page.path)))
       error(`${where}: uses ${href}, which is not in out/`);
   }
-  for (const form of startTags(html, "form")) {
+  for (const formHtml of html.match(/<form\b[\s\S]*?<\/form>/g) ?? []) {
+    const form = startTags(formHtml, "form")[0] ?? {};
     const action = form.action ?? "";
-    if (action && isOutside(action, page.path) && action !== WEB3FORMS)
-      error(`${where}: a form sends to ${action}`);
+    if (action !== WEB3FORMS || (form.method ?? "").toLowerCase() !== "post") {
+      error(`${where}: a form sends to "${action}" (${form.method}); forms post to ${WEB3FORMS}`);
+      continue;
+    }
+    const inputs = [
+      ...startTags(formHtml, "input"),
+      ...startTags(formHtml, "textarea"),
+      ...startTags(formHtml, "select"),
+    ];
+    const field = (name) => inputs.find((i) => i.name === name);
+    const thanks = pageUrl(localePath(page.locale === "404" ? "en" : page.locale, "/thanks/"));
+    if (!field("access_key") || field("access_key").type !== "hidden")
+      error(`${where}: a form has no hidden access_key for Web3Forms`);
+    // The key in data/org.yaml, and no other: another key would send the messages elsewhere.
+    else if ((field("access_key").value ?? "") !== (org.forms.web3formsKey ?? ""))
+      error(
+        `${where}: a form's access_key is "${field("access_key").value}", not the key in data/org.yaml`,
+      );
+    if (field("botcheck")?.type !== "checkbox") error(`${where}: a form has no botcheck spam trap`);
+    if (field("redirect")?.value !== thanks)
+      error(
+        `${where}: a form returns to ${field("redirect")?.value}, expected the thank-you page ${thanks}`,
+      );
+    for (const input of inputs) {
+      if (FORBIDDEN_FIELD.test(`${input.name ?? ""} ${input.id ?? ""} ${input.autocomplete ?? ""}`))
+        error(`${where}: a form asks for "${input.name}"; never ask for a CNIC number or gender`);
+    }
   }
 
   // Fonts
@@ -361,18 +408,21 @@ for (const page of [...expected, notFoundPage]) {
   if (kb(ownJsBytes) > BUDGET.ownJs)
     error(`${where}: our own JavaScript is ${kb(ownJsBytes)} KB, over ${BUDGET.ownJs} KB`);
 
-  // The hero photo (fetchpriority="high"): its AVIF sizes up to 1080 px wide stay small.
+  // The hero photo (fetchpriority="high"): every AVIF version a phone may load stays within
+  // the hero budget. Phones get their own <source media>, capped at 800 px (Photo.tsx).
   for (const picture of raw.match(/<picture\b[\s\S]*?<\/picture>/g) ?? []) {
     if (!/fetchpriority="high"/i.test(picture)) continue;
-    for (const source of startTags(picture, "source").filter((s) => s.type === "image/avif")) {
-      for (const candidate of source.srcset.split(",").map((c) => c.trim().split(/\s+/))) {
-        const width = parseInt(candidate[1], 10);
-        const f = fileFor(candidate[0], page.path);
-        if (width <= 1080 && f && fs.existsSync(f) && kb(sentSize(f)) > BUDGET.heroAvif) {
-          error(
-            `${where}: hero image ${candidate[0]} is ${kb(sentSize(f))} KB, over ${BUDGET.heroAvif} KB`,
-          );
-        }
+    const phone = startTags(picture, "source").find((s) => s.type === "image/avif" && s.media);
+    if (!phone) {
+      error(`${where}: the hero photo has no AVIF versions for phones (<source media>)`);
+      continue;
+    }
+    for (const candidate of phone.srcset.split(",").map((c) => c.trim().split(/\s+/))) {
+      const f = fileFor(candidate[0], page.path);
+      if (f && fs.existsSync(f) && kb(sentSize(f)) > BUDGET.heroAvif) {
+        error(
+          `${where}: hero image ${candidate[0]} is ${kb(sentSize(f))} KB, over ${BUDGET.heroAvif} KB`,
+        );
       }
     }
   }
@@ -422,8 +472,19 @@ let images = 0;
 console.log(`check-site: ${expected.length + 1} pages, ${images} images`);
 const pad = (s, n) => String(s).padStart(n);
 console.log("  page                        HTML   CSS     JS  fonts images  total / budget (KB)");
-// Every page is checked; the table shows a sample: home and About in each language, and 404.
-const SHOWN = new Set(["/", "/ur/", "/skr/", "/about/", "/ur/about/", "/skr/about/", "/404.html"]);
+// Every page is checked; the table shows a sample: home in each language, a page with a
+// form and a photo, an update with its gallery, Need help? (no photos), and 404.
+const SHOWN = new Set([
+  "/",
+  "/ur/",
+  "/skr/",
+  "/get-involved/",
+  "/ur/get-involved/",
+  "/updates/2026-03-iftar/",
+  "/ur/updates/2026-03-iftar/",
+  "/skr/help/",
+  "/404.html",
+]);
 for (const w of weights.filter((x) => SHOWN.has(x.where))) {
   console.log(
     `  ${w.where.padEnd(26)}${pad(kb(w.htmlBytes), 6)}${pad(kb(w.cssBytes), 6)}${pad(kb(w.jsBytes), 7)}${pad(kb(w.fontBytes), 7)}${pad(kb(w.imageBytes), 7)}${pad(kb(w.total), 7)} / ${w.budget}`,

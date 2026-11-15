@@ -1,0 +1,89 @@
+/* An index between hairlines, like the causes on the home page: no cards. */
+.list {
+  display: grid;
+  inline-size: 100%;
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.item {
+  padding-block: var(--space-4);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+/* What follows the list starts with its own hairline; two would sit close together. */
+.item:last-child {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+/* Phones: a small photo beside the date and title, the summary under both. */
+.article {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  grid-template-areas:
+    "photo head"
+    "body body";
+  align-items: start;
+  gap: var(--space-2);
+}
+
+.photo {
+  grid-area: photo;
+  display: block;
+}
+
+/* Square, whatever the shape of the cover photo, so the list stays even. */
+.photo img {
+  inline-size: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.head {
+  grid-area: head;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.body {
+  grid-area: body;
+  display: grid;
+  gap: var(--space-1);
+  max-inline-size: 38em;
+}
+
+.meta {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.title {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+}
+
+.title a {
+  text-decoration: none;
+}
+
+.title a:hover {
+  text-decoration: underline;
+}
+
+/* "In English", on an update shown in its own language. */
+.language {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* Wider screens: a larger photo, with the title and summary beside it. */
+@media (min-width: 48em) {
+  .article {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "photo head"
+      "photo body";
+    column-gap: var(--space-4);
+  }
+}

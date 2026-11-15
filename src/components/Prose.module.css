@@ -1,0 +1,65 @@
+/* Long text: paragraphs, subheadings and lists, with even space between them. */
+.prose > * {
+  max-inline-size: var(--measure);
+  margin: 0;
+}
+
+.prose > * + * {
+  margin-block-start: var(--space-2);
+}
+
+/* A subheading starts a new thought: more room above it than below. */
+.prose > * + h3 {
+  margin-block-start: var(--space-4);
+}
+
+.prose > h3 + * {
+  margin-block-start: var(--space-1);
+}
+
+.prose ul {
+  padding-inline-start: 1.25em;
+}
+
+/* The bullet comes from Onest on every page: drawn from Nastaliq's much taller measurements,
+   it came out twice as big on Urdu and Saraiki pages. */
+.prose li::marker {
+  color: var(--color-primary);
+  font-family: var(--font-onest), sans-serif;
+}
+
+.prose li + li {
+  margin-block-start: var(--space-1);
+}
+
+/* Numbered steps: the number in Bahira Blue at the start of each line. Written with a
+   counter, not the browser's own "1." marker, which some browsers turn round to ".1" on
+   right-to-left pages. */
+.prose ol {
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.prose ol > li {
+  position: relative;
+  padding-inline-start: 2.25em;
+  counter-increment: step;
+}
+
+.prose ol > li::before {
+  content: counter(step);
+  position: absolute;
+  inset-inline-start: 0;
+  min-inline-size: 1.5em;
+  color: var(--color-primary);
+  font-family: var(--font-onest), sans-serif;
+  font-weight: 700;
+}
+
+/* The Arabic word the name comes from, a little larger so its Naskh letters look the same
+   size as the text around them. Line height 1 keeps its line as tall as the others. */
+.arabic {
+  font-size: 1.15em;
+  line-height: 1;
+}

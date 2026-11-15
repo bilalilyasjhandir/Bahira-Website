@@ -1,14 +1,16 @@
-import { Fragment } from "react";
+import { ArrowLink } from "@/components/ArrowLink";
 import { Photo } from "@/components/Photo";
+import { UpdateMeta } from "@/components/UpdateMeta";
 import { direction, type Locale } from "@/i18n/config";
-import { formatDate, formatDateRange } from "@/i18n/format";
 import { getDictionary } from "@/i18n/get-dictionary";
+import { localePath } from "@/i18n/paths";
 import type { Update } from "@/lib/content";
+import { contentPath, pagePath } from "@/lib/pages";
 import styles from "./RecentWork.module.css";
 
 /**
  * The three latest updates: the proof of work. The newest leads with a large photo; the
- * other two follow with small ones. They link to their own pages once those exist (Phase 3).
+ * other two follow with small ones. Each title links to the update's own page.
  */
 export function RecentWork({ locale, updates }: { locale: Locale; updates: Update[] }) {
   const t = getDictionary(locale);
@@ -27,6 +29,9 @@ export function RecentWork({ locale, updates }: { locale: Locale; updates: Updat
             {rest.map((update) => (
               <Item key={update.slug} update={update} locale={locale} />
             ))}
+            <ArrowLink href={localePath(locale, pagePath("updates"))} className={styles.all}>
+              {t.common.allUpdates}
+            </ArrowLink>
           </div>
         </div>
       </div>
@@ -43,11 +48,11 @@ function Item({
   locale: Locale;
   lead?: boolean;
 }) {
-  const when = update.dateEnd
-    ? formatDateRange(update.date, update.dateEnd, locale)
-    : formatDate(update.date, locale);
-  // An update not yet translated is shown in its own language, marked as such.
+  // An update not yet translated is shown in its own language, marked as such, and links to
+  // its page in that language.
+  const t = getDictionary(locale);
   const foreign = update.textLocale !== locale;
+  const href = localePath(update.textLocale, contentPath("updates", update.slug));
 
   return (
     <article
@@ -66,29 +71,17 @@ function Item({
         className={styles.photo}
       />
       <div className={styles.head}>
-        <p className={styles.meta}>
-          <span className={styles.unit}>
-            <time dateTime={update.date}>{when}</time>
-            <span aria-hidden="true">{" ·"}</span>
-          </span>
-          {placeParts(update.place).map((part, i) => (
-            <Fragment key={i}>
-              {" "}
-              <span className={styles.unit}>{part}</span>
-            </Fragment>
-          ))}
-        </p>
-        <h3 className={styles.title}>{update.title}</h3>
+        <UpdateMeta update={update} className={styles.meta} />
+        <h3 className={styles.title}>
+          <a href={href}>{update.title}</a>
+        </h3>
       </div>
       <p className={styles.summary}>{update.summary}</p>
+      {foreign && (
+        <p className={styles.language} lang={locale} dir={direction[locale]}>
+          {t.common.inEnglish}
+        </p>
+      )}
     </article>
   );
-}
-
-/**
- * A place split after each comma (English , or Urdu ،), so each part can be kept whole:
- * "Daykh Bhaal Shelter Home, Bahawalpur" → "Daykh Bhaal Shelter Home," and "Bahawalpur".
- */
-function placeParts(place: string): string[] {
-  return place.split(/(?<=[,،])\s+/);
 }

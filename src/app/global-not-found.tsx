@@ -5,6 +5,7 @@ import { en } from "@/i18n/en";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { localePath } from "@/i18n/paths";
 import { layoutMetadata } from "@/lib/metadata";
+import { pagePath } from "@/lib/pages";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
 // Not @/fonts/nastaliq: see the note in this stylesheet.
@@ -43,8 +44,9 @@ export default function GlobalNotFound() {
               >
                 <h1>{t.notFound.title}</h1>
                 <p>{t.notFound.body}</p>
-                <p>
+                <p className={styles.links}>
                   <a href={localePath(locale, "/")}>{t.notFound.home}</a>
+                  <a href={localePath(locale, pagePath("help"))}>{t.nav.help}</a>
                 </p>
               </section>
             );

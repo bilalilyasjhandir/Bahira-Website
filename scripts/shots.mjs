@@ -2,7 +2,8 @@
 //   pnpm shots                              every page, en ur skr, at 360 390 768 1280 px
 //   pnpm shots -- --pages=home,about --locales=en,ur --widths=360,1280
 //   pnpm shots -- --no-axe                  screenshots only
-// Pages are named as in src/lib/pages.ts (home, about, getInvolved, …).
+// Pages are named as in src/lib/pages.ts: home, about, getInvolved, … for the fixed pages,
+// and updates/2026-03-iftar or work/people-in-need for the pages made from content/.
 // It uses the Microsoft Edge already installed on Windows (Playwright's msedge channel), so
 // no browser is downloaded. The built site in out/ is served with the live site's headers
 // (vercel.json). It fails on console errors, failed or blocked requests (the Content
@@ -25,27 +26,39 @@ if (!fs.existsSync(path.join(out, "index.html"))) {
 }
 
 const option = (name) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
-const { pages } = await import(pathToFileURL(path.join(root, "src/lib/pages.ts")).href);
+const { allPages } = await import(pathToFileURL(path.join(root, "src/lib/pages.ts")).href);
 const widths = (option("widths") ?? "360,390,768,1280").split(",").map(Number);
 const axeWidths = new Set(option("widths") ? widths : [360, 1280]);
 const locales = (option("locales") ?? "en,ur,skr").split(",");
-const paths = option("pages")
+const everyPage = allPages(["en", "ur", "skr"]);
+const chosen = option("pages")
   ? option("pages")
       .split(",")
       .map((name) => {
-        if (pages[name]) return pages[name].path;
-        console.error(`shots: no page called "${name}". Pages: ${Object.keys(pages).join(", ")}`);
+        const page = everyPage.find((p) => p.name === name);
+        if (page) return page;
+        console.error(
+          `shots: no page called "${name}". Pages: ${everyPage.map((p) => p.name).join(", ")}`,
+        );
         process.exit(1);
       })
-  : Object.values(pages).map((p) => p.path);
+  : everyPage;
 const runAxe = !process.argv.includes("--no-axe");
 
 const localePath = (locale, p) => (locale === "en" ? p : `/${locale}${p}`);
 const nameOf = (p) => (p === "/" ? "home" : p.replaceAll("/", "-").replace(/^-|-$/g, ""));
 
-/** Every visit: [label, URL path, expected status, file name]. */
+/** Every visit: [label, URL path, expected status, file name]. Content pages exist only in
+ *  the languages they have been translated into. */
 const visits = locales.flatMap((locale) =>
-  paths.map((p) => [`${locale} ${p}`, localePath(locale, p), 200, path.join(locale, nameOf(p))]),
+  chosen
+    .filter((page) => page.locales.includes(locale))
+    .map((page) => [
+      `${locale} ${page.path}`,
+      localePath(locale, page.path),
+      200,
+      path.join(locale, nameOf(page.path)),
+    ]),
 );
 if (!option("pages")) visits.push(["404", "/this-page-does-not-exist/", 404, "404"]);
 

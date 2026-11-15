@@ -1,6 +1,6 @@
 # Plan: Bahira Foundation website
 
-**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. **Phase 1 is done** (14 November 2026; results in sections 4, 5 and 6). **Phase 2 is done** (14 November 2026): Bilal approved the Home page in English, Urdu and Saraiki, and Nastaliq at 118%. Phase 3 starts when Bilal says go.
+**Status:** approved by Bilal on 1 November 2026 and revised with Bilal on 14 November 2026. **Phase 1 is done** (14 November 2026; results in sections 4, 5 and 6). **Phase 2 is done** (14 November 2026): Bilal approved the Home page in English, Urdu and Saraiki, and Nastaliq at 118%. **Phase 3 is built** (15 November 2026): every page, the cause template, the update pages and the three forms, in all three languages with draft text. It waits for the review with Bilal (its gate); what was built, and where it differs from this plan, is noted under "Built in Phase 3" in sections 2 to 5.
 
 **No dates.** Bilal sets the pace. The phases follow in order and each waits for its gate, but none is tied to a calendar date.
 
@@ -28,6 +28,14 @@ Which pages it has, and what goes on them, is left to me. **This step is the pla
 - **Donations switch:** the Donate page is built behind one switch, `donations.open`. **Bilal decides when to open it**; it is not tied to registration.
 - **Registration:** Bahira is not registered with the Punjab Charity Commission yet. Bilal plans to register it soon. The site says so honestly and never claims registration. (Noted while planning: ProPakistani reported on 13 May 2026 that the Commission bans collecting donations before registration, under the Punjab Charities Act 2018. See the risks in section 10.)
 - **Hosting:** Vercel's free plan. Whether to buy a domain of our own is decided once the website is finalised, and so is the check on Vercel's free-plan rules (section 10).
+- **Decided with Bilal on 15 November 2026 (the Phase 3 answers):**
+  - The site shows his full name, **Bilal Ilyas Jhandir**, with his photo on About.
+  - He first **messages people on WhatsApp** at the number they give, and calls only if needed; phone fields say so. A woman from the team can contact women who ask for one.
+  - **Donations account:** one number, 0318-6377716, in his own name (account title Bilal Ilyas Jhandir), which works with JazzCash, Easypaisa, NayaPay and SadaPay. Donations stay closed until he says to open them.
+  - **Every donation is reported** through a form (amount, app, transaction ID, cause or "where it is needed most", Zakat or not, name or anonymous), so donations stay apart from his own money. A screenshot cannot be uploaded: attachments are a paid Web3Forms feature, so the transaction ID is the proof, and donors may email a screenshot.
+  - **Bahira accepts Zakat**; donors say so when they give, so it is kept apart and spent only as Zakat may be spent.
+  - **The texts about money** change when donations open and again when the first ones arrive. He asked me to remember this; it is in CLAUDE.md ("When things change") and checked by the build (`rewriteWhen`).
+  - **Address:** Bahawalpur, Punjab, Pakistan 63100. **Social media:** Facebook, Instagram, TikTok, YouTube and LinkedIn, all "bahirafoundation".
 
 **Verified**
 - **Fonts:** Noto Nastaliq Urdu (in `brand/fonts`) has every Saraiki letter (ٻ ڄ ݙ ڳ ݨ, plus ڋ ڻ). HarfBuzz shapes them correctly in their initial, medial and final forms. Onest has no Arabic-script letters, so each script gets its own font.
@@ -68,6 +76,19 @@ Which pages it has, and what goes on them, is left to me. **This step is the pla
 | Thank you | `/thanks/` | Where every form lands after sending, in the sender's language: the message arrived, and what happens next. Kept out of search engines. |
 | 404 | — | One page, written in all three languages. |
 
+**Built in Phase 3** (where the pages differ from the table, or fill it in):
+- **Our work:** only "Help for people in need" has real work, so only it has a page, `/work/people-in-need/`. The other five are listed on `/work/` as not started yet, with an invitation to help start one. A cause gets its page by adding `content/causes/<language>/<slug>.md`.
+- **Updates:** each update has its own page: the story beside the cover photo, more photos from the day (two across on phones, loaded only when scrolled to), the cause it belongs to, and other updates. The stories are Bilal's own notes, lightly edited, with his thanks to the volunteers by name.
+- **Upcoming events are not pinned yet:** none is planned (content checklist, section 5). An event announcement needs a time and how to join, which a report does not, so it is added with the first real one.
+- **An update not yet translated** has no page in that language. The Updates list and the home page show it in English, marked "In English", and link to the English page; the language chooser on the English page goes to that language's Updates list. Tested by building once without one Urdu file.
+- **Need help?:** emergency helplines first (Rescue 1122, Police 15, the Punjab Women Helpline 1043, the Child Protection Bureau 1121), each checked on the Punjab government's own website on 14 November 2026 and stored with its source in `data/org.yaml`. They are the only phone numbers on the site. Then the help form, what happens next, and who we can help. No photos, so it loads fast.
+- **Donate:** closed, it says donations are not taken yet, how to help today, a warning about anyone asking for money in Bahira's name, and the registration status. The open page (`donate-open.md`) shows the account with a copy button, the donation report form, Zakat, tax, giving from abroad, and the warning. It was tested with donations switched on (37 checks, the form intercepted), then switched off again.
+- **Contact:** the address (Bahawalpur, Punjab, Pakistan 63100) and the social media accounts. No map link: the address names only the city.
+- **About:** the founder's note is signed with Bilal's full name, beside his photo (cropped to a 4:5 portrait, head to hands, leaving out the people around him).
+- **Social media** are plain text links in the footer, on Contact and on Get involved: no icons and nothing loaded from the networks.
+- **404:** each language also links to Need help?
+- **Header:** "Updates" is in the menu now that there are three.
+
 - **Top bar** (slim, on every screen): `Need help? · Contact · English · اردو · سرائیکی`. Each language name is in its own script, so an Urdu-only reader finds it without knowing English. On phones, Contact moves into the menu.
 - **Header** (as in the brand deck): logo · About · Our work · Updates (once there are 3+ posts) · Get involved · **Donate** button. The header uses `bahira-horizontal-blue.svg` in all three languages. It sits at the start edge and is never mirrored.
 - **Footer:** Deep Blue, with the mission line, all links (including Accountability and Privacy), contact and socials. Urdu and Saraiki pages use `bahira-urdu-english-white.svg` there.
@@ -101,6 +122,11 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - Each section has its own surface: hairlines for the facts and causes, the one Deep Blue band for the founding story, and a Sky panel for volunteering and donations.
   - New tokens: muted text `#404B57` (8.2:1 on Paper), H3 20 px, a lead size of 18–20 px, and section spacing of 64–96 px.
   - Four photos in all, one per event plus the hero, because every photo costs prepaid data. The other photos go on each event's own page (Phase 3).
+- **Built in Phase 3 (the other pages):**
+  - Every inner page opens the same way: the page's name as its title and an opening paragraph, with a photo beside them on Get involved, the cause page and each update.
+  - Its sections follow one pattern: the heading on the start side and the text beside it on wide screens, one under the other on phones, each below a hairline. A Sky band marks the one thing a page asks of the reader (a form, the helplines); About has the page's one Deep Blue band (the name and the sign).
+  - Updates are listed as an index between hairlines, with square photos, not as cards.
+  - Forms: one column, labels above their boxes, optional fields marked "(optional)", errors in red under the label and listed at the top. The only new colour is that red, `#B3261E` (6:1 on Paper), for form errors.
 - **Motion:** hover and focus states only; `prefers-reduced-motion` is respected.
 - **Banned "AI tells":**
   - visual: gradients, gradient text, glassmorphism, blurred blobs, sparkles;
@@ -120,7 +146,11 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - No flags, no automatic redirect, no cookies.
 - **Where text lives:**
   - **UI strings:** the "dictionaries" pattern from the official Next.js i18n guide, `src/i18n/{en,ur,skr}.ts`. The Urdu and Saraiki files are typed against the English keys, so a missing string fails the build.
-  - **Long text:** Markdown, `content/{pages,causes,updates}/{en,ur,skr}/<slug>.md`, read at build time: front matter with `yaml` and `zod` (Phase 2), the text itself with remark (Phase 3).
+  - **Long text:** Markdown, `content/{pages,causes,updates}/{en,ur,skr}/<slug>.md`, read at build time: front matter with `yaml` and `zod` (Phase 2), the text itself by `src/lib/markdown.ts` (Phase 3).
+    - **No Markdown library:** the plan named remark/rehype, but adding a dependency needs Bilal's OK, and the texts use only a small part of Markdown: paragraphs, `###` subheadings, lists and links. So a short reader of our own handles exactly that and stops the build, with the file and line, on anything else (bold, italics, images, tables, HTML). Bold and italics are left out on purpose: the site's Nastaliq has neither, so they would vanish in Urdu and Saraiki. If Bilal prefers the standard library (react-markdown), it can replace the reader without touching the texts.
+    - **Sections:** a page's text is split by `## Heading {#key}` lines. The key is the same in every language, so the page's design can place each section; `check-content` stops the build if a translation's sections differ from the English ones.
+    - **Facts in long text** are written as `{email}`, `{founded}` and `{arabic}` and filled in from `data/org.yaml`; links to other pages use the English address (`/get-involved/`) and go to the reader's language.
+  - **English inside an Urdu or Saraiki page** (an update not yet translated) gets English spacing and weights back (`tokens.css`, `base.css`).
   - **Facts** (contacts, wallets, socials, registration, donations switch): written once in `data/org.yaml`.
 - **Keeping translations in step:**
   - English entries carry a `revision` number. Translations carry `sourceRevision` and `status: draft | reviewed`.
@@ -189,12 +219,18 @@ src/
   app/[lang]/layout.tsx       Urdu/Saraiki root layout (RTL, Nastaliq); generateStaticParams → ur, skr
   app/[lang]/…/page.tsx       /ur/…, /skr/…
   app/sitemap.ts  robots.ts
-  views/                      HomePage + home/ (its sections), PlaceholderPage; AboutPage, CausePage … in Phase 3
-                              (shared by both layouts; page files are 3-line wrappers)
-  components/                 TopBar, LanguageLinks, Header, MenuDisclosure, Footer, Photo, ArrowLink, Email,
-                              Template; WalletCard, Form… in Phase 3
+  app/(en)/updates/[slug]/ and work/[slug]/, and the same under [lang]/: update and cause pages
+  views/                      HomePage + home/ (its sections), AboutPage, WorkPage, CausePage, UpdatesPage,
+                              UpdatePage, GetInvolvedPage, DonatePage, HelpPage, AccountabilityPage,
+                              ContactPage, PrivacyPage, ThanksPage (page files are 3-line wrappers)
+  components/                 Shell, TopBar, LanguageLinks, Header, MenuDisclosure, Footer, Support, PageIntro,
+                              Section, TextSection, Prose, Photo, Figure, Gallery, UpdateList, UpdateMeta,
+                              Helplines, SiteForm + FormEnhance, WalletCard + CopyButton, ArrowLink, Email,
+                              Template, FontWait
   i18n/en.ts ur.ts skr.ts get-dictionary.ts paths.ts format.ts
-  lib/content.ts              Markdown loader with zod schemas; lib/photos.ts reads the image manifest
+  lib/pages.ts                every page, including those made from content/; lib/causes.ts the six causes
+  lib/content.ts              reads content/ (zod for front matter); lib/markdown.ts the Markdown the site uses
+  lib/photos.ts               reads the image manifest
   styles/tokens.css fonts.css base.css (+ *.module.css next to components)
 ```
 
@@ -205,7 +241,7 @@ src/
   - Icons: `icons/*` and the `head-snippet.html` lines (through the Metadata API).
   - Share image: `social/link-preview-1200x630.png`.
 - **Dependencies (few, pinned exactly):**
-  - **runtime:** `next`, `react`, `react-dom`, `zod`, `yaml`. `remark`/`rehype` arrive when Markdown text is rendered (Phase 3). Phase 2 added no dependency.
+  - **runtime:** `next`, `react`, `react-dom`, `zod`, `yaml`. Phase 2 and Phase 3 added no dependency: the Markdown is read by `src/lib/markdown.ts` instead of remark/rehype (section 4).
   - **dev:** TypeScript, ESLint (`eslint-config-next`), Prettier, `sharp`, Playwright, `@axe-core/playwright`. The Lighthouse CLI is added for the quality pass (Phase 5).
   - **Changed in Phase 1:**
     - `gray-matter` was dropped: it has not been updated since 2021, and `yaml` reads front matter just as well.
@@ -224,12 +260,21 @@ src/
   - **Font loading (done):** see section 4. Two Next.js traps were found and fixed; `check-site` now guards both.
     - The 404 page is bundled with every route, so it must not use `next/font`.
     - The default CSS merging carried the Nastaliq preload onto English pages; `experimental.cssChunking` set to `graph` keeps each page to its own CSS. Phase 2 raised `requestCost` from 0 to 1: stylesheets that always load together now merge (the Home page loads 4 instead of 13), and still no page gets CSS it doesn't use.
-  - **Forms (moved to the start of Phase 3):** it needs the Web3Forms access key. A test submission without JavaScript should return to our own `/thanks/` page on Web3Forms' free plan. If the free plan doesn't allow that, the form's script shows the thank-you message and only visitors without JavaScript see Web3Forms' own page.
+  - **Forms (Phase 3):** Web3Forms' own documentation (checked 14 November 2026) says the free plan may redirect after sending only to the same domain as the form, which our `/thanks/` page is; the redirect field works for plain HTML forms without JavaScript. So no fallback was needed. Bilal made the access key on 15 November 2026; a live test is part of the launch (Phase 6).
 - **Photos:**
   - **Intake:** Bilal drops originals into `_photos/inbox/<activity>/` with a short note (what, where, when). I select and crop them to 3:2, 4:5 or 1:1 into `content/photos/`. GPS and other metadata are removed at that step, because this folder goes to GitHub.
   - **Crops (Phase 2):** each crop is one entry in `content/photos/crops.yaml` (the original, the shape, the point to keep in the centre), and `pnpm photos` makes them. So any crop can be remade or adjusted later.
   - **Never published:** another organisation's banner or account numbers. Several orphanage photos show one, so only a photo without it is used.
-  - **Output:** `build-images.mjs` writes the web versions; only those are served. AVIF at quality 42 (no visible difference from 50 at full size) and WebP at 72, from 360 to 1920 px wide, so each phone loads the smallest that fits its screen.
+  - **Output:** `build-images.mjs` writes the web versions; only those are served. AVIF at quality 60 and WebP at 72, from 360 to 1920 px wide, so each screen loads the smallest version that is sharp on it.
+  - **Phones get at most the 800 px version** (`<Photo>` gives them their own `<source media>`). Most phones have screens two to three times as dense as a laptop's and would otherwise load the 1080 px version: twice the data for detail the eye cannot see at that size.
+  - **Hero budget, kept when the images are made:** any photo can be the first photo on a page (every cover is one on its update's page), so each AVIF version a phone can load (up to 800 px) must stay under 70 KB. A busy photo that goes over at quality 60 is made at a lower quality, two steps at a time, only at that width: 8 of 14 photos, at quality 48 to 58, mostly at 800 px.
+  - **Why quality 60 (15 November 2026):** Bilal found the photos soft. At quality 42, the setting until then, faces looked waxy and blocky, and hair, beards and cloth smeared, most of all at the sizes laptops load (his photo on About was 9 KB). Side by side at 2× zoom, the visible step is from 42 to about 50; above that, the gain is small. So:
+    - every photo is now made at 60;
+    - only the busy ones are lowered at phone sizes, where their detail hides the compression.
+    - **Cost, measured:** the page budgets are unchanged and still met. On the throttled-phone test (section 5), LCP moved by at most 0.1 s, within the spread between runs.
+    - Quality 60 with a 100 KB hero budget was tried first: the Urdu Get involved page then took 1 s longer, so the budget stayed at 70 KB.
+    - Before and after: `shots/phase-3/photos-before-after.png` (git-ignored).
+  - **Photos added in Phase 3:** 9 more crops, all from photos without the other organisation's banner: 4 from the iftar, 3 from the Sabeel, 2 from the APS day.
   - **Share images:** for each update the build also makes a 1200×630 JPEG of the cover photo, because JPEG is the safe format for WhatsApp and Facebook link previews. This is automatic; Bilal only shares photos as usual.
   - **Location data:** stripped twice, at the crop and at the build. `check-content` scans `content/photos/` and `check-site` scans `out/` for any left.
   - **Which photos:** Bilal chooses what to share, and shares only photos that are fine to publish. Dignity first, no pity framing.
@@ -239,6 +284,12 @@ src/
   - A honeypot field blocks spam, and the form works as plain HTML before JavaScript loads.
   - Labels and errors appear in all three languages.
   - After sending, the visitor lands on `/thanks/` in their own language.
+  - **Built in Phase 3:**
+    - Help: name, phone, city or area, and "What do you need?". Volunteer: name, phone and/or email, city, the causes they would like to help with, and anything else. Contact: name, phone and/or email, message.
+    - The email Bilal receives is in English whatever the page's language: its subject says which form and which language's page ("Help request (Urdu page) · Bahira website"), and a `language` field repeats it, so he can reply in that language.
+    - Without JavaScript the browser checks the fields and the form posts straight to Web3Forms, which returns to `/thanks/`. With it, a small script (about 1 KB) shows errors in the page's language, insists on a phone number or an email address, sends in the background and then opens `/thanks/`. If sending fails, the message stays and a note gives the email address.
+    - Tested in Edge with Web3Forms intercepted, so nothing was sent: 34 checks in all three languages, with and without JavaScript, including that every form sends Bilal's key.
+    - `check-site` fails the build if a form posts anywhere else, lacks the key or carries a different one, lacks the spam trap or the return to `/thanks/`, or asks for a CNIC number or gender. `check-content` marks a missing key as unfinished, so `pnpm build:release` would stop if the key were ever removed.
   - **Why a form service and not our own:** a form needs a server to receive it and a mail service to pass it on. The site has neither, on purpose, so there is nothing to hack, patch or pay for. Our own version would still depend on an outside mail service, and would add secret keys and spam handling to look after. All three forms share one component, so moving to our own endpoint later (a Vercel function) is a small change.
 - **Donations switch:** `donations.open: false` in `org.yaml` until Bilal says to open. Flipping it to `true` shows the wallet cards (provider, account title, holder name and role, number, copy button) everywhere.
 - **SEO and sharing:**
@@ -271,6 +322,24 @@ src/
       - **LCP:** English 2.6 s (the hero photo); Urdu and Saraiki 3.0–3.3 s across runs (the opening paragraph, which waits for Nastaliq).
       - This local server can't use HTTP/2 or send the font ahead of the 159 KB of framework JavaScript, so these LCP figures are pessimistic. The real figure is measured on Vercel in Phase 5.
       - If Urdu is still over 2.5 s there, the levers are: font before JavaScript on the host, and a lighter hero on Urdu and Saraiki phones.
+  - **Measured after Phase 3** (46 pages; figures after the photo-quality change of 15 November 2026, section 5 "Photos"):
+    - **English:** every page within 300 KB. The closest is the Home page, 298 KB: about 230 KB of page and its 66 KB hero photo.
+    - **Urdu and Saraiki:** at most 385 KB of 550 (the Home page).
+    - **Our own JavaScript:** the phone menu, plus about 1 KB on the three pages with a form.
+    - **Hero photos:** every version a phone can load (up to 800 px) is within 70 KB.
+    - `pnpm shots`: 184 screenshots (every page in every language it exists in, at four widths), axe clean, no console errors, no blocked requests. After the photo change: 92 more at 360 and 1280 px, also clean.
+    - **Speed** (the same throttled-phone test as Phase 2, median of three cold loads):
+
+      | Page | LCP, English | LCP, Urdu | What is largest |
+      |---|---|---|---|
+      | Home | 2.3 s | 2.7–2.9 s | the photo (en), the opening paragraph (ur) |
+      | Get involved | 2.3 s | 2.8 s | the photo |
+      | About | 2.1 s | 2.7 s | the photo (en), the opening paragraph (ur) |
+      | Sabeel update | 2.7 s | — | the opening paragraph |
+
+      - CLS is 0.000 everywhere.
+      - Pages over 2.5 s here are waiting for text: Nastaliq on Urdu and Saraiki pages, and on the English update page the opening paragraph. That page was already 2.6 s before the photo change, so the photos don't cause it.
+      - As in Phase 2, this local server is pessimistic (no HTTP/2, no priorities). Phase 5 measures the real figures with Lighthouse on Vercel and looks at the update page first.
 
 ## 6. Build phases
 
@@ -280,7 +349,7 @@ src/
 |---|---|---|---|
 | 1 | **Setup and guardrails** (done 14 Nov 2026) | <ul><li>Next.js scaffold (TypeScript, App Router, static export); routing spike</li><li>tokens; font subsets</li><li>both root layouts with top bar, header and footer</li><li>`org.yaml`; all scripts; README</li></ul> | **Passed:** clean build; 30 placeholder pages and the 404 in en / ur / skr with the right `lang` and `dir`; no outside requests; axe clean on all 124 screenshots |
 | 2 | **Design preview** (done 14 Nov 2026) | <ul><li>The **Home page fully designed** with real photos from Bilal's 20, in English, Urdu and Saraiki, with the closed Donate block</li><li>Screenshots at 360 / 390 / 768 / 1280 px, with a short written rationale</li><li>Nastaliq size chosen on Bilal's phone</li></ul> | **Passed:** approved by Bilal on 14 Nov 2026. Build, lint, axe on all 124 screenshots and the page-weight budgets pass; no layout shift (CLS 0.000) |
-| 3 | **Templates** | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | Review together |
+| 3 | **Templates** (built 15 Nov 2026) | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | Review together (waiting). Build, lint, axe on all 184 screenshots, the budgets and the form tests pass |
 | 4 | **Content** | <ul><li>Final text in all three languages, written by me</li><li>Bilal's review rounds for Urdu and Saraiki on the review page</li><li>Photos placed, with alt text in all three languages</li><li>Launch posts, e.g. "Our first year"</li></ul> | All core pages `reviewed` |
 | 5 | **Quality pass** | <ul><li>axe, keyboard, NVDA / TalkBack, 200% zoom</li><li>Lighthouse on every page</li><li>RTL and Nastaliq on real phones</li><li>GPS scan; links and hreflang; CSP; share previews</li></ul> | All green |
 | 6 | **Launch** (on Bilal's go-ahead only) | <ul><li>Hosting on **Vercel's free plan**, deployed from GitHub, with 2FA on the account. The site goes live on a free `…vercel.app` address</li><li>Optional, now or later: a domain of our own (a `.com` costs about $10–15 a year), connected to Vercel</li><li>Live form test and WhatsApp preview test</li></ul> | Bilal deploys |
@@ -308,7 +377,7 @@ I write the copy myself (section "Decided with Bilal"). This list is only the ph
    - the terms for "intersex";
    - Saraiki spelling choices;
    - the tagline in Urdu and Saraiki.
-9. **By Phase 3:** a Web3Forms access key, created with the foundation email.
+9. **By Phase 3:** a Web3Forms access key, created with the foundation email. (Received on 15 November 2026; it is in `data/org.yaml`.)
 10. **Optional:** a domain name, if Bilal wants one instead of the free `…vercel.app` address.
 
 ## 8. CLAUDE.md (repo root, written for me, about 100 lines)

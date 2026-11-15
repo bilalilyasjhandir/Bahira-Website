@@ -1,0 +1,95 @@
+/* A cause with real work: its photo and, beside it, what it is and what has been done. */
+.cause {
+  padding-block-end: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.text {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--space-2);
+}
+
+.titleLink {
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+}
+
+.lead {
+  max-inline-size: 30em;
+  font-size: var(--text-lead);
+}
+
+.label {
+  margin-block-start: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+/* The events so far: each title, with its date under it. */
+.events {
+  display: grid;
+  gap: var(--space-2);
+  inline-size: 100%;
+}
+
+.events li {
+  display: grid;
+  padding-block-end: var(--space-2);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.date {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* The causes not started yet: a plain list, between hairlines. */
+.nextText {
+  max-inline-size: var(--measure);
+}
+
+.planned {
+  display: grid;
+  inline-size: 100%;
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.plannedItem {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: var(--space-2);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+/* Blue is for links and headings that lead somewhere; these names are in Ink. */
+.plannedTitle {
+  color: var(--color-text);
+}
+
+/* From tablet width the photo and the text stand side by side. */
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-3);
+  }
+
+  .photo {
+    grid-row: 1;
+    grid-column: 1 / span 5;
+  }
+
+  .text {
+    grid-row: 1;
+    grid-column: 7 / span 6;
+  }
+}

@@ -55,6 +55,20 @@ main {
   font-family: var(--font-onest), system-ui, sans-serif;
 }
 
+/* A block of English on an Urdu or Saraiki page (an update not yet translated) takes the
+   English line height again (tokens.css), and the page's language inside it, its own. */
+:root:lang(ur) :is(article, section, div, p, li)[lang="en"],
+:root:lang(skr) :is(article, section, div, p, li)[lang="en"],
+:root:lang(ur) [lang="en"] :is([lang="ur"], [lang="skr"]),
+:root:lang(skr) [lang="en"] :is([lang="ur"], [lang="skr"]) {
+  line-height: var(--leading-body);
+}
+
+:root:lang(ur) [lang="en"] :is([lang="ur"], [lang="skr"]),
+:root:lang(skr) [lang="en"] :is([lang="ur"], [lang="skr"]) {
+  font-family: var(--font-nastaliq), var(--font-onest), sans-serif;
+}
+
 /* An Arabic word (such as باهرة, where the name comes from) is Arabic, not Urdu: it is set
    in the reader's own Arabic (Naskh) font, never in Nastaliq. */
 :lang(ar) {
@@ -195,10 +209,18 @@ main:focus {
   background: var(--color-primary);
   color: var(--color-on-primary);
   font-family: var(--font-ui);
+  /* A <button> does not take the page's text size by itself, as a link does. */
+  font-size: var(--text-body);
   font-weight: 600;
   line-height: var(--leading-ui);
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: progress;
+  opacity: 0.75;
 }
 
 .button:hover {

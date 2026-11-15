@@ -1,0 +1,5 @@
+.wallets {
+  display: grid;
+  gap: var(--space-3);
+  inline-size: 100%;
+}

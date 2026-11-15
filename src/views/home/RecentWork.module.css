@@ -70,15 +70,26 @@
   font-size: var(--text-small);
 }
 
-/* The date, a venue, a city: each stays whole, so the line breaks between them and never
-   inside a name ("Mohalla / Nawaban"). One that is wider than the column still wraps. */
-.unit {
-  display: inline-block;
-  max-inline-size: 100%;
+/* "In English", on an update not yet translated: under everything else, full width. */
+.language {
+  grid-column: 1 / -1;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
 }
 
-.title {
-  color: var(--color-text);
+/* The link to the Updates page, after the earlier updates. */
+.all {
+  justify-self: start;
+}
+
+/* Each title is a link to the update's own page: blue, like every link, underlined on
+   hover. */
+.title a {
+  text-decoration: none;
+}
+
+.title a:hover {
+  text-decoration: underline;
 }
 
 .lead .title {
