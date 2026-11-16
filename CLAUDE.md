@@ -10,7 +10,7 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
 - **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
-- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is built (15 Nov 2026) with draft text and waits for the review with Bilal. Phase 4 (final text, Bilal's Urdu and Saraiki review) starts when he says go.
+- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is done: Bilal approved it and committed it ("templates done") on 15 Nov 2026. Phase 4 (final text in all three languages, Bilal's Urdu and Saraiki review in rounds) started on his go the same day.
 - **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
 - **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
@@ -67,6 +67,7 @@ Commands (keep this list in step with package.json):
 - `pnpm preview`: serves `out/` with the headers in `vercel.json`, at http://127.0.0.1:4000.
 - `pnpm shots`: screenshots of every page in every language in `shots/`, plus axe, console errors and CSP. It uses the installed Edge. Options: `--pages=home,about,updates/2026-03-iftar,work/people-in-need` (names from `allPages()` in `src/lib/pages.ts`), `--locales=en,ur`, `--widths=360,1280`, `--no-axe`.
 - `pnpm photos`: makes the crops listed in `content/photos/crops.yaml` from the originals in `_photos/inbox/`, without metadata.
+- `pnpm review`: writes `review/index.html` (git-ignored), the review sheet: every text in English, Urdu and Saraiki side by side, in the review rounds, with a note box under each Urdu and Saraiki text and "Copy my notes" for the chat. Make it again after every change Bilal will review.
 - `pnpm lint` · `pnpm format` (Prettier) · `pnpm check` (both checks on the last build) · `pnpm sync:brand` · `pnpm images`.
 - Fonts, only when a brand font changes: `.venv/Scripts/python scripts/subset-fonts.py` (set up with `scripts/requirements.txt`). The output in `src/fonts/` is committed, so the build never needs Python.
 
@@ -168,7 +169,8 @@ data/org.yaml             site address, contacts, wallets, socials, registration
                           Web3Forms key, helplines (each with the date it was checked and its source)
 public/                   copies from brand/ and generated images (not committed)
 scripts/                  sync-brand, crop-photos, build-images, subset-fonts.py, check-content,
-                          check-site, shots, preview, lib/ (gps, html, static-server)
+                          check-site, shots, preview, review-sheet, lib/ (gps, html, static-server)
+review/                   the review sheet from pnpm review (git-ignored)
 _photos/inbox/            git-ignored originals from Bilal (may contain GPS data)
 ```
 
@@ -190,6 +192,7 @@ _photos/inbox/            git-ignored originals from Bilal (may contain GPS data
   - Spell the name باہِرہ, with the zer.
   - Use the Urdu letters ی ک ہ, never the Arabic ي ك ه ى ة, except inside `lang="ar"` (such as the Arabic باهرة).
   - Use one variant of each Saraiki letter consistently (ݙ or ڋ, ݨ or ڻ, as agreed with Bilal).
+- **Terms and lessons:** [docs/translation-notes.md](docs/translation-notes.md) has the glossary (EN | UR | SKR) and what the Phase 4 proofread taught. Read it before writing any Urdu or Saraiki, and add to it when Bilal settles a word.
 - **Saraiki dates:** use Urdu month names. `Intl` has no Saraiki data and silently falls back to US English.
 - **Inside right-to-left text:** phone numbers, emails and URLs go in `<bdi dir="ltr">`. Digits are Western 0–9.
 
@@ -258,7 +261,7 @@ _photos/inbox/            git-ignored originals from Bilal (may contain GPS data
 - A honeypot field blocks spam, and the form works without JavaScript.
 - After sending, the visitor lands on `/thanks/` in their own language.
 - **The donation report** (Donate page, once open): amount, app, transaction ID (required), the cause or "where it is needed most", a "This is Zakat" tick, an optional name (empty = anonymous) and an optional phone or email for a confirmation. No file upload: attachments are a paid Web3Forms feature, so the transaction ID is the proof (Bilal finds it in his app's history), and donors may email a screenshot.
-- **Web3Forms** (its docs, checked 14 Nov 2026): POST to `https://api.web3forms.com/submit`, JSON or a plain form; `botcheck` is the honeypot; the free plan redirects only to the same domain, which `/thanks/` is; it keeps no messages and deletes its logs every two months. The key is `forms.web3formsKey`, made by Bilal on 15 Nov 2026; messages go to the email of the account that made it. `check-site` fails if any form carries a different key.
+- **Web3Forms** (its docs, checked 14 Nov 2026): POST to `https://api.web3forms.com/submit`, JSON or a plain form; `botcheck` is the honeypot; the free plan redirects only to the same domain, which `/thanks/` is; it keeps no messages and deletes its logs every two months. The key is `forms.web3formsKey`, made by Bilal on 15 Nov 2026 with the foundation Gmail; messages go to the email of the account that made the key, so a new key must come from that account too. `check-site` fails if any form carries a different key.
 - The email is in English whatever the page's language: the subject names the form and the page's language. Field values for interests are the English cause names.
 - Test the forms with Web3Forms intercepted (Playwright `page.route`), never by sending.
 

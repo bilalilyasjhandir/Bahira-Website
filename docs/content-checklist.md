@@ -27,6 +27,16 @@ This is what the website needs from you: photos, and the facts only you know. I 
 - [ ] **Open donations?** Not now (your answer). The account is on the site, ready, but donations stay closed until you say "open donations".
 - [x] **Web3Forms access key:** received and connected; every form now sends with it (section 8).
 
+## Phase 4: reviewing the Urdu and Saraiki (started 15 Nov 2026)
+
+Every text of the site is on one review sheet, English, Urdu and Saraiki side by side. To open it, run `pnpm review`, then open `review\index.html` in Edge or Chrome (or paste `C:\Users\BILAL\Bahira-Website\review\index.html` into the address bar).
+
+- [ ] **Round 1:** the words to settle in section 7, all the short texts (menus, buttons, the Home page, the forms), and Need help?
+- [ ] **Round 2:** About, Get involved, the "Help for people in need" page, and the three updates.
+- [ ] **Round 3:** Donate (now, and once donations open), Accountability and Privacy.
+
+Write fixes in the boxes, tick "Urdu is right" and "Saraiki is right" when a part is right, and press "Copy my notes" to send them. Only you mark a text reviewed; I make your fixes and update the sheet.
+
 ## 1. Needed first, for the design preview
 
 - [x] **About 15 of your best photos.** Done on 14 Nov 2026: 20 photos from three events (section 4). More are welcome later, especially landscape shots and other causes (animals, trees, youth).
@@ -97,12 +107,15 @@ ______
 - [x] **A photo of you** for the About page: received on 15 Nov 2026.
 - **Team members, trustees or volunteers to show:** name, role and photo: ______
 
-## 7. Words to settle (during the translation review)
+## 7. Words to settle (round 1 of the review; the sheet shows each with examples)
 
 - The Urdu and Saraiki word for "intersex": ______
 - Saraiki spellings (e.g. ݙ or ڋ, ݨ or ڻ; the drafts use ݙ and ݨ): ______
 - "Just doing the human thing." in Urdu: ______ and in Saraiki: ______
 - Digits on Urdu and Saraiki pages: Western 0–9 (planned), or Urdu ۰–۹? ______
+- Saraiki “to tell”: ݙساوݨ (ݙساؤ, the drafts’ usual form, and what both Saraiki proofreaders suggest) or ݙسݨ (ݙسݨا), or both? ______
+- “Home page” in Urdu and Saraiki: سرورق (the drafts) or ہوم پیج? ______
+- Saraiki “to sit”: ٻیٹھا, with the ٻ of ٻال (the drafts since the second proofread), or بیٹھا? ______
 
 ## 8. Later (before the forms and the launch)
 

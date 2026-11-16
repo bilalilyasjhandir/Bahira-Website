@@ -38,3 +38,6 @@ next-env.d.ts
 # Logs and system files
 *.log
 .DS_Store
+
+# The review sheet from pnpm review (Phase 4): it has the drafts, and notes stay in the browser
+/review/

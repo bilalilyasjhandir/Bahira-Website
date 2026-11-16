@@ -15,6 +15,7 @@
     "images": "node scripts/build-images.mjs",
     "photos": "node scripts/crop-photos.mjs",
     "shots": "node scripts/shots.mjs",
+    "review": "node scripts/review-sheet.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {

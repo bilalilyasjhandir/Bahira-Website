@@ -17,6 +17,7 @@ It needs Node.js 24 and pnpm 10. Run `pnpm install` once, and again whenever `pa
 | `pnpm preview` | Serves the built site exactly as the host will, at http://127.0.0.1:4000. |
 | `pnpm shots` | Screenshots of every page in every language at phone, tablet and desktop widths, into `shots/`. Also checks accessibility. Uses Microsoft Edge. `pnpm shots -- --pages=help,updates/2026-03-iftar` for some pages only. |
 | `pnpm photos` | Makes the cropped photos in `content/photos/` from the originals, as listed in `content/photos/crops.yaml`. |
+| `pnpm review` | Makes the review sheet, `review/index.html`: every text in English, Urdu and Saraiki side by side. Open it in a browser, write fixes in the boxes, tick what is right, and press "Copy my notes". |
 | `pnpm lint` | Checks the code. |
 | `pnpm format` | Tidies the code's layout. |
 | `pnpm build:release` | The build for the live site. Unlike `pnpm build`, it also stops on unfinished work: draft translations and `[[TODO]]` notes. |

@@ -156,7 +156,29 @@ The logo is a diya inside a B. The site should feel **calm, warm and luminous**,
   - English entries carry a `revision` number. Translations carry `sourceRevision` and `status: draft | reviewed`.
   - The production build fails if a core page is missing or still a draft in any language, and warns when a translation is older than its English source.
 - **Updates** may exist in one language only. The other languages list them labelled "(English)" and link to the original; no automatic copies of English text under `/ur/`.
-- **Review:** a dev-only page shows every string in three columns (EN | UR | SKR), so Bilal can review quickly.
+- **Review:** a review sheet shows every text in three columns (EN | UR | SKR), so Bilal can review quickly. `pnpm review` writes it as a single local file, `review/index.html` (Phase 4). It is not a page of the site: in a static export a page would go live with everything else, and the sheet holds drafts.
+  - Under each Urdu and Saraiki text is a box for Bilal's fix or note.
+  - At the end of each part, Bilal ticks "Urdu is right" and "Saraiki is right". Approval is per file, as `status` is.
+  - "Copy my notes" puts the notes, answers and approvals into one message for the chat. Each note carries the text's reference (such as `home.heroLead`).
+  - Notes stay in his browser. A note for a text that has changed since is set aside, so a fixed text never shows an old note.
+- **Proofread before the review (15 November 2026):** two independent readers compared every Urdu and Saraiki text with the English, so Bilal's time goes on what only he can judge. 49 findings:
+  - 46 fixed, in both languages wherever both had the same problem, and 1 partly;
+  - 1 rejected: Daud and Dawood are two people, as Bilal confirmed;
+  - 1 left for Bilal, Saraiki "to tell", now one of the words to settle.
+
+  The glossary and the lessons are in [translation-notes.md](translation-notes.md).
+- **Second proofread, at Bilal's request (15 November 2026):** four new readers, two per language, not told what the first round found. One compared each text with the English line by line; the other first read the translation alone, as a reader in Bahawalpur would, and compared only afterwards. Every finding was checked against the text before anything changed.
+  - Urdu: 31 findings, 30 made. Kept on purpose: «تین کام» in the founder's note, his own way of saying "three things".
+  - Saraiki: 47 findings, 46 made. Kept on purpose: شہید for the APS children, as Pakistan speaks of them.
+  - 20 Urdu fixes carried over to the Saraiki where it had the same problem, such as «ہر کسی کی مدد», which claimed help for everyone.
+  - The English: Get involved no longer says "Away from the events" before a list that includes photos at events; Privacy says "the app you sent it to", as the form asks; the forms' privacy link says "your details", not "it" right after "CNIC number".
+  - Code: the helplines' spoken label is a template per language, so Urdu screen readers say «پولیس کو فون کریں: 15», not «فون کریں پولیس: 15».
+  - Two words added to the words to settle: "Home page", and Saraiki "to sit".
+- **Third check, at Bilal's request (15 November 2026):** four more readers, with two new methods.
+  - Back-translation: two readers translated every Urdu and Saraiki text into English without seeing the original, then compared. All 259 texts say what the English says in both languages, and nothing claims more.
+  - A review of the first two rounds' corrections (61 Urdu texts, 78 Saraiki): one had gone wrong in both languages. On Accountability, splitting a sentence left «یہ بات» pointing at the apps instead of at the account being in Bilal's name. Fixed.
+  - Urdu: 9 more small fixes (two commas before «تو», «آس پاس» for «اردگرد», a heading, two words that pointed vaguely, the Donate warning's "you").
+  - Saraiki: 6 of the readers' 10 suggestions made, 3 carried over from the Urdu. 4 optional ones kept, among them «مسکراہٹاں» (or «مُرکاں»?), for Bilal's ear.
 - **Automatic checks** (`check-content`) flag:
   - Arabic letters in Urdu or Saraiki text (ي ك ه ى ة instead of ی ک ہ), except inside `lang="ar"`, such as the Arabic باهرة;
   - mixed Saraiki letter variants (ݙ/ڋ, ݨ/ڻ; we pick one of each together);
@@ -349,8 +371,8 @@ src/
 |---|---|---|---|
 | 1 | **Setup and guardrails** (done 14 Nov 2026) | <ul><li>Next.js scaffold (TypeScript, App Router, static export); routing spike</li><li>tokens; font subsets</li><li>both root layouts with top bar, header and footer</li><li>`org.yaml`; all scripts; README</li></ul> | **Passed:** clean build; 30 placeholder pages and the 404 in en / ur / skr with the right `lang` and `dir`; no outside requests; axe clean on all 124 screenshots |
 | 2 | **Design preview** (done 14 Nov 2026) | <ul><li>The **Home page fully designed** with real photos from Bilal's 20, in English, Urdu and Saraiki, with the closed Donate block</li><li>Screenshots at 360 / 390 / 768 / 1280 px, with a short written rationale</li><li>Nastaliq size chosen on Bilal's phone</li></ul> | **Passed:** approved by Bilal on 14 Nov 2026. Build, lint, axe on all 124 screenshots and the page-weight budgets pass; no layout shift (CLS 0.000) |
-| 3 | **Templates** (built 15 Nov 2026) | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | Review together (waiting). Build, lint, axe on all 184 screenshots, the budgets and the form tests pass |
-| 4 | **Content** | <ul><li>Final text in all three languages, written by me</li><li>Bilal's review rounds for Urdu and Saraiki on the review page</li><li>Photos placed, with alt text in all three languages</li><li>Launch posts, e.g. "Our first year"</li></ul> | All core pages `reviewed` |
+| 3 | **Templates** (done 15 Nov 2026) | All other pages, the cause template, updates, the three forms wired to Web3Forms, the thank-you and 404 pages. Each is built in English, Urdu and Saraiki at the same time, with draft text | **Passed:** approved by Bilal on 15 Nov 2026. Build, lint, axe on all 184 screenshots, the budgets and the form tests pass |
+| 4 | **Content** (started 15 Nov 2026) | <ul><li>Final text in all three languages, written by me. The Phase 3 English stands, apart from three page descriptions; Bilal's own words from his introduction are kept as he wrote them</li><li>Three independent checks of the Urdu and Saraiki against the English before Bilal sees them (the third by back-translation)</li><li>Bilal's review rounds on the review sheet (`pnpm review`): 1. the words to settle, all the short texts, Need help? 2. About, Get involved, the cause page, the updates 3. Donate, Accountability, Privacy</li><li>Photos placed, with alt text in all three languages (part of the review)</li><li>Launch posts, e.g. "Our first year", once Bilal has the facts</li></ul> | All core pages `reviewed` |
 | 5 | **Quality pass** | <ul><li>axe, keyboard, NVDA / TalkBack, 200% zoom</li><li>Lighthouse on every page</li><li>RTL and Nastaliq on real phones</li><li>GPS scan; links and hreflang; CSP; share previews</li></ul> | All green |
 | 6 | **Launch** (on Bilal's go-ahead only) | <ul><li>Hosting on **Vercel's free plan**, deployed from GitHub, with 2FA on the account. The site goes live on a free `…vercel.app` address</li><li>Optional, now or later: a domain of our own (a `.com` costs about $10–15 a year), connected to Vercel</li><li>Live form test and WhatsApp preview test</li></ul> | Bilal deploys |
 | 7 | **After launch** | <ul><li>Flip `donations.open` whenever Bilal decides (this can also happen at launch)</li><li>A foundation SIM, then a published phone / WhatsApp number</li><li>A foundation account, bank account and Raast</li><li>Simpler update posting</li><li>The annual report</li><li>Server features (logins, admin, Supabase) only if they're really needed</li></ul> | — |

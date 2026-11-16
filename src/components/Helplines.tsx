@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import { getDictionary } from "@/i18n/get-dictionary";
+import { fill, getDictionary } from "@/i18n/get-dictionary";
 import { org } from "@/lib/org";
 import styles from "./Helplines.module.css";
 
@@ -22,7 +22,7 @@ export function Helplines({ locale }: { locale: Locale }) {
             <a
               href={`tel:${helpline.number}`}
               className={styles.number}
-              aria-label={`${t.helpPage.call} ${words.name}: ${helpline.number}`}
+              aria-label={fill(t.helpPage.callLabel, { name: words.name, number: helpline.number })}
             >
               <bdi dir="ltr">{helpline.number}</bdi>
             </a>

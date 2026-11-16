@@ -6,7 +6,7 @@
 // Saraiki translations that were made from an older revision and need another look.
 // This file has no imports, so the check scripts can read it directly.
 
-export const revision = 4;
+export const revision = 6;
 
 export const en = {
   site: {
@@ -53,7 +53,7 @@ export const en = {
     work: {
       title: "Our work",
       description:
-        "What Bahira does: help for people in need, women’s rights, stray animals, trees, intersex rights, and young people.",
+        "The six parts of Bahira’s work: what we have done so far, and what we want to start next.",
     },
     updates: {
       title: "Updates",
@@ -69,7 +69,8 @@ export const en = {
     },
     help: {
       title: "Need help?",
-      description: "Tell us what you need, and we will contact you.",
+      description:
+        "Tell us what you need, and we will message you on WhatsApp. In an emergency, call the official helplines.",
     },
     accountability: {
       title: "Accountability",
@@ -77,7 +78,7 @@ export const en = {
     },
     contact: {
       title: "Contact",
-      description: "Write to Bahira Foundation.",
+      description: "Write to Bahira Foundation by email or with our form. We read every message.",
     },
     privacy: {
       title: "Privacy",
@@ -210,7 +211,8 @@ export const en = {
     emergencyTitle: "In an emergency, call now",
     emergencyText:
       "Bahira is a small group of volunteers. We cannot come quickly in an emergency, but these government helplines can.",
-    call: "Call",
+    // Read aloud on each helpline's number, e.g. "Call Police: 15".
+    callLabel: "Call {name}: {number}",
     formTitle: "Ask us for help",
     formText:
       "Tell us who you are, where you are and what you need. We will message you on WhatsApp at the number you give.",
@@ -299,7 +301,7 @@ export const en = {
     },
     failed: "Sorry, your message could not be sent. Please try again, or write to us at {email}.",
     note: "We use what you send only to reply to you, and we never ask for your CNIC number. {privacy}",
-    noteLink: "How we look after it",
+    noteLink: "How we look after your details",
     trap: "Leave this box empty",
   },
 };

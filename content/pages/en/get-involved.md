@@ -1,5 +1,5 @@
 ---
-revision: 2
+revision: 3
 ---
 
 Bahira runs on volunteers. Give a few hours to an event, bring a skill, or help more people hear about us. You don’t need any experience.
@@ -8,7 +8,7 @@ Bahira runs on volunteers. Give a few hours to an event, bring a skill, or help 
 
 At our events, volunteers get everything ready, carry and serve the food and drinks, and clear up afterwards. Every pair of hands counts.
 
-Away from the events, we also need help with:
+We also need help with:
 
 - taking photos and short videos at events;
 - writing posts and sharing them;

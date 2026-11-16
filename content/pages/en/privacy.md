@@ -1,12 +1,12 @@
 ---
-revision: 2
+revision: 3
 ---
 
 This website has no cookies, no tracking and no adverts. The only information we receive is what you choose to send us through a form.
 
 ## What our forms collect {#collect}
 
-What you type in: your name, your phone number or email address, your city, what you would like to help with, and your message. If you tell us about a donation: the amount, the app you used, its transaction ID, the cause you chose, and whether it is Zakat. We also note the language of the page you used, so we can reply in the same language.
+What you type in: your name, your phone number or email address, your city, what you would like to help with, and your message. If you tell us about a donation: the amount, the app you sent it to, its transaction ID, the cause you chose, and whether it is Zakat. We also note the language of the page you used, so we can reply in the same language.
 
 We never ask for your CNIC number or your gender.
 
