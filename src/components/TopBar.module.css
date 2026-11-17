@@ -3,11 +3,14 @@
   font-size: var(--text-label);
 }
 
+/* The two groups sit at either end; the gap is only the least space between them. At 8 px
+   (not 16) the Saraiki bar fits on one line at 320 px: its "Need help?" broke onto two
+   lines there, and since the stand-in font is narrower, the bar grew when Nastaliq came. */
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-1);
 }
 
 .links {
@@ -35,6 +38,15 @@
 /* On phones, Contact moves into the menu so the bar fits on one line. */
 .contact {
   display: none;
+}
+
+/* Very large text on a phone (narrower than 20 times the text size): the bar may wrap onto
+   two lines. Only here: at 320 px with normal text the Saraiki bar fits because the browser
+   narrows it slightly, and a wrap there would make it two lines for nothing. */
+@media (max-width: 19.99em) {
+  .inner {
+    flex-wrap: wrap;
+  }
 }
 
 @media (min-width: 48em) {

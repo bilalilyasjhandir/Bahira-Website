@@ -96,8 +96,8 @@ textarea.input {
 
 .choice input {
   flex: none;
-  inline-size: 1.375rem;
-  block-size: 1.375rem;
+  inline-size: 1.5rem; /* 24 px: the smallest target size WCAG 2.2 allows on its own */
+  block-size: 1.5rem;
   margin: 0;
   accent-color: var(--color-primary);
 }

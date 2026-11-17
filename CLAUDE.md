@@ -10,7 +10,7 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
 - **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
-- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is done: Bilal approved it and committed it ("templates done") on 15 Nov 2026. Phase 4 (final text in all three languages, Bilal's Urdu and Saraiki review in rounds) started on his go the same day; after three independent checks, Bilal approved every Urdu and Saraiki text in one round on 17 Nov 2026, and all are `reviewed`. Still open in Phase 4: launch posts, once he has the facts.
+- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is done: Bilal approved it and committed it ("templates done") on 15 Nov 2026. Phase 4 (final text in all three languages, Bilal's Urdu and Saraiki review in rounds) started on his go the same day; after three independent checks, Bilal approved every Urdu and Saraiki text in one round on 17 Nov 2026, and all are `reviewed`. Phase 4 is done (17 Nov 2026): no launch posts for now, since nothing is planned yet; Home keeps "every part of our work starts there" (Bilal's choice). Phase 5 (the quality pass) started on his go the same day and is done (17 Nov 2026): every laptop check passes, and Bilal checked the site on his phone ("everything looks fine"). The real speed figures and the WhatsApp preview are measured on the live site in Phase 6, which starts only on his go.
 - **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
 - **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
@@ -134,6 +134,22 @@ Lessons from Phase 3 (don't undo these):
 - **A photo in the first screen loads with `priority`**, as About's founder photo does: lazy, it started late and made About's LCP 1.1 s slower.
 - **Section rhythm:** each block owns the space below it; a plain section starts with a hairline, a band of colour has room inside, and a plain section right after a band drops its hairline. A list's last item has no hairline of its own.
 - **Testing the switches:** to see the donations-open page or an untranslated update, copy the file aside, change it, build, check, and put the copy back (never `git checkout`, which would also throw away uncommitted work).
+
+Lessons from Phase 5 (don't undo these):
+
+- **Small screens and large text:**
+  - Under 360 px (22.49em) the menu button shows only its icon, keeping its word for screen readers; the logo can't go below 120 px.
+  - "Very large text on a phone" is `max-width: 19.99em` (the screen is narrower than 20 times the text size; at normal text, narrower than any phone). Only there may the header and top bar wrap, and the small photos in update lists go above the date. At normal sizes the header and top bar fit only because the browser narrows them slightly, so a wrap allowed everywhere moved the English menu to a second line at 360 px and the Saraiki top bar at 320 px.
+  - Logos are sized in px, not rem: they shouldn't grow when a reader enlarges the text.
+  - Test large text with the browser's own default font size (CDP `Page.setFontSizes`), not by changing `html { font-size }`: only the first moves the `em` breakpoints, as a reader's setting does. Pages must not scroll sideways at 125% and 150% on a 360 px phone.
+- **Windows high contrast removes shadows and backgrounds**, so the three-line menu icon (drawn with shadows) keeps its drawing there with `forced-color-adjust: none` and `CanvasText`.
+- **Tick boxes are 24 px** (WCAG 2.2's minimum target), inside 44 px tall rows.
+- **Measuring speed:**
+  - Lighthouse runs through `npx --yes lighthouse@13.6.0` (not a dependency), with `CHROME_PATH` set to Edge.
+  - Serve the site over HTTP/2, compressed, with the host's headers, as Vercel does. Over HTTP/1.1 each of a page's 6–11 small stylesheets costs a round trip, and the English Home measured 3.06 s instead of 1.99 s.
+  - Don't run the server in the same Node process as a blocking `spawnSync`: it can't answer, and every page "fails".
+  - Total blocking time swings by up to 1 s between runs of the same page; compare LCP, and repeat a run before acting on one number.
+- **`requestCost` above about 2,000 bytes puts the Nastaliq font rules into English pages again** (407 KB instead of 300); at 1 to 2,000 the Home page loads the same 8 stylesheets. Leave it at 1.
 
 ## Structure
 

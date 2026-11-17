@@ -12,14 +12,15 @@
 }
 
 /* The horizontal logo: at least 120 px wide on screen (brand guidelines). 42 px tall makes
-   it 122 px wide; 48 px makes it 139 px. */
+   it 122 px wide; 48 px makes it 139 px. Sized in pixels, not rem: it is a picture, so it
+   stays the same when a reader enlarges the text, leaving that room for the words. */
 .logo {
   flex: none;
   margin-inline-end: auto;
 }
 
 .logo img {
-  block-size: 2.625rem;
+  block-size: 42px;
   inline-size: auto;
 }
 
@@ -96,6 +97,16 @@
   box-shadow: none;
 }
 
+/* Windows high contrast removes shadows, which would leave one bar instead of three (and,
+   under 360 px, where the word is hidden, almost nothing). The icon keeps its own drawing
+   there, in the system's text colour. */
+@media (forced-colors: active) {
+  .menu summary [data-menu-icon] {
+    forced-color-adjust: none;
+    color: CanvasText;
+  }
+}
+
 .panel {
   position: absolute;
   inset-inline: 0;
@@ -112,9 +123,44 @@
   gap: var(--space-1);
 }
 
+/* Under 360 px (small phones, or a laptop zoomed to 400%) the logo, Donate and the menu
+   button don't fit side by side, and the page scrolled sideways. The logo can't shrink below
+   120 px (brand guidelines), so the menu button shows its icon only, still 44 px wide, and
+   keeps its word for screen readers. */
+@media (max-width: 22.49em) {
+  .inner {
+    gap: var(--space-1);
+  }
+
+  .menu summary {
+    justify-content: center;
+    min-inline-size: var(--tap);
+  }
+
+  .menu summary [data-menu-label] {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Very large text on a phone (the screen is narrower than 20 times the text size; at normal
+   sizes that is narrower than any phone): the row may wrap, so Donate and the menu move under
+   the logo instead of running off the screen. Only here: at 360 px with normal text the row
+   fits because the browser narrows the buttons slightly, and allowing a wrap there would
+   move the menu to a second line instead. */
+@media (max-width: 19.99em) {
+  .inner {
+    flex-wrap: wrap;
+  }
+}
+
 @media (min-width: 64em) {
   .logo img {
-    block-size: 3rem;
+    block-size: 48px;
   }
 
   .nav {

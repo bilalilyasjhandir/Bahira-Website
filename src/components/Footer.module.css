@@ -43,8 +43,10 @@
   font-weight: 600;
 }
 
+/* Two columns when two fit (each at least as wide as "Accountability"), otherwise one, as
+   on a small phone with very large text. */
 .nav ul {
-  columns: 2;
+  columns: 7.5rem 2;
   column-gap: var(--space-4);
 }
 

@@ -48,7 +48,7 @@ export function MenuDisclosure({
     <details ref={ref} className={className}>
       <summary>
         <span aria-hidden="true" data-menu-icon="" />
-        {label}
+        <span data-menu-label="">{label}</span>
       </summary>
       <div className={panelClassName}>{children}</div>
     </details>
