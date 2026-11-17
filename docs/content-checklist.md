@@ -10,7 +10,7 @@ This is what the website needs from you: photos, and the facts only you know. I 
 - [x] **Places:** every event so far was in Bahawalpur. The APS remembrance was at Daykh Bhaal Shelter Home (in Urdu and Saraiki: دیکھ بھال شیلٹر ہوم). Mohalla Nawaban is in Bahawalpur, and محلہ نواباں is spelled right.
 - [x] **Why Human Rights Day:** the page's reason is right. Almost everything Bahira does is for people; the stray animals are the one cause that is not.
 - [x] **The work so far:** three events, all help for people in need. The other causes come once there is a team and money for them.
-- [ ] **Urdu and Saraiki text on the Home page:** drafts until you approve them, in the review rounds of Phase 4. The words still to settle are in section 7.
+- [x] **Urdu and Saraiki text on the Home page:** approved on 17 Nov 2026, with the rest of the site.
 
 ## All pages (Phase 3): answered on 15 Nov 2026
 
@@ -31,9 +31,9 @@ This is what the website needs from you: photos, and the facts only you know. I 
 
 Every text of the site is on one review sheet, English, Urdu and Saraiki side by side. To open it, run `pnpm review`, then open `review\index.html` in Edge or Chrome (or paste `C:\Users\BILAL\Bahira-Website\review\index.html` into the address bar).
 
-- [ ] **Round 1:** the words to settle in section 7, all the short texts (menus, buttons, the Home page, the forms), and Need help?
-- [ ] **Round 2:** About, Get involved, the "Help for people in need" page, and the three updates.
-- [ ] **Round 3:** Donate (now, and once donations open), Accountability and Privacy.
+- [x] **All three rounds at once (17 Nov 2026):** you settled the words in section 7 and approved every part, in Urdu and in Saraiki. Every file is now marked reviewed.
+
+The sheet stays useful: when a text changes later (a new update, the money wording once donations open), run `pnpm review` again and approve just that part.
 
 Write fixes in the boxes, tick "Urdu is right" and "Saraiki is right" when a part is right, and press "Copy my notes" to send them. Only you mark a text reviewed; I make your fixes and update the sheet.
 
@@ -107,15 +107,15 @@ ______
 - [x] **A photo of you** for the About page: received on 15 Nov 2026.
 - **Team members, trustees or volunteers to show:** name, role and photo: ______
 
-## 7. Words to settle (round 1 of the review; the sheet shows each with examples)
+## 7. Words to settle: answered on 17 Nov 2026
 
-- The Urdu and Saraiki word for "intersex": ______
-- Saraiki spellings (e.g. ݙ or ڋ, ݨ or ڻ; the drafts use ݙ and ݨ): ______
-- "Just doing the human thing." in Urdu: ______ and in Saraiki: ______
-- Digits on Urdu and Saraiki pages: Western 0–9 (planned), or Urdu ۰–۹? ______
-- Saraiki “to tell”: ݙساوݨ (ݙساؤ, the drafts’ usual form, and what both Saraiki proofreaders suggest) or ݙسݨ (ݙسݨا), or both? ______
-- “Home page” in Urdu and Saraiki: سرورق (the drafts) or ہوم پیج? ______
-- Saraiki “to sit”: ٻیٹھا, with the ٻ of ٻال (the drafts since the second proofread), or بیٹھا? ______
+- The Urdu and Saraiki word for "intersex": **انٹرسیکس, with (خنثیٰ) after it at its first mention on a page.**
+- Saraiki spellings: "whichever is most acceptable", so **ݙ and ݨ**, the forms current Saraiki keyboards and publishing use.
+- "Just doing the human thing.": **kept as drafted**, بس انسانیت نبھا رہے ہیں۔ and بس انسانیت نبھیندے پئے ہیں۔ (approved with the short texts).
+- Digits on Urdu and Saraiki pages: **Western 0–9.**
+- Saraiki “to tell”: **both are acceptable**, so the texts stay as they are (mostly ݙساوݨ).
+- “Home page” in Urdu and Saraiki: **سرورق.**
+- Saraiki “to sit”: **ٻیٹھا**, with the ٻ of ٻال; "Bahawalpur says it like this".
 
 ## 8. Later (before the forms and the launch)
 

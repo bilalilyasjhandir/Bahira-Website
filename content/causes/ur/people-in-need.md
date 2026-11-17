@@ -1,6 +1,6 @@
 ---
 sourceRevision: 1
-status: draft
+status: reviewed
 rewriteWhen: [donations-open]
 photoAlt: ایک رضاکار اسٹیشن کے پلیٹ فارم پر لاٹھی کے ساتھ بیٹھے ایک بزرگ کو چند کھجوریں دے رہا ہے۔
 ---

@@ -2,12 +2,12 @@
 // `status` stays "draft" until Bilal approves the text, then becomes "reviewed".
 // `sourceRevision` is the English revision (src/i18n/en.ts) this translation was made from.
 //
-// Saraiki letters: ٻ ڄ ݙ ڳ ݨ. This draft writes ݙ and ݨ, not the older ڋ and ڻ, until Bilal
-// chooses; check-content stops the build if both spellings get mixed.
+// Saraiki letters: ٻ ڄ ݙ ڳ ݨ. The site writes ݙ and ݨ, not the older ڋ and ڻ (settled with
+// Bilal, 17 Nov 2026); check-content stops the build if both spellings get mixed.
 
 import type { Dictionary } from "./en";
 
-export const translation = { sourceRevision: 6, status: "draft" } as const;
+export const translation = { sourceRevision: 6, status: "reviewed" } as const;
 
 export const skr: Dictionary = {
   site: {
@@ -117,7 +117,7 @@ export const skr: Dictionary = {
       text: "ہک ٹھڈے تے ساوے جنوبی پنجاب کیتے رُکھ لاوݨ۔",
     },
     intersex: {
-      title: "انٹرسیکس لوکاں کیتے آواز",
+      title: "انٹرسیکس (خنثیٰ) لوکاں کیتے آواز",
       text: "انٹرسیکس لوکاں تے اُنہاں دے عزت نال جیوݨ دے حق کیتے آواز۔",
     },
     youth: {

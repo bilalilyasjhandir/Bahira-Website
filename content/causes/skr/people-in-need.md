@@ -1,6 +1,6 @@
 ---
 sourceRevision: 1
-status: draft
+status: reviewed
 rewriteWhen: [donations-open]
 photoAlt: ہک رضاکار اسٹیشن دے پلیٹ فارم اُتے سوٹی نال ٻیٹھے ہک بزرگ کوں کجھ کھجوراں ݙیندا پیا اے۔
 ---

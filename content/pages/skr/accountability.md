@@ -1,6 +1,6 @@
 ---
 sourceRevision: 2
-status: draft
+status: reviewed
 rewriteWhen: [donations-open, donations-received]
 ---
 

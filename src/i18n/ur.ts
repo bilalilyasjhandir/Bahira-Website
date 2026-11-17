@@ -4,7 +4,7 @@
 
 import type { Dictionary } from "./en";
 
-export const translation = { sourceRevision: 6, status: "draft" } as const;
+export const translation = { sourceRevision: 6, status: "reviewed" } as const;
 
 export const ur: Dictionary = {
   site: {
@@ -116,7 +116,7 @@ export const ur: Dictionary = {
       text: "ایک ٹھنڈے اور سرسبز جنوبی پنجاب کے لیے شجرکاری۔",
     },
     intersex: {
-      title: "انٹرسیکس افراد کے لیے آواز",
+      title: "انٹرسیکس (خنثیٰ) افراد کے لیے آواز",
       text: "انٹرسیکس افراد اور ان کے عزت سے جینے کے حق کے لیے آواز۔",
     },
     youth: {

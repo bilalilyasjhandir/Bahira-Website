@@ -1,6 +1,6 @@
 # Translation notes
 
-How the site's Urdu and Saraiki are written, so new texts match the ones Bilal has reviewed. Started in Phase 4 (15 November 2026), after three independent proofreads of every Urdu and Saraiki text against the English (the third by back-translation, and by a review of the first two rounds' corrections). The words still to settle are in [content-checklist.md](content-checklist.md), section 7. Once Bilal settles one, it goes in the glossary.
+How the site's Urdu and Saraiki are written, so new texts match the ones Bilal has reviewed. Started in Phase 4 (15 November 2026), after three independent proofreads of every Urdu and Saraiki text against the English (the third by back-translation, and by a review of the first two rounds' corrections). Bilal approved every Urdu and Saraiki text on 17 November 2026 and settled the words below (the questions are in [content-checklist.md](content-checklist.md), section 7). A new word he settles goes in the glossary.
 
 ## Glossary
 
@@ -41,6 +41,12 @@ The same thing is always called the same way.
 | Punjab Charity Commission | پنجاب چیریٹی کمیشن | پنجاب چیریٹی کمیشن |
 | Punjab Commission on the Status of Women | پنجاب کمیشن آن اسٹیٹس آف ویمن | پنجاب کمیشن آن اسٹیٹس آف ویمن |
 | fire (Rescue 1122) | آگ | بھاہ |
+| intersex (first mention on a page · after it) | انٹرسیکس (خنثیٰ) افراد · انٹرسیکس افراد | انٹرسیکس (خنثیٰ) لوک · انٹرسیکس لوک |
+| the Home page | سرورق | سرورق |
+| to sit · sitting | بیٹھنا · بیٹھے | ٻہݨ · ٻیٹھے، ٻہہ کے |
+| to tell | بتانا | ݙساوݨ or ݙسݨ (Bilal: both are fine) |
+
+- **Settled by Bilal (17 Nov 2026):** Saraiki ݙ and ݨ, never ڋ or ڻ; digits 0–9 on every page; the taglines as drafted, «بس انسانیت نبھا رہے ہیں۔» and «بس انسانیت نبھیندے پئے ہیں۔»; and the four rows above.
 
 - **Official names:** use only a form that can be checked. Urdu newspapers write the women's commission's name in Urdu letters, as above. Neither "حیثیتِ نسواں" nor "وقارِ نسواں" was found as its Urdu name, so don't make one up.
 - **Daud and Dawood** are two people. In Urdu and Saraiki they are داؤد and داود (Bilal confirmed this, 15 Nov 2026). This is not a typo: never "fix" it.
@@ -78,7 +84,7 @@ The proofread's most common finding was English carried over word for word. Each
   - «اُتے» for "at" or "on" whenever «تے» could also read as "and", which is when a noun follows: in titles, in lists, and after an email address. «بہاولپور ریلوے اسٹیشن تے افطار» reads "the station and iftar"; «{email} تے باہِرہ کوں» reads as two addresses; «صفحے تے اکاؤنٹ دے نال» reads "the page and the account". Before a verb «تے» is clear and stays: «ساکوں {email} تے لکھو»;
   - the reverse: «تے» meaning "and" after a word that could take a postposition. «ایجھیاں جاہیں تے لوک ڳولݨ» can read "find people at such places"; put the plain noun first, «ایجھے لوک تے جاہیں ڳولݨ»;
   - "at risk" can't stand before a noun as in English: «خطرے وچ لوکاں» doesn't work; write «اُنہاں لوکاں … جنہاں کوں خطرہ ہووے»;
-  - letters the build can't check: «ڄاݨݨ» (to know) has ڄ; «ٻہݨ، ٻیٹھا، ٻہہ کے» (to sit) has ٻ, as in ٻال (written so since the second proofread; Bilal to confirm);
+  - letters the build can't check: «ڄاݨݨ» (to know) has ڄ; «ٻہݨ، ٻیٹھا، ٻہہ کے» (to sit) has ٻ, as in ٻال (Bilal confirmed: "Bahawalpur says it like this");
   - Urdu forms to avoid: «کیا» to start a yes/no question (Saraiki asks with the voice and ؟), «چاہے» for "no matter" (بھانویں), «مثلاً» (جیویں), «چلا» (چلیا), «بیٹھ کے» (ٻہہ کے), «ساݙا منݨا اے» (ساݙا یقین اے), «… دی صورت وچ», «تہاݙی واقفیت وچ»;
   - English loanwords take the Saraiki plural: ویڈیواں, like پوسٹاں and ایپاں. Except words borrowed as fixed plurals, which stay: کوکیز (کوکیاں would read as cries), اسنیکس, اینالیٹکس;
   - زکوٰۃ is feminine: «زکوٰۃ وکھری رکھدے ہیں»;

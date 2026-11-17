@@ -10,7 +10,7 @@ The public website of **Bahira Foundation** (باہِرہ, "luminous"), a welfar
 
   Most are on phones with prepaid data, arriving from WhatsApp and Facebook links.
 - **Plan:** [docs/website-plan.md](docs/website-plan.md) is the approved plan (1 Nov 2026, revised 14 Nov 2026). Follow it, and update it when a decision changes. What Bilal still has to supply is tracked in [docs/content-checklist.md](docs/content-checklist.md).
-- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is done: Bilal approved it and committed it ("templates done") on 15 Nov 2026. Phase 4 (final text in all three languages, Bilal's Urdu and Saraiki review in rounds) started on his go the same day.
+- **Status:** Phases 1 (setup and guardrails) and 2 (the Home page design) are done. Bilal approved the Home page in all three languages, and Nastaliq at 118%, on 14 Nov 2026. Phase 3 (every other page, the forms, the cause template, update pages) is done: Bilal approved it and committed it ("templates done") on 15 Nov 2026. Phase 4 (final text in all three languages, Bilal's Urdu and Saraiki review in rounds) started on his go the same day; after three independent checks, Bilal approved every Urdu and Saraiki text in one round on 17 Nov 2026, and all are `reviewed`. Still open in Phase 4: launch posts, once he has the facts.
 - **Pace:** there are no dates or deadlines. Bilal sets the pace, so never tie a phase to a calendar date.
 - **Copy:** I write all the text (introduction, mission, values, roles, policies) and Bilal approves it. Ask Bilal only for facts I can't know.
 
@@ -191,7 +191,8 @@ _photos/inbox/            git-ignored originals from Bilal (may contain GPS data
 - **Spelling:**
   - Spell the name باہِرہ, with the zer.
   - Use the Urdu letters ی ک ہ, never the Arabic ي ك ه ى ة, except inside `lang="ar"` (such as the Arabic باهرة).
-  - Use one variant of each Saraiki letter consistently (ݙ or ڋ, ݨ or ڻ, as agreed with Bilal).
+  - Use one variant of each Saraiki letter consistently: ݙ and ݨ, never ڋ or ڻ (settled with Bilal, 17 Nov 2026).
+  - "Intersex" is انٹرسیکس, with (خنثیٰ) after it at its first mention on a page: انٹرسیکس (خنثیٰ) افراد / لوکاں (Bilal, 17 Nov 2026).
 - **Terms and lessons:** [docs/translation-notes.md](docs/translation-notes.md) has the glossary (EN | UR | SKR) and what the Phase 4 proofread taught. Read it before writing any Urdu or Saraiki, and add to it when Bilal settles a word.
 - **Saraiki dates:** use Urdu month names. `Intl` has no Saraiki data and silently falls back to US English.
 - **Inside right-to-left text:** phone numbers, emails and URLs go in `<bdi dir="ltr">`. Digits are Western 0–9.
